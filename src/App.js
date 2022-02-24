@@ -1,12 +1,14 @@
-import { BackupOutlined, FileCopyOutlined, Fingerprint, Speed,PermIdentityTwoTone } from '@material-ui/icons';
-import { collection, getDocs, getFirestore } from 'firebase/firestore';
-import { getStorage } from "firebase/storage";
-import React, { useEffect } from 'react';
+import { BackupOutlined, FileCopyOutlined, Fingerprint, Speed } from '@material-ui/icons';
+import { fromEvent } from "file-selector";
+import { getAuth, signOut } from 'firebase/auth';
+import { collection, doc, getDocs, getFirestore, setDoc } from 'firebase/firestore';
+import { getStorage, ref } from "firebase/storage";
+import React, { useEffect, useState } from 'react';
+import readXlsxFile from 'read-excel-file';
 import './App.css';
 import Createquote from './components/CreateQuote';
 import Loginform from './components/loginForm';
 import app from './components/required';
-import { UploadFile } from './components/upload';
 
 
 function App() {
@@ -14,7 +16,9 @@ function App() {
   const [data, setData] = React.useState("")
   const [open, setopen] = React.useState(false)
   const db = getFirestore(app);
-  const[Page, setPage]=React.useState("create_quote")
+  const [auth, setauth] = useState()
+  const [Page, setPage] = React.useState("create_quote")
+  const oauth = getAuth();
   // const [inProgress,setInProgress]=React.useState(false)
   // const unsub = onSnapshot(doc(db, "cities", "LA"), (doc) => {
   //   // console.log("Current data: ", doc.data());
@@ -27,6 +31,80 @@ function App() {
   }
   function openPopUp() {
     setopen(true)
+  }
+  async function UploadFile() {
+    if(auth){    
+    const handles = await window.showOpenFilePicker({ multiple: false });
+    const files = await fromEvent(handles);
+    // const [inProgress, setInProgress] = React.useState(false)
+    const path = files[0].path
+    // setInProgress(true)
+    readXlsxFile(files[0]).then((rows) => {
+      for (let i = 1; i <= rows.length - 1; i++) {
+        let Row = rows[i]
+        let id = `trp00${i}`
+        setDoc(doc(db, "Trip", `trp00${i}`), {
+          TripId: "TRP" + Math.random(),
+          Lead_Status: Row[0],
+          Campaign_code: Row[1],
+          Date_of_lead: Row[2],
+          Traveller_name: Row[3],
+          Extra_Info: Row[4],
+          Contact_Number: Row[5],
+          Destination: Row[6],
+          Comment: Row[7],
+          Departure_City: Row[8],
+          Travel_Date: Row[9],
+          Travel_Duration: Row[10],
+          Budget: Row[11],
+          Pax: Row[12],
+          Child: Row[13],
+          Email: Row[14],
+          Remark: Row[15],
+          Follow_Up_date: Row[16],
+          uploaded_by: "nandu"
+
+        });
+      }
+      // console.log(rows[1][0])
+    })
+    // setInProgress(false)
+    // console.log(path);
+    const mountainsRef = ref(storage, path);
+    const storageRef = ref(storage, `nandu/${path}`);
+    // const uploadTask = uploadBytesResumable(storageRef, files[0]);
+    // uploadTask.on('state_changed',
+    //     (snapshot) => {
+    //         console.log(snapshot)
+    //         switch (snapshot.state) {
+    //             case 'paused':
+    //                 console.log('Upload is paused');
+    //                 break;
+    //             case 'running':
+    //                 console.log('Upload is running');
+    //                 break;
+    //         }
+    //     },
+    //     (error) => {
+    //         switch (error.code) {
+    //             case 'storage/unauthorized':
+    //                 break;
+    //             case 'storage/canceled':
+    //                 break;
+    //             case 'storage/unknown':
+    //                 break;
+    //         }
+    //     },
+    //     () => {
+    //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //             console.log('File available at', downloadURL);
+    //         });
+    //     }
+    // );
+  }
+  else{
+    setopen(true)
+  }
   }
 
 
@@ -110,28 +188,58 @@ function App() {
   // useEffect(() => {
   //   handle_data()
   // });
-  function page(args){
+  function logOut(){
+    signOut(oauth).then(() => {
+      setauth()
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+  function page(args) {
     setPage(args)
   }
+  const authListener = () => {
+    // console.log(firebase)
+   oauth.onAuthStateChanged(user => {
+      if (user) {  
+        setauth(user)
+        console.log(user)      
+      }
+      else {
+      }
+    })
+  }
+  useEffect(()=>{
+    authListener()
+  })
 
   return (
     <>
 
       {
-        open ? <Loginform open={open} setopen={setopen} /> : <></>
+        open ? <Loginform open={open} setopen={setopen} setauth={setauth} /> : <></>
       }
 
       <div className='header'>
         <p className='headLine'>Journey Router</p>
-        <div className='button' onClick={() => openPopUp()}>
+        {
+          auth?<>
+          <div>
+            <button className='button' onClick={()=>logOut()} >logout</button>
+          </div>
+          </>:<>
+          <div className='button' onClick={() => openPopUp()}>
           <Fingerprint
             style={{ height: "5rem", width: "2rem" }}
           />
         </div>
+          </>
+        }
+        
       </div>
       <div className='assembler'>
         <div className='sidebars'>
-          <div className='sidebarCard' onClick={(()=>page("rapid_fire"))}>
+          <div className='sidebarCard' onClick={(() => page("rapid_fire"))}>
             <div className='sidebarCardContaint'>
               <Speed style={{ marginRight: "1rem" }} />
               <p>Rapid Fire</p>
@@ -143,13 +251,13 @@ function App() {
               <p>Feed The Lead</p>
             </div>
           </div>
-          <div className='sidebarCard' onClick={()=>page("create_quote")}>
+          <div className='sidebarCard' onClick={() => page("create_quote")}>
             <div className='sidebarCardContaint'>
               <FileCopyOutlined style={{ marginRight: "1rem" }} />
               <p>Create Quote</p>
             </div>
           </div>
-          <div className='sidebarCard' onClick={()=>page("Quotation Followup")}>
+          <div className='sidebarCard' onClick={() => page("Quotation Followup")}>
             <div className='sidebarCardContaint'>
               <FileCopyOutlined style={{ marginRight: "1rem" }} />
               <p>Quotation Followup</p>
@@ -157,12 +265,12 @@ function App() {
           </div>
         </div>
         <div className='mainContaint'>
-        {
-          Page=="create_quote"?<>
-          <Createquote/>
-          </>:
-          Page=="rapid_fire"?<>rapid_fire</>:<><></><></></>
-        }
+          {
+            Page == "create_quote" ? <>
+              <Createquote auth={auth}/>
+            </> :
+              Page == "rapid_fire" ? <>rapid_fire</> : <><></><></></>
+          }
         </div>
       </div>
       {/* <button className='top'>Top</button> */}

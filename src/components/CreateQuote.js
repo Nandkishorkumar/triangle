@@ -7,7 +7,7 @@ import { CircularProgress, Modal } from '@material-ui/core';
 
 
 
-const Createquote = () => {
+const Createquote = (props) => {
     const [open, setopen] = useState(true)
     const db = getFirestore(app);
     const [lead_data, setLead_data] = useState([])
@@ -17,20 +17,28 @@ const Createquote = () => {
 
     
     async function datahandle() {
-        let list = []
-        const q = query(collection(db, "Trip"));
-        const querySnapshot = await getDocs(q);
-        console.log(querySnapshot)
-        if(querySnapshot.docs.length==0){
+        if(props.auth){
+            console.log('hit inside')
+            let list = []
+            const q = query(collection(db, "Trip"));
+            const querySnapshot = await getDocs(q);
+            console.log(querySnapshot)
+            if(querySnapshot.docs.length==0){
+                setopen(false)
+            }
+            querySnapshot.forEach((doc) => {
+                list.push(doc.data())
+                // doc.data() is never undefined for query doc snapshots
+                // console.log(doc.id, " => ", doc.data());
+            });
+            setLead_data(list)
+        }
+        else{
             setopen(false)
         }
-        querySnapshot.forEach((doc) => {
-            list.push(doc.data())
-            // doc.data() is never undefined for query doc snapshots
-            // console.log(doc.id, " => ", doc.data());
-        });
-        setLead_data(list)
+        
     }
+
     useEffect(() => {
         datahandle()
     }, [])

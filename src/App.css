@@ -84,11 +84,26 @@
   height: 2rem;
   border-radius: 1rem;
 }
+.inputEmailerror{
+  margin-top: 2rem;
+  width: 17rem;
+  height: 2rem;
+  border-radius: 1rem;
+  border: 0.2rem solid rgb(202, 6, 6);
+}
 .inputPassword{
   margin-top: 2rem;
   width: 17rem;
   height: 2rem;
   border-radius: 1rem;
+}
+.inputPassworderror{
+  margin-top: 2rem;
+  width: 17rem;
+  height: 2rem;
+  border-radius: 1rem;
+  border: 0.2rem solid rgb(202, 6, 6);
+
 }
 .signInWithGoogle{
   display: flex;
