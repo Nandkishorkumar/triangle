@@ -35,6 +35,7 @@ const Createquote = (props) => {
         }
         else{
             setopen(false)
+            setLead_data([])
         }
         
     }
@@ -44,9 +45,11 @@ const Createquote = (props) => {
     }, [])
 
     return (
-        console.log("here", lead_data),
+        
         <div>
             {
+                props.auth?<>
+                {
                 lead_data.length == 0 ? <>
                     {
                        
@@ -69,6 +72,11 @@ const Createquote = (props) => {
                     }
                 </>
             }
+                </>:<>
+                <div className='no_data'></div>
+                </>
+            }
+            
 
         </div>
     );
