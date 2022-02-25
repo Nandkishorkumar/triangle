@@ -62,7 +62,7 @@ function App() {
           Email: Row[14],
           Remark: Row[15],
           Follow_Up_date: Row[16],
-          uploaded_by: "nandu"
+          uploaded_by: auth.uid
 
         });
       }
@@ -269,7 +269,9 @@ function App() {
             Page == "create_quote" ? <>
               <Createquote auth={auth}/>
             </> :
-              Page == "rapid_fire" ? <>rapid_fire</> : <><></><></></>
+              Page == "rapid_fire" ? <>
+              
+              </> : <><></><></></>
           }
         </div>
       </div>

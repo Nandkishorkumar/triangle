@@ -20,7 +20,7 @@ const Createquote = (props) => {
         if(props.auth){
             console.log('hit inside')
             let list = []
-            const q = query(collection(db, "Trip"));
+            const q = query(collection(db, "Trip"),where("uploaded_by", "==", props.auth.uid));
             const querySnapshot = await getDocs(q);
             console.log(querySnapshot)
             if(querySnapshot.docs.length==0){
@@ -42,7 +42,7 @@ const Createquote = (props) => {
 
     useEffect(() => {
         datahandle()
-    }, [])
+    }, [props.auth])
 
     return (
         
