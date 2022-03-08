@@ -18,11 +18,11 @@ const Createquote = (props) => {
     
     async function datahandle() {
         if(props.auth){
-            console.log('hit inside')
+            
             let list = []
             const q = query(collection(db, "Trip"),where("uploaded_by", "==", props.auth.uid));
             const querySnapshot = await getDocs(q);
-            console.log(querySnapshot)
+            // console.log(querySnapshot)
             if(querySnapshot.docs.length==0){
                 setopen(false)
             }
@@ -32,6 +32,7 @@ const Createquote = (props) => {
                 // console.log(doc.id, " => ", doc.data());
             });
             setLead_data(list)
+            setopen(false)
         }
         else{
             setopen(false)

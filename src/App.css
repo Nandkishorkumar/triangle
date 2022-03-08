@@ -135,3 +135,10 @@
   border-radius: 1rem;
   display: flex;
 }
+.create_new_account{
+  color: rgb(20, 20, 190);
+}
+.create_new_account:hover{
+  cursor: pointer;
+
+}
