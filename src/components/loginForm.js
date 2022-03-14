@@ -8,40 +8,69 @@ import app from './required';
 
 const Loginform = (props) => {
     var currentdate = new Date();
+    const [userName, setUserName] = useState("")
+    const [userWhatsApp_number, setUserWhatsApp_number] = useState("")
+    const [contact, setContact] = useState("")
     const [email, setemail] = useState("")
     const [password, setpassword] = useState("")
+    const [userName_flg, setUserName_flg] = useState(false)
+    const [userWhatsApp_number_flg, setUserWhatsApp_number_flg] = useState(false)
+    const [contact_flg, setContact_flg] = useState(false)
     const [email_flg, setEmail_flg] = useState(false)
     const [password_flg, setpassword_flg] = useState(false)
     const [hasaccount, sethasaccount] = useState(true)
     // const[error_flg,set_error_flg]=useState(false)
     const db = getFirestore(app);
+    function userNameOnChange(e) {
+        setUserName(e.target.value)
+        setUserName_flg(false)
+    }
+    function userWhatsAppNumberOnChange(e) {
+        setUserWhatsApp_number(e.target.value)
+        setUserWhatsApp_number_flg(false)
+    }
+    function userContactOnChange(e) {
+        setContact(e.target.value)
+        setContact_flg(false)
+    }
     function emailOnChange(e) {
         setemail(e.target.value)
         setEmail_flg(false)
     }
     async function fetch_profile(args) {
+        // console.log("fetch profile from login page")
         const docRef = doc(db, "Profile", args.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
             props.setData(docSnap.data())
             // console.log("Document data:", docSnap.data());
-          } else {
+        } else {
             console.log("No such document!");
-          }
+        }
 
     }
     function set_profile(args) {
-        setDoc(doc(db, "Profile", args.uid), {
-            name: "",
-            account_created_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
-            account_create_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
-            WhatsApp_number: 0,
-            contact_number: 0,
-            access_type: "n/a",
-            email: args.email,
-            following_lead: ""
+        console.log("called", args)
+        try {
+            setDoc(doc(db, "Profile", args.uid), {
+                name: userName,
+                account_created_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
+                account_create_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
+                account_updated_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
+                account_updated_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
+                WhatsApp_number: userWhatsApp_number,
+                contact_number: contact,
+                access_type: "Block",
+                email: args.email,
+                following_lead: [],
+                uid:args.uid
 
-        });
+            });
+        }
+        catch (error) {
+            console.log(error)
+        }
+
     }
     function newAccount() {
         sethasaccount(!hasaccount)
@@ -66,44 +95,54 @@ const Loginform = (props) => {
         }
 
     }
+    function signUp() {
+        // console.log(email.slice(-10))
+
+        if (email.length === 0) {
+            setEmail_flg(true)
+
+        }
+        else if (password.length === 0) {
+            setpassword_flg(true)
+        }
+        else if (userName.length === 0) {
+            setUserName_flg(true)
+        }
+        else if (userWhatsApp_number.length === 0) {
+            setUserWhatsApp_number_flg(true)
+        }
+        else if (contact.length === 0) {
+            setContact_flg(true)
+        }
+        else if (email.slice(-10) === '@gmail.com') {
+            create_id()
+
+        }
+        else {
+            setEmail_flg(true)
+            // setpassword_flg(true)
+        }
+
+    }
+
+
     function passwordOnChange(e) {
         setpassword(e.target.value)
         setpassword_flg(false)
 
     }
     function handelClose() {
-        props.refreshPage()
+        // props.refreshPage()
         props.setopen(false)
     }
     const auth = getAuth();
-    // function signIn() {
-    //     signInWithPopup(auth, GoogleAuthProvider)
-    //         .then((result) => {
-    //             // This gives you a Google Access Token. You can use it to access the Google API.
-    //             const credential = GoogleAuthProvider.credentialFromResult(result);
-    //             const token = credential.accessToken;
-    //             // The signed-in user info.
-    //             const user = result.user;
-    //             // ...
-    //         }).catch((error) => {
-    //             // Handle Errors here.
-    //             const errorCode = error.code;
-    //             const errorMessage = error.message;
-    //             // The email of the user's account used.
-    //             const email = error.email;
 
-    //             // The AuthCredential type that was used.
-    //             const credential = GoogleAuthProvider.credentialFromError(error);
-    //             console.log(credential)
-    //             // ...
-    //         });
-    // }
-    function create_id() {
-        createUserWithEmailAndPassword(auth, email, password)
+    async function create_id() {
+        await createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
                 const user = userCredential.user;
-                set_profile(user)
                 props.setauth(user)
+                set_profile(user)
                 fetch_profile(user)
                 // console.log(user)
                 handelClose()
@@ -119,26 +158,41 @@ const Loginform = (props) => {
             });
     }
     function login() {
-        signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-                fetch_profile(user)
-                props.setauth(user)
-                // console.log(user)
-                handelClose()
-            })
-            .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
-                setEmail_flg(true)
-                setpassword_flg(true)
-                // console.log(errorMessage)
-            });
+        try {
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    const user = userCredential.user;
+                    fetch_profile(user)
+                    props.setauth(user)
+                    // console.log(user)
+                    handelClose()
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    setEmail_flg(true)
+                    setpassword_flg(true)
+                    // console.log(errorMessage)
+                });
+        }
+        catch (errorSignIn) {
+            console.log(errorSignIn)
+        }
+
     }
     return (
-        <Modal style={{ display: "flex", justifyContent: "center", marginTop: "10rem" }} open={props.open} onClose={handelClose} >
+        <Modal style={{ display: "flex", justifyContent: "center", marginTop: "8rem" }} open={props.open} onClose={handelClose} >
             <>
-                <div className='popUp'>
+                <div className={hasaccount ? 'popUp' : 'popUp_'}>
+                    {
+                        hasaccount ? <>
+                        </> :
+                            <>
+                                <input type="text" className={userName_flg ? 'inputEmailerror' : 'inputEmail'} placeholder='Name' value={userName} onChange={(e) => userNameOnChange(e)}></input>
+                                <input type="tel" className={userWhatsApp_number_flg ? 'inputEmailerror' : 'inputEmail'} placeholder="What's App" value={userWhatsApp_number} onChange={(e) => userWhatsAppNumberOnChange(e)}></input>
+                                <input type="tel" className={contact_flg ? 'inputEmailerror' : 'inputEmail'} placeholder='Contact' value={contact} onChange={(e) => userContactOnChange(e)}></input>
+                            </>
+                    }
 
                     <input type="email" className={email_flg ? 'inputEmailerror' : 'inputEmail'} placeholder='Email' value={email} onChange={(e) => emailOnChange(e)}></input>
                     <input type="password" className={password_flg ? 'inputPassworderror' : 'inputPassword'} placeholder='Password' value={password} onChange={(e) => passwordOnChange(e)}></input>
@@ -160,7 +214,7 @@ const Loginform = (props) => {
                         hasaccount ?
                             <button className='signIn' onClick={() => submit()}>sign In</button>
                             :
-                            <button className='signIn' onClick={() => create_id()}>sign Up</button>
+                            <button className='signIn' onClick={() => signUp()}>sign Up</button>
                     }
                     {
                         hasaccount ?

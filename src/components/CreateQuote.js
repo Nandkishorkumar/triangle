@@ -18,7 +18,7 @@ const Createquote = (props) => {
     
     async function datahandle() {
         if(props.auth){
-            
+            console.log("create quote datahandler")
             let list = []
             const q = query(collection(db, "Trip"),where("uploaded_by", "==", props.auth.uid));
             const querySnapshot = await getDocs(q);
@@ -42,6 +42,7 @@ const Createquote = (props) => {
     }
 
     useEffect(() => {
+        console.log("create quote")
         datahandle()
     }, [props.auth])
 

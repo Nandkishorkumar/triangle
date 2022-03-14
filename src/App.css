@@ -78,6 +78,16 @@
   background-color: #56c2c4;
   align-items: center;
 }
+.popUp_{
+  width: 20rem;
+  height: 35rem;
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  justify-content: flex-start;
+  background-color: #56c2c4;
+  align-items: center; 
+}
 .inputEmail{
   margin-top: 2rem;
   width: 17rem;

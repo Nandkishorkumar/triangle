@@ -1,4 +1,4 @@
-import { BackupOutlined, FileCopyOutlined, Fingerprint, Speed } from '@material-ui/icons';
+import { BackupOutlined, FileCopyOutlined, Fingerprint, Speed, PersonOutlineOutlined } from '@material-ui/icons';
 import { fromEvent } from "file-selector";
 import { getAuth, signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
@@ -8,6 +8,7 @@ import readXlsxFile from 'read-excel-file';
 import './App.css';
 import Createquote from './components/CreateQuote';
 import Loginform from './components/loginForm';
+import Profile from './components/Profile/Profile';
 import FollowUp from './components/quotation_follow_up/Follow_up';
 import Rapid from './components/Rapid/Rapid';
 import app from './components/required';
@@ -16,6 +17,7 @@ import Usercontrol from './components/usercontrol/UserControl';
 
 function App() {
   const storage = getStorage();
+  const currentdate = new Date();
   const [data, setData] = React.useState()
   const [open, setopen] = React.useState(false)
   const db = getFirestore(app);
@@ -28,9 +30,11 @@ function App() {
   //   // setData(doc.data())
 
   // });
-  
-  function handelClose() {
-    setopen(false)
+
+  function setAuthFirebase(args) {
+    console.log("setting auth")
+    setauth(args)
+    console.log("auth set")
   }
   function openPopUp() {
     setopen(true)
@@ -65,7 +69,9 @@ function App() {
             Email: Row[14],
             Remark: Row[15],
             Follow_Up_date: Row[16],
-            uploaded_by: auth.uid
+            uploaded_by: auth.uid,
+            uploaded_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
+            uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
 
           });
         }
@@ -110,41 +116,74 @@ function App() {
     }
   }
   async function fetch_profile(args) {
-    const docRef = doc(db, "Profile", args.uid);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-       setData(docSnap.data())
+    console.log(args)
+    try {
+      const docRef = doc(db, "Profile", args.uid);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        setData(docSnap.data())
         // console.log("Document data:", docSnap.data());
       } else {
         console.log("No such document!");
       }
+    }
+    catch (error) {
+      console.log({ error })
+    }
 
-}
+
+  }
 
   function logOut() {
-    signOut(oauth).then(() => {
-      setauth()
-      setData()
-    }).catch((error) => {
-      // An error happened.
-    });
+    try{
+      signOut(oauth).then(() => {
+        setauth()
+        setData()
+      }).catch((error) => {
+        // An error happened.
+      });
+    }
+    catch (error){
+      console.log(error)
+    }
+    
   }
   function page(args) {
     setPage(args)
   }
-  const authListener = () => {
+
+  async function authListener() {
     oauth.onAuthStateChanged(user => {
-      if (user) {
-        setauth(user)
-        fetch_profile(user)
+      try {
+        if (user) {
+          setauth(user);
+          // console.log(user)
+        }
+        else {
+        }
       }
-      else {
-      }
+      catch (error){
+        console.log(error)
+       }
+
     })
   }
+
   useEffect(() => {
     authListener()
-  })
+    // console.log("useEffect in app.js" )
+  },[auth])
+
+  useEffect(() => {
+    if (data) {
+      // debugger
+    }
+    else {
+      // console.log("no data", auth)
+      fetch_profile(auth)
+    }
+  }, [auth]);
+
   function refreshPage() {
     window.location.reload(false);
   }
@@ -153,7 +192,7 @@ function App() {
     <>
 
       {
-        open ? <Loginform open={open} setopen={setopen} setauth={setauth} setData={setData} refreshPage={refreshPage}/> : <></>
+        open ? <Loginform open={open} setopen={setopen} setauth={setAuthFirebase} setData={setData} refreshPage={refreshPage} /> : <></>
       }
 
       <div className='header'>
@@ -181,12 +220,8 @@ function App() {
               <p>Rapid Fire</p>
             </div>
           </div>
-          <div className='sidebarCard' onClick={() => UploadFile()}>
-            <div className='sidebarCardContaint'>
-              <BackupOutlined style={{ marginRight: "1rem" }} />
-              <p>Feed The Lead</p>
-            </div>
-          </div>
+
+
           <div className='sidebarCard' onClick={() => page("create_quote")}>
             <div className='sidebarCardContaint'>
               <FileCopyOutlined style={{ marginRight: "1rem" }} />
@@ -199,17 +234,31 @@ function App() {
               <p>Quotation Followup</p>
             </div>
           </div>
+          <div className='sidebarCard' onClick={(() => page("profile"))}>
+            <div className='sidebarCardContaint'>
+              <PersonOutlineOutlined style={{ marginRight: "1rem" }} />
+              <p>Profile</p>
+            </div>
+          </div>
           {
             data ?
               <>
                 {
                   data.access_type === "admin" ?
-                    <div className='sidebarCard' onClick={() => page("User_Controller")}>
-                      <div className='sidebarCardContaint'>
-                        <FileCopyOutlined style={{ marginRight: "1rem" }} />
-                        <p>User Controller</p>
+                    <>
+                      <div className='sidebarCard' onClick={() => page("User_Controller")}>
+                        <div className='sidebarCardContaint'>
+                          <FileCopyOutlined style={{ marginRight: "1rem" }} />
+                          <p>User Controller</p>
+                        </div>
                       </div>
-                    </div>
+                      <div className='sidebarCard' onClick={() => UploadFile()}>
+                        <div className='sidebarCardContaint'>
+                          <BackupOutlined style={{ marginRight: "1rem" }} />
+                          <p>Feed The Lead</p>
+                        </div>
+                      </div>
+                    </>
                     :
                     <></>
                 }
@@ -223,22 +272,27 @@ function App() {
                 auth &&
                 <Createquote auth={auth} />
               }
-              </>:<></>           
+              </> : <></>
           }
           {
-              Page === "rapid_fire" ?
-              <Rapid/>
-              :<></>
+            Page === "rapid_fire" ?
+              <Rapid />
+              : <></>
           }
           {
-              Page === "User_Controller" ?
-              <Usercontrol auth={auth}/>
-              :<></>
+            Page === "User_Controller" ?
+              <Usercontrol auth={auth} data={data}  />
+              : <></>
           }
           {
-              Page === "Quotation_Followup" ?
-              <FollowUp/>
-              :<></>
+            Page === "Quotation_Followup" ?
+              <FollowUp />
+              : <></>
+          }
+          {
+            Page === "profile" ?
+              <Profile />
+              : <></>
           }
         </div>
       </div>
