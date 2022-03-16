@@ -139,6 +139,7 @@ function App() {
       signOut(oauth).then(() => {
         setauth()
         setData()
+        refreshPage()
       }).catch((error) => {
         // An error happened.
       });
