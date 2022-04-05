@@ -1,0 +1,38 @@
+#sample{
+    margin-right: 4rem;
+    margin-left: 4rem;
+    /* background-color: rgb(72, 182, 77); */
+    width: 464px;
+}
+.pdf_Header{
+    display: flex;
+}
+.name{
+    font-size:6px;
+    font-weight: 600;
+    font-family: Brush Script MT;
+    letter-spacing: 2px;
+    color: gold;
+    margin-top: -4px;
+    margin-left: 15px;
+}
+.details{
+    font-size: 6px;
+    letter-spacing: 0.2px;
+    font-family: monospace;
+}
+.underline{
+    border-bottom: 0.2px dashed rgb(134, 130, 130);
+}
+.destination_details{
+    display: flex;
+    justify-content: space-between;
+}
+.Itinerary
+{
+    display: flex;
+    justify-content: center;
+    font-size: larger;
+    font-weight: 600;
+    font-family: Arial;
+}
