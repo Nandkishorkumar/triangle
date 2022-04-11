@@ -29,12 +29,20 @@ const Box = (props) => {
         { Night: '', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
 
     function daysChanges(event) {
-        console.log('target', event.target.value, typeof (event.target.value))
+        // console.log('target', event.target.value, typeof (event.target.value))
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
         console.log(event)
         // for(let s=0;)
         setTotalDays(temp)
+        if(countNight<len){
+            setCountnight(countNight-1)
+        }
+        else if(countNight>len){
+            setCountnight(countNight +1)
+
+        }
+
     }
     function itinearyDays() {
         let data = { Day: '', description: '' }
