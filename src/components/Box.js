@@ -1,6 +1,7 @@
 import { Modal, Radio } from '@material-ui/core';
 import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
+import Select from 'react-select';
 import './TripComponent.css';
 
 
@@ -45,13 +46,12 @@ const Box = (props) => {
             let data = { Day: '', description: '' }
             setItineary([...itineary, data])
         }
-        console.log(itineary.length)
     }, []);
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
         data[index][event.target.name] = event.target.value;
         setItineary(data);
-        console.log(itineary)
+        // console.log(itineary)
     }
     function addFields() {
         if (countNight < Data.Travel_Duration - 2) {
@@ -74,7 +74,9 @@ const Box = (props) => {
         let data = [...NightDataFields];
         data[index][event.target.name] = event.target.value;
         setNightDataFields(data);
+        console.log(data)
     }
+
     function flightcostChange(e) {
         setFlightcost(e.target.value)
     }
@@ -102,6 +104,7 @@ const Box = (props) => {
         "USD",
         "CLP"
     ]
+
     function openHandler() {
         setOpen(true)
     }
@@ -184,11 +187,11 @@ const Box = (props) => {
                         <div className='basicDetails'>
                             <div>
                                 <label>Days</label>
-                                <input type="number" placeholder='Days count eg:-0,1,2,3..' onChange={(e) => daysChanges(e)}></input>
+                                <input type="number" placeholder='Days count eg:-0,1,2,3..' onChange={(e) => daysChanges(e)} value={days_total.length}></input>
                             </div>
                             <div>
                                 <label>Night</label>
-                                <input type="number" placeholder='Night count eg:-0,1,2,3..'></input>
+                                <input placeholder='Night count eg:-0,1,2,3..' value={days_total.length - 1} readonly></input>
                             </div>
                         </div>
                         <div className='cost_estimation_body'>
@@ -276,9 +279,17 @@ const Box = (props) => {
                                                     <label>Night</label><br />
                                                     <select placeholder='select'
                                                         name='Night'
-                                                        onChange={(event) => handleFormChange(event, index)}>
-                                                        <option value={1}>1st</option>
-                                                        <option value={2}>2nd</option>
+                                                        onChange={(event) =>
+                                                            handleFormChange(event, index)
+                                                            // console.log(event)
+                                                        }
+
+                                                    >
+                                                        {days_total.map((option,index) => (
+                                                            <option value={index+1}>{index+1} night</option>
+                                                        ))}
+
+
                                                     </select>
                                                 </div>
                                                 <div className='unitComponent'>
@@ -325,7 +336,7 @@ const Box = (props) => {
                                                 className='comments'
                                                 name='comments'
                                                 onChange={(event) => handleFormChange(event, index)}
-                                                placeholder='test'
+                                                placeholder='Additional information'
                                             ></textarea>
                                         </>
                                     );
@@ -377,8 +388,13 @@ const Box = (props) => {
 
                                 days_total.map((data, index) => {
                                     return (
-                                        <div>
-                                            <input placeholder='val' onChange={(e) => handleFormChangeItineary(e, index)}></input>
+                                        <div className='days'>
+                                            <label className='title'>Day{index+1}:Title</label><br/>
+                                            <input  className='dayByitineary' placeholder='Enter Title of the day' onChange={(e) => handleFormChangeItineary(e, index)}></input>
+                                            <div>
+                                            <label className='title'>Description</label><br/>
+                                            <textarea placeholder=' Write Description' className='Description'></textarea>
+                                            </div>
                                         </div>
                                     )
                                 })

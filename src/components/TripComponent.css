@@ -192,3 +192,22 @@
     font-size: large;
     font-weight: 600;
 }
+.dayByitineary{
+    width: 55%;
+    height: 3rem;
+    margin: 1rem;
+    border-radius: 1rem;
+}
+.title{
+    margin: 1rem;
+    font-weight: 600;
+}
+.Description{
+    width: 80%;
+    height: 4rem;
+    margin: 1rem;
+
+}
+.days{
+    border-bottom: 1px dotted rgb(117, 111, 111);
+}
