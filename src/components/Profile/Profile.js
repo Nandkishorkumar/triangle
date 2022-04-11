@@ -26,7 +26,7 @@ const Profile = () => {
         }
 
         setFormFields([...formFields, object])
-        console.log(formFields)
+        // console.log(formFields)
     }
     const removeFields = (index) => {
         let data = [...formFields];
@@ -41,7 +41,7 @@ const Profile = () => {
 
     return (
         <>
-            {/* <div id='sample'>
+            <div id='sample'>
                 <div className='pdf_Header'>
                     <img alt="JR_image" src='/assets/img/JR.jpg' width="41px" height="38px" marginTop="5px" />
                     <img alt='star_img' src="/assets/img/fiveStar.jpg" width="41px" height="38px" />
@@ -64,8 +64,8 @@ const Profile = () => {
                 </div>
                 
             </div>
-            <button onClick={() => pdfgenrator()}>gen pdf</button> */}
-            <form onSubmit={submit}>
+            <button onClick={() => pdfgenrator()}>gen pdf</button>
+            {/* <form onSubmit={submit}>
                 {formFields.map((form, index) => {
                     return (
                         <div key={index}>
@@ -88,7 +88,7 @@ const Profile = () => {
             </form>
             <button onClick={addFields}>Add More..</button>
             <br />
-            <button onClick={submit}>Submit</button>
+            <button onClick={submit}>Submit</button> */}
         </>
     );
 }

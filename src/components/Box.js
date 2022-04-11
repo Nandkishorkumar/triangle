@@ -12,6 +12,7 @@ const Box = (props) => {
     // console.log(props.TripId)
     const Data = props.data
     // console.log(Data.Travel_Duration)
+    const [Travel_Duration,setTravel_Duration]=useState(Data.Travel_Duration)
     const [open, setOpen] = useState(false)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
     const [flightcost, setFlightcost] = useState(0)
@@ -32,10 +33,11 @@ const Box = (props) => {
         // console.log('target', event.target.value, typeof (event.target.value))
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
-        console.log(event)
+        console.log(event.target.value)
         // for(let s=0;)
         setTotalDays(temp)
         if(countNight<len){
+            console.log(NightDataFields.length)
             setCountnight(countNight-1)
         }
         else if(countNight>len){
@@ -50,7 +52,7 @@ const Box = (props) => {
     }
     useEffect(() => {
         console.log(Data.Travel_Duration)
-        for (let s = 0; s < Data.Travel_Duration - 1; s++) {
+        for (let s = 0; s < Travel_Duration - 1; s++) {
             let data = { Day: '', description: '' }
             setItineary([...itineary, data])
         }
@@ -62,7 +64,7 @@ const Box = (props) => {
         // console.log(itineary)
     }
     function addFields() {
-        if (countNight < Data.Travel_Duration - 2) {
+        if (countNight < Travel_Duration- 2) {
             // console.log('hiii')
             let object = { Night: '', HotelName: '', City: '', Category: '', HotelType: '', comments: '' }
             setNightDataFields([...NightDataFields, object])
@@ -141,7 +143,7 @@ const Box = (props) => {
                             </div>
                             <div >
                                 <p className='item1'>Duration</p>
-                                {Data.Travel_Duration}
+                                {Travel_Duration}
                             </div>
                             <div >
                                 <p className='item1'>Budget</p>
@@ -199,7 +201,7 @@ const Box = (props) => {
                             </div>
                             <div>
                                 <label>Night</label>
-                                <input placeholder='Night count eg:-0,1,2,3..' value={days_total.length - 1} readonly></input>
+                                <input placeholder='Night count eg:-0,1,2,3..' value={days_total.length - 1} readOnly></input>
                             </div>
                         </div>
                         <div className='cost_estimation_body'>
