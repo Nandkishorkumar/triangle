@@ -36,7 +36,9 @@ export async function UploadFile() {
                 Email: Row[14],
                 Remark: Row[15],
                 Follow_Up_date: Row[16],
-                uploaded_by: "nandu"
+                uploaded_by: "nandu",
+                quotation:0,
+                quotation_flg:false
 
             });
         }

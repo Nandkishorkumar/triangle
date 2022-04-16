@@ -1,8 +1,15 @@
+
+.pre{
+    display: flex;
+    flex-direction: column;
+}
+
 #sample{
     margin-right: 4rem;
     margin-left: 4rem;
-    /* background-color: rgb(72, 182, 77); */
+    background-color: #FFFF;
     width: 464px;
+    overflow-y: scroll;    
 }
 .pdf_Header{
     display: flex;
@@ -17,9 +24,16 @@
     margin-left: 15px;
 }
 .details{
-    font-size: 6px;
+    font-size: 8px;
     letter-spacing: 0.2px;
     font-family: monospace;
+}
+.details1{
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    font-family: monospace;
+    border-bottom: 1px dashed;
+
 }
 .underline{
     border-bottom: 0.2px dashed rgb(134, 130, 130);
@@ -35,4 +49,50 @@
     font-size: larger;
     font-weight: 600;
     font-family: Arial;
+}
+.pdfImg{
+    width: auto;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.day_{
+font-family: Arial, Helvetica, sans-serif;
+font-weight: 600;
+}
+.travel_info{
+    display: flex;
+    justify-content: space-evenly;
+    width: 12rem;
+    align-items: center;
+}
+.parallel{
+    display: flex;
+    justify-content: center;
+    justify-content: space-evenly;
+    border-bottom: 0.2px dashed;
+}
+.travel_info1{
+    display: flex;
+    justify-content: space-evenly;
+    width: 8rem;
+    align-items: center;
+    font-weight: 600;
+
+}
+.night_details{
+    border-bottom: 0.2px dashed;
+}
+.download_button{
+    width: 5rem;
+    height: 2rem;
+    background-color: rgb(156, 156, 227);
+    border-radius: 1rem;
+    margin: 2rem;
+    margin-left: 4rem;
+}
+.download_button:hover{
+    background-color: rgb(85, 225, 85);
+    cursor: pointer;
 }

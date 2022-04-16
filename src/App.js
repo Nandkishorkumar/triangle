@@ -52,6 +52,7 @@ function App() {
           let id = `trp00${i}`
           setDoc(doc(db, "Trip", `trp00${i}`), {
             TripId: "TRP" + Math.random(),
+            trip_doc: id,
             Lead_Status: Row[0],
             Campaign_code: Row[1],
             Date_of_lead: Row[2],
@@ -72,6 +73,8 @@ function App() {
             uploaded_by: auth.uid,
             uploaded_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
             uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
+            quotation: 0,
+            quotation_flg: false
 
           });
         }
@@ -135,7 +138,7 @@ function App() {
   }
 
   function logOut() {
-    try{
+    try {
       signOut(oauth).then(() => {
         setauth()
         setData()
@@ -144,10 +147,10 @@ function App() {
         // An error happened.
       });
     }
-    catch (error){
+    catch (error) {
       console.log(error)
     }
-    
+
   }
   function page(args) {
     setPage(args)
@@ -163,9 +166,9 @@ function App() {
         else {
         }
       }
-      catch (error){
+      catch (error) {
         console.log(error)
-       }
+      }
 
     })
   }
@@ -173,7 +176,7 @@ function App() {
   useEffect(() => {
     authListener()
     // console.log("useEffect in app.js" )
-  },[auth])
+  }, [auth])
 
   useEffect(() => {
     if (data) {
@@ -282,17 +285,22 @@ function App() {
           }
           {
             Page === "User_Controller" ?
-              <Usercontrol auth={auth} data={data}  />
+              <Usercontrol auth={auth} data={data} />
               : <></>
           }
           {
             Page === "Quotation_Followup" ?
-              <FollowUp />
+              <>
+                {
+                  auth &&
+                  <FollowUp auth={auth} />
+                }
+              </>
               : <></>
           }
           {
             Page === "profile" ?
-              <Profile />
+              <></>
               : <></>
           }
         </div>

@@ -3,6 +3,9 @@ import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from
 import React, { useEffect, useState } from 'react';
 import Select from 'react-select';
 import './TripComponent.css';
+import jsPDF from 'jspdf'
+import Profile from './Profile/Profile';
+
 
 
 
@@ -12,7 +15,7 @@ const Box = (props) => {
     // console.log(props.TripId)
     const Data = props.data
     // console.log(Data.Travel_Duration)
-    const [Travel_Duration,setTravel_Duration]=useState(Data.Travel_Duration)
+    const [Travel_Duration, setTravel_Duration] = useState(Data.Travel_Duration)
     const [open, setOpen] = useState(false)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
     const [flightcost, setFlightcost] = useState(0)
@@ -22,12 +25,20 @@ const Box = (props) => {
     const [countNight, setCountnight] = useState(0)
     const [flight, setflight] = useState(true)
     const [cab, setcab] = useState(true)
-    const [itineary, setItineary] = useState([{ Day: '', description: '' }])
+    const [itineary, setItineary] = useState([{ Day: '', Description: '' },])
     const days = Array(Data.Travel_Duration).fill('a');
     const [days_total, setTotalDays] = useState(days);
     const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
-        { Night: '', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
+        { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
+    const [openPDF, setPDF] = useState(false)
+    const [selected_date, set_selected_date] = useState()
+    function closePDF() {
+        setPDF(false)
+    }
+    function showPDF() {
+        setPDF(true)
+    }
 
     function daysChanges(event) {
         // console.log('target', event.target.value, typeof (event.target.value))
@@ -36,35 +47,42 @@ const Box = (props) => {
         console.log(event.target.value)
         // for(let s=0;)
         setTotalDays(temp)
-        if(countNight<len){
+        if (countNight < len) {
             console.log(NightDataFields.length)
-            setCountnight(countNight-1)
+            setCountnight(countNight - 1)
         }
-        else if(countNight>len){
-            setCountnight(countNight +1)
+        else if (countNight > len) {
+            setCountnight(countNight + 1)
 
         }
 
     }
     function itinearyDays() {
-        let data = { Day: '', description: '' }
+        let data = { Day: '', Description: '' }
         setItineary([...itineary, data])
     }
-    useEffect(() => {
-        console.log(Data.Travel_Duration)
-        for (let s = 0; s < Travel_Duration - 1; s++) {
-            let data = { Day: '', description: '' }
-            setItineary([...itineary, data])
+    function setVar(){
+        for (let s = 0; s <Travel_Duration - 1; s++) {
+            let data = { Day: '', Description: '' }
+            let temp=itineary
+            temp.push(data)
+            setItineary(temp)
         }
+        console.log(itineary)
+    }
+    useEffect(() => {
+        setVar()
+        
     }, []);
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
+        // console.log(data[index][event.target.name])
         data[index][event.target.name] = event.target.value;
         setItineary(data);
-        // console.log(itineary)
+        console.log(itineary)
     }
     function addFields() {
-        if (countNight < Travel_Duration- 2) {
+        if (countNight < Travel_Duration - 2) {
             // console.log('hiii')
             let object = { Night: '', HotelName: '', City: '', Category: '', HotelType: '', comments: '' }
             setNightDataFields([...NightDataFields, object])
@@ -117,6 +135,7 @@ const Box = (props) => {
 
     function openHandler() {
         setOpen(true)
+       
     }
     function closeHandler() {
         setOpen(false)
@@ -124,7 +143,12 @@ const Box = (props) => {
     function handleChange(event) {
         setSelectedValue(event.target.value);
     };
-
+    function Save_download() {
+        showPDF()
+    }
+    function select_date(e) {
+        set_selected_date(e.target.value)
+    }
 
     return (
         <>
@@ -186,11 +210,14 @@ const Box = (props) => {
                 </div>
 
             </div>
+            <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+                <Profile travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler}  itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+            </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
                     <div className='save_close'>
                         <button className='compo_button' onClick={() => closeHandler()} >close</button>
-                        <button className='compo_button' >save&downlod</button>
+                        <button className='compo_button' onClick={() => Save_download()}>save&downlod</button>
                     </div>
                     <div>
                         <p className='basicDetailsheading'>Basic Details</p>
@@ -295,8 +322,8 @@ const Box = (props) => {
                                                         }
 
                                                     >
-                                                        {days_total.map((option,index) => (
-                                                            <option value={index+1}>{index+1} night</option>
+                                                        {days_total.map((option, index) => (
+                                                            <option value={index + 1}>{index + 1} night</option>
                                                         ))}
 
 
@@ -392,18 +419,18 @@ const Box = (props) => {
                             </div>
                             <div className='itineary'>
                                 <p>Itinerary Start date</p>
-                                <input type='date'></input>
+                                <input type='date' onChange={(e) => select_date(e)}></input>
                             </div>
                             {
 
                                 days_total.map((data, index) => {
                                     return (
                                         <div className='days'>
-                                            <label className='title'>Day{index+1}:Title</label><br/>
-                                            <input  className='dayByitineary' placeholder='Enter Title of the day' onChange={(e) => handleFormChangeItineary(e, index)}></input>
+                                            <label className='title'>Day{index + 1}:Title</label><br />
+                                            <input className='dayByitineary' placeholder='Enter Title of the day' name='Day' onChange={(e) => handleFormChangeItineary(e, index)}></input>
                                             <div>
-                                            <label className='title'>Description</label><br/>
-                                            <textarea placeholder=' Write Description' className='Description'></textarea>
+                                                <label className='title'>Description</label><br />
+                                                <textarea placeholder=' Write Description' name='Description' onChange={(event) => handleFormChangeItineary(event, index)} className='Description'></textarea>
                                             </div>
                                         </div>
                                     )

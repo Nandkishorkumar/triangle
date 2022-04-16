@@ -18,9 +18,9 @@ const Createquote = (props) => {
     
     async function datahandle() {
         if(props.auth){
-            console.log("create quote datahandler")
+            // console.log("create quote datahandler")
             let list = []
-            const q = query(collection(db, "Trip"),where("uploaded_by", "==", props.auth.uid));
+            const q = query(collection(db, "Trip"),where("uploaded_by", "==", props.auth.uid),where("quotation_flg","==",false));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
             if(querySnapshot.docs.length==0){
@@ -42,7 +42,7 @@ const Createquote = (props) => {
     }
 
     useEffect(() => {
-        console.log("create quote")
+        // console.log("create quote")
         datahandle()
     }, [props.auth])
 
@@ -69,7 +69,7 @@ const Createquote = (props) => {
                 </> : <>
                     {
                         lead_data.map((info, index) => (
-                            <Box key={index} data={info} />
+                            <Box key={index} data={info} datahandle={datahandle} />
                         ))
                     }
                 </>
