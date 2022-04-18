@@ -1,34 +1,20 @@
-import { CircularProgress, Modal } from '@material-ui/core';
+import { CircularProgress, makeStyles, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@material-ui/core';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
-import React, { useEffect, useMemo, useState } from 'react';
-import Boxs from '../Box';
+import React, { useEffect, useState } from 'react';
 import app from '../required';
-import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
-import Collapse from '@material-ui/core/Collapse';
-import IconButton from '@material-ui/core/IconButton';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
+import Row from './Row';
+import './quote.css'
+import Select from 'react-select';
+import makeAnimated from 'react-select/animated';
+
+
 
 const FollowUp = (props) => {
     const db = getFirestore(app);
     const [lead_data, setLead_data] = useState([])
     const [open, setopen] = useState(true)
-    const useRowStyles = makeStyles({
-        root: {
-            '& > *': {
-                borderBottom: 'unset',
-            },
-        },
-    });
+    const [lead_list, setLead_list] = useState([])
+    const animatedComponents = makeAnimated();
     const [columnDefs, setColumnDefs] = useState([
         { field: 'athlete', filter: 'agMultiColumnFilter' },
         {
@@ -51,65 +37,7 @@ const FollowUp = (props) => {
             // filterParams: dateFilterParams,
         },
     ]);
-    function Row(props) {
-        const { row } = props;
-        const [open, setOpen] = React.useState(false);
-        const classes = useRowStyles();
 
-        return (
-            <React.Fragment>
-                <TableRow className={classes.root}>
-                    <TableCell>
-                        <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                        </IconButton>
-                    </TableCell>
-                    <TableCell component="th" scope="row">
-                        {row.TripId}
-                    </TableCell>
-                    <TableCell align="right">{row.Traveller_name}</TableCell>
-                    <TableCell align="right">{row.Lead_Status}</TableCell>
-                    <TableCell align="right">{row.Destination}</TableCell>
-                    <TableCell align="right">{row.Departure_City}</TableCell>
-                </TableRow>
-                <TableRow>
-                    <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
-                            <Box margin={1}>
-                                <Typography variant="h6" gutterBottom component="div">
-                                    History
-                                </Typography>
-                                <Table size="small" aria-label="purchases">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Date</TableCell>
-                                            <TableCell>Customer</TableCell>
-                                            <TableCell align="right">Amount</TableCell>
-                                            <TableCell align="right">Total price ($)</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    {/* <TableBody>
-                                        {row.history.map((historyRow) => (
-                                            <TableRow key={historyRow.date}>
-                                                <TableCell component="th" scope="row">
-                                                    {historyRow.date}
-                                                </TableCell>
-                                                <TableCell>{historyRow.customerId}</TableCell>
-                                                <TableCell align="right">{historyRow.amount}</TableCell>
-                                                <TableCell align="right">
-                                                    {Math.round(historyRow.amount * row.price * 100) / 100}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))}
-                                    </TableBody> */}
-                                </Table>
-                            </Box>
-                        </Collapse>
-                    </TableCell>
-                </TableRow>
-            </React.Fragment>
-        );
-    }
     async function datahandle() {
         if (props.auth) {
             // console.log("create quote datahandler")
@@ -160,10 +88,128 @@ const FollowUp = (props) => {
         createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
         createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
     ];
+    const Destinations = [
+        { value: 'Thailand', label: 'Thailand', color: '#00B8D9' },
+        { value: 'Bali', label: 'Bali', color: '#0052CC' },
+        { value: 'Dubai', label: 'Dubai', color: '#5243AA' },
+        { value: 'Europe', label: 'Europe', color: '#FF5630', },
+        { value: 'Sri Lanka', label: 'Sri Lanka', color: '#FF8B00' },
+        { value: 'Mauritius', label: 'Mauritius', color: '#FFC400' },
+        { value: 'Seychelles', label: 'Seychelles', color: '#36B37E' },
+        { value: 'Vietnmam', label: 'Vietnmam', color: '#00875A' },
+        { value: 'Malaysia', label: 'Malaysia', color: '#253858' },
+        { value: 'Singapore', label: 'Singapore', color: '#666666' },
+        { value: 'Australia', label: 'Australia', color: '#666666' },
+        { value: 'New Zealand', label: 'New Zealand', color: '#666666' },
+        { value: 'Kashmir', label: 'Kashmir', color: '#666666' },
+        { value: 'Himachal', label: 'Himachal', color: '#666666' },
+        { value: 'Rajasthan', label: 'Rajasthan', color: '#666666' },
+        { value: 'Uttrakhand', label: 'Uttrakhand', color: '#666666' },
+        { value: 'Goa', label: 'Goa', color: '#666666' },
+        { value: 'Kerala', label: 'Kerala', color: '#666666' },
+        { value: 'Andaman', label: 'Andaman', color: '#666666' },
+        { value: 'Sikkim', label: 'Sikkim', color: '#666666' },
+        { value: 'Karnataka', label: 'Karnataka', color: '#666666' },
+    ];
+    const months = [
+        { value: 'JAN', label: 'JAN', color: '#00B8D9' },
+        { value: 'FEB', label: 'FEB', color: '#0052CC' },
+        { value: 'MAR', label: 'MAR', color: '#5243AA' },
+        { value: 'APR', label: 'APR', color: '#FF5630', },
+        { value: 'MAY', label: 'MAY', color: '#FF8B00' },
+        { value: 'My Hot', label: 'JUE', color: '#FFC400' },
+        { value: 'JUL', label: 'JUL', color: '#36B37E' },
+        { value: 'AUG', label: 'AUG', color: '#00875A' },
+        { value: 'SEP', label: 'SEP', color: '#253858' },
+        { value: 'OCT', label: 'OCT', color: '#666666' },
+        { value: 'NOV', label: 'NOV', color: '#666666' },
+        { value: 'DEC', label: 'DEC', color: '#666666' },
+
+    ];
+    const Lead_type = [
+        { value: 'ACTIVE', label: 'ACTIVE', color: '#00B8D9' },
+        { value: 'HOT', label: 'HOT', color: '#0052CC' },
+        { value: 'In Progress', label: 'In Progress', color: '#5243AA' },
+        { value: 'Book Now', label: 'Book Now', color: '#FF5630', },
+        { value: 'Invoiced', label: 'Invoiced', color: '#FF8B00' },
+        { value: 'My Hot', label: 'My Hot', color: '#FFC400' },
+        { value: 'No Response', label: 'No Response', color: '#36B37E' },
+        { value: 'Booker', label: 'Booker', color: '#00875A' },
+        { value: 'Hidden Lead', label: 'Hidden Lead', color: '#253858' },
+    ];
+    const Agent = [
+        { value: 'Nand', label: 'Nand', color: '#00B8D9' },
+        { value: 'kishor', label: 'kishor', color: '#0052CC' },
+        { value: 'kumar', label: 'kumar', color: '#5243AA' },
+        { value: 'singh', label: 'singh', color: '#FF5630', },
+        { value: 'verma', label: 'verma', color: '#FF8B00' },
+        { value: 'jacove', label: 'jacove', color: '#FFC400' },
+
+    ];
+    function leadHandler(e) {
+        const list = []
+        for (let len = 0; len <= e.length - 1; len++) {
+            list.push(e[len].value)
+            console.log(e[len].value)
+        }
+        console.log(list)
+        setLead_list(list)
+    }
     return (
         <div>
             {
                 props.auth ? <>
+                    <div className='filter'>
+                        <div>
+                            <label>Destination</label>
+                            <Select
+                                placeholder='Destination'
+                                className='select_opt'
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                options={Destinations}
+                                onChange={(e) => leadHandler(e)}
+                            />
+
+                        </div>
+                        <div>
+                            <label>Month of travel</label>
+                            <Select
+                                placeholder='Month'
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                options={months}
+                                onChange={(e) => leadHandler(e)}
+                            />
+
+                        </div>
+                        <div>
+                            <label>Lead Type</label>
+                            <Select
+                                placeholder='Lead'
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                options={Lead_type}
+                                onChange={(e) => leadHandler(e)}
+                            />
+
+                        </div>
+                        <div>
+                            <label>Agent</label>
+                            <Select
+                                placeholder='Agent'
+                                closeMenuOnSelect={false}
+                                components={animatedComponents}
+                                isMulti
+                                options={Agent}
+                                onChange={(e) => leadHandler(e)}
+                            />
+
+                        </div>
+                    </div>
                     {
                         lead_data.length == 0 ? <>
                             {
@@ -180,16 +226,15 @@ const FollowUp = (props) => {
                             }
 
                         </> : <>
-                            {
+                            {/* {
                         lead_data.map((info, index) => (
                             <Boxs key={index} data={info} />
                         ))
-                    }
-                            {/* <TableContainer component={Paper}>
+                    } */}
+                            <TableContainer component={Paper}>
                                 <Table aria-label="collapsible table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell />
                                             <TableCell>Trip</TableCell>
                                             <TableCell align="right">Name</TableCell>
                                             <TableCell align="right">Lead Status</TableCell>
@@ -199,13 +244,13 @@ const FollowUp = (props) => {
                                     </TableHead>
                                     <TableBody>
                                         {
-                                            
-                                        lead_data.map((row,index) => (
-                                            <Row key={index} row={row} />
-                                        ))}
+
+                                            lead_data.map((row, index) => (
+                                                <Row key={index} row={row} />
+                                            ))}
                                     </TableBody>
                                 </Table>
-                            </TableContainer> */}
+                            </TableContainer>
 
                         </>
                     }
