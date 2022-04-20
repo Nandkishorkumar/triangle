@@ -13,7 +13,7 @@ const FollowUp = (props) => {
     const db = getFirestore(app);
     const [lead_data, setLead_data] = useState([])
     const [open, setopen] = useState(true)
-    const [lead_list, setLead_list] = useState([])
+    const [Destination, SetDestination_list] = useState([])
     const animatedComponents = makeAnimated();
     const [columnDefs, setColumnDefs] = useState([
         { field: 'athlete', filter: 'agMultiColumnFilter' },
@@ -56,6 +56,36 @@ const FollowUp = (props) => {
             setLead_data(list)
             setopen(false)
             console.log(lead_data)
+        }
+        else {
+            setopen(false)
+            setLead_data([])
+        }
+
+    }
+    async function queryDesigner(args) {
+        if (props.auth) {
+            // console.log("create quote datahandler")
+            try{
+            let list = []
+            const q = query(collection(db, "Trip"), where("Destination", "in", args),  where("quotation_flg", "==", true));
+            const querySnapshot = await getDocs(q);
+            // console.log(querySnapshot)
+            if (querySnapshot.docs.length == 0) {
+                setopen(false)
+            }
+            querySnapshot.forEach((doc) => {
+                list.push(doc.data())
+                // doc.data() is never undefined for query doc snapshots
+                // console.log(doc.id, " => ", doc.data());
+            });
+            setLead_data(list)
+            setopen(false)
+            console.log(lead_data)
+        }
+        catch (e){
+            console.log(e)
+        }
         }
         else {
             setopen(false)
@@ -110,6 +140,8 @@ const FollowUp = (props) => {
         { value: 'Andaman', label: 'Andaman', color: '#666666' },
         { value: 'Sikkim', label: 'Sikkim', color: '#666666' },
         { value: 'Karnataka', label: 'Karnataka', color: '#666666' },
+        {value:"Manali",label:"Manali",color:'#666666'},
+        {value:"Andaman",label:"Andaman",color:'666666'}
     ];
     const months = [
         { value: 'JAN', label: 'JAN', color: '#00B8D9' },
@@ -146,14 +178,22 @@ const FollowUp = (props) => {
         { value: 'jacove', label: 'jacove', color: '#FFC400' },
 
     ];
-    function leadHandler(e) {
+
+    function DestinationHandler(e) {
         const list = []
         for (let len = 0; len <= e.length - 1; len++) {
             list.push(e[len].value)
             console.log(e[len].value)
         }
         console.log(list)
-        setLead_list(list)
+        SetDestination_list(list)
+        // console.log(Destination)
+        queryDesigner(list)
+        if(list.length==0){
+            datahandle()
+        }
+        
+        
     }
     return (
         <div>
@@ -169,7 +209,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={Destinations}
-                                onChange={(e) => leadHandler(e)}
+                                onChange={(e) => DestinationHandler(e)}
                             />
 
                         </div>
@@ -181,7 +221,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={months}
-                                onChange={(e) => leadHandler(e)}
+                                // onChange={(e) => leadHandler(e)}
                             />
 
                         </div>
@@ -193,7 +233,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={Lead_type}
-                                onChange={(e) => leadHandler(e)}
+                                // onChange={(e) => leadHandler(e)}
                             />
 
                         </div>
@@ -205,7 +245,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={Agent}
-                                onChange={(e) => leadHandler(e)}
+                                // onChange={(e) => leadHandler(e)}
                             />
 
                         </div>

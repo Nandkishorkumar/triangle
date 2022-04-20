@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SyncProblem } from '@material-ui/icons';
 import './profile.css'
 import jsPDF from 'jspdf'
-import { doc, getFirestore, updateDoc } from 'firebase/firestore';
+import { doc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 import app from '../required';
 import { async } from '@firebase/util';
 const db = getFirestore(app);
@@ -10,10 +10,22 @@ const db = getFirestore(app);
 const Profile = (props) => {
     const Data = props.travel_data
     console.log(Data)
+    const currentdate = new Date();
+    console.log(currentdate)
+    const TripId=Data.TripId
 
-     function update_quotation_flg() {
+    async function dataSetter() {
+        await setDoc(doc(db, "Quote", "JR",TripId,String(currentdate)), {
+            travel_data: props.travel_data,
+            cost: props.cost,
+            itineary:props.itineary,
+            followUpDate:String(props.selected_date),
+            NightDataFields: props.NightDataFields
+        });
+    }
+     async function update_quotation_flg() {
         let quotation_new = parseInt(props.travel_data.quotation) + 1
-         updateDoc(doc(db, "Trip", `${props.travel_data.trip_doc}`), {
+        await updateDoc(doc(db, "Trip", `${props.travel_data.trip_doc}`), {
             quotation: quotation_new,
             quotation_flg: true
 
@@ -24,12 +36,13 @@ const Profile = (props) => {
         var doc = new jsPDF("p", "pt", "a4");
         doc.html(document.querySelector("#sample"), {
             callback: function (pdf) {
-                pdf.save("newpdf")
+                pdf.save(Data.Traveller_name)
             }
         })
         props.closeHandler()
         props.closePDF()
         props.datahandle()
+        dataSetter()
     }
 
 

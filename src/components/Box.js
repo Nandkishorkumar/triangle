@@ -14,7 +14,7 @@ import Profile from './Profile/Profile';
 const Box = (props) => {
     // console.log(props.TripId)
     const Data = props.data
-    // console.log(Data.Travel_Duration)
+    // console.log(Data)
     const [Travel_Duration, setTravel_Duration] = useState(Data.Travel_Duration)
     const [open, setOpen] = useState(false)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
@@ -228,7 +228,7 @@ const Box = (props) => {
                             </div>
                             <div>
                                 <label>Night</label>
-                                <input placeholder='Night count eg:-0,1,2,3..' value={days_total.length - 1} readOnly></input>
+                                <input placeholder='Night count eg:-0,1,2,3..' value={days_total.length - 1} readOnly={true}></input>
                             </div>
                         </div>
                         <div className='cost_estimation_body'>
@@ -300,7 +300,7 @@ const Box = (props) => {
                                 </div>
                                 <div className='totalSeprator'>
                                     <label>Quotation price</label><br />
-                                    <input type="number" className='input_filed' value={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} placeholder='0'></input>
+                                    <input type="number" className='input_filed' value={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} placeholder='0' readOnly={true}></input>
                                 </div>
 
                             </div>
