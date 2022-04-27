@@ -14,29 +14,9 @@ const FollowUp = (props) => {
     const [lead_data, setLead_data] = useState([])
     const [open, setopen] = useState(true)
     const [Destination, SetDestination_list] = useState([])
+    const [month, setMonths] = useState([])
     const animatedComponents = makeAnimated();
-    const [columnDefs, setColumnDefs] = useState([
-        { field: 'athlete', filter: 'agMultiColumnFilter' },
-        {
-            field: 'gold',
-            filter: 'agMultiColumnFilter',
-            filterParams: {
-                filters: [
-                    {
-                        filter: 'agNumberColumnFilter',
-                    },
-                    {
-                        filter: 'agSetColumnFilter',
-                    },
-                ],
-            },
-        },
-        {
-            field: 'date',
-            filter: 'agMultiColumnFilter',
-            // filterParams: dateFilterParams,
-        },
-    ]);
+
 
     async function datahandle() {
         if (props.auth) {
@@ -55,7 +35,7 @@ const FollowUp = (props) => {
             });
             setLead_data(list)
             setopen(false)
-            console.log(lead_data)
+            // console.log(lead_data)
         }
         else {
             setopen(false)
@@ -63,61 +43,60 @@ const FollowUp = (props) => {
         }
 
     }
-    async function queryDesigner(args) {
-        if (props.auth) {
-            // console.log("create quote datahandler")
-            try{
-            let list = []
-            const q = query(collection(db, "Trip"), where("Destination", "in", args),  where("quotation_flg", "==", true));
-            const querySnapshot = await getDocs(q);
-            // console.log(querySnapshot)
-            if (querySnapshot.docs.length == 0) {
-                setopen(false)
-            }
-            querySnapshot.forEach((doc) => {
-                list.push(doc.data())
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data());
-            });
-            setLead_data(list)
-            setopen(false)
-            console.log(lead_data)
-        }
-        catch (e){
-            console.log(e)
-        }
-        }
-        else {
-            setopen(false)
-            setLead_data([])
-        }
+    // useEffect(() => {
+    //     queryDesigner()
+    // }, [Destination,month]);
+    // async function queryDesigner() {
+    //     if (props.auth) {
+    //         // console.log(month)
+    //         var dynamic_query=''
+    //         if(Destination.length!=0 && month.length!=0){
+    //             dynamic_query = query(collection(db, "Trip"), where("month", "in", month), where("quotation_flg", "==", true),where("Destination", "in", Destination));
 
-    }
+    //         }
+    //         if(Destination.length!=0){
+    //             dynamic_query = query(collection(db, "Trip"), where("Destination", "in", Destination), where("quotation_flg", "==", true));
+
+    //         }
+    //         if(month.length!=0){
+    //             console.log(month)
+    //             dynamic_query = query(collection(db, "Trip"), where("month", "in", month), where("quotation_flg", "==", true));
+                
+    //         }
+
+    //         try {
+    //             let list = []
+    //             // const q = query(collection(db, "Trip"), where("Destination", "in", args), where("quotation_flg", "==", true));
+    //             const querySnapshot = await getDocs(dynamic_query);
+    //             // console.log(querySnapshot)
+    //             if (querySnapshot.docs.length == 0) {
+    //                 setopen(false)
+    //             }
+    //             querySnapshot.forEach((doc) => {
+    //                 list.push(doc.data())
+    //                 // doc.data() is never undefined for query doc snapshots
+    //                 // console.log(doc.id, " => ", doc.data());
+    //             });
+    //             setLead_data(list)
+    //             setopen(false)
+    //             // console.log(lead_data)
+    //         }
+    //         catch (e) {
+    //             console.log(e)
+    //         }
+    //     }
+    //     else {
+    //         setopen(false)
+    //         setLead_data([])
+    //     }
+
+    // }
     useEffect(() => {
         // console.log("create quote")
         datahandle()
     }, [props.auth])
-    function createData(name, calories, fat, carbs, protein, price) {
-        return {
-            name,
-            calories,
-            fat,
-            carbs,
-            protein,
-            price,
-            history: [
-                { date: '2020-01-05', customerId: '11091700', amount: 3 },
-                { date: '2020-01-02', customerId: 'Anonymous', amount: 1 },
-            ],
-        };
-    }
-    const rows = [
-        createData('Frozen yoghurt', 159, 6.0, 24, 4.0, 3.99),
-        createData('Ice cream sandwich', 237, 9.0, 37, 4.3, 4.99),
-        createData('Eclair', 262, 16.0, 24, 6.0, 3.79),
-        createData('Cupcake', 305, 3.7, 67, 4.3, 2.5),
-        createData('Gingerbread', 356, 16.0, 49, 3.9, 1.5),
-    ];
+
+
     const Destinations = [
         { value: 'Thailand', label: 'Thailand', color: '#00B8D9' },
         { value: 'Bali', label: 'Bali', color: '#0052CC' },
@@ -140,22 +119,22 @@ const FollowUp = (props) => {
         { value: 'Andaman', label: 'Andaman', color: '#666666' },
         { value: 'Sikkim', label: 'Sikkim', color: '#666666' },
         { value: 'Karnataka', label: 'Karnataka', color: '#666666' },
-        {value:"Manali",label:"Manali",color:'#666666'},
-        {value:"Andaman",label:"Andaman",color:'666666'}
+        { value: "Manali", label: "Manali", color: '#666666' },
+        { value: "Andaman", label: "Andaman", color: '666666' }
     ];
     const months = [
-        { value: 'JAN', label: 'JAN', color: '#00B8D9' },
-        { value: 'FEB', label: 'FEB', color: '#0052CC' },
-        { value: 'MAR', label: 'MAR', color: '#5243AA' },
-        { value: 'APR', label: 'APR', color: '#FF5630', },
-        { value: 'MAY', label: 'MAY', color: '#FF8B00' },
-        { value: 'My Hot', label: 'JUE', color: '#FFC400' },
-        { value: 'JUL', label: 'JUL', color: '#36B37E' },
-        { value: 'AUG', label: 'AUG', color: '#00875A' },
-        { value: 'SEP', label: 'SEP', color: '#253858' },
-        { value: 'OCT', label: 'OCT', color: '#666666' },
-        { value: 'NOV', label: 'NOV', color: '#666666' },
-        { value: 'DEC', label: 'DEC', color: '#666666' },
+        { value: 'January', label: 'JAN', color: '#00B8D9' },
+        { value: 'February', label: 'FEB', color: '#0052CC' },
+        { value: 'March', label: 'MAR', color: '#5243AA' },
+        { value: 'April', label: 'APR', color: '#FF5630', },
+        { value: 'May', label: 'MAY', color: '#FF8B00' },
+        { value: 'June', label: 'JUNE', color: '#FFC400' },
+        { value: 'July', label: 'JUL', color: '#36B37E' },
+        { value: 'August', label: 'AUG', color: '#00875A' },
+        { value: 'September', label: 'SEP', color: '#253858' },
+        { value: 'October', label: 'OCT', color: '#666666' },
+        { value: 'November', label: 'NOV', color: '#666666' },
+        { value: 'December', label: 'DEC', color: '#666666' },
 
     ];
     const Lead_type = [
@@ -183,18 +162,33 @@ const FollowUp = (props) => {
         const list = []
         for (let len = 0; len <= e.length - 1; len++) {
             list.push(e[len].value)
-            console.log(e[len].value)
+            // console.log(e[len].value)
         }
-        console.log(list)
         SetDestination_list(list)
-        // console.log(Destination)
-        queryDesigner(list)
-        if(list.length==0){
+        
+
+        // queryDesigner(list)
+        if (list.length == 0) {
             datahandle()
         }
-        
-        
     }
+    function monthHandler(e) {
+        console.log(e)
+        const list = []
+        if (e.length != 0) {
+            for (let len = 0; len <= e.length - 1; len++) {
+                list.push(e[len].value)
+                // console.log(e[len].value)
+            }
+            setMonths(list)
+            console.log(e.value)
+        }
+
+        else if (list.length == 0) {
+            datahandle()
+        }
+    }
+
     return (
         <div>
             {
@@ -219,9 +213,9 @@ const FollowUp = (props) => {
                                 placeholder='Month'
                                 closeMenuOnSelect={false}
                                 components={animatedComponents}
-                                isMulti
+                                // isMulti
                                 options={months}
-                                // onChange={(e) => leadHandler(e)}
+                                onChange={(e) => monthHandler(e)}
                             />
 
                         </div>
@@ -233,7 +227,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={Lead_type}
-                                // onChange={(e) => leadHandler(e)}
+                            // onChange={(e) => leadHandler(e)}
                             />
 
                         </div>
@@ -245,7 +239,7 @@ const FollowUp = (props) => {
                                 components={animatedComponents}
                                 isMulti
                                 options={Agent}
-                                // onChange={(e) => leadHandler(e)}
+                            // onChange={(e) => leadHandler(e)}
                             />
 
                         </div>
@@ -272,7 +266,7 @@ const FollowUp = (props) => {
                         ))
                     } */}
                             <TableContainer component={Paper}>
-                                <Table aria-label="collapsible table">
+                                <Table aria-label="collapsible table" style={{ width: "99%" }}>
                                     <TableHead>
                                         <TableRow>
                                             <TableCell>Trip</TableCell>

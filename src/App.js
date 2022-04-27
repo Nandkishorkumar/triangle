@@ -74,7 +74,9 @@ function App() {
             uploaded_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
             uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
             quotation: 0,
-            quotation_flg: false
+            quotation_flg: false,
+            month:'',
+            comments:[]
 
           });
         }

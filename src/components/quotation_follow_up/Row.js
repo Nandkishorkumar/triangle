@@ -3,20 +3,26 @@ import Collapse from '@material-ui/core/Collapse';
 import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './quote.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import app from '../required';
 
 
 
 const Row = (props) => {
     const { row } = props;
-    console.log(row.Lead_Status)
+    // console.log(row)
+    const db = getFirestore(app);
     const [Lead_Status, setLead_Status] = useState(row.Lead_Status)
     const [openUpdater, setopenupdater] = useState(false)
     const [access_type, setAccessType] = useState(row.Lead_Status)
     const [comments, setcomments] = useState()
+    const[latestComment,setLatestComment]=useState([])
     const [update, setUpdate] = useState('')
+    const[change,setChange]=useState(true)
+    const reverse=latestComment.reverse();
     const useRowStyles = makeStyles({
         root: {
             '& > *': {
@@ -24,11 +30,14 @@ const Row = (props) => {
             },
         },
     });
+     function dochange(){
+         setChange(!change)
+     }
     function handlecomment(e) {
-        console.log('change')
+        // console.log('change')
         if (e.target.outerText) {
             setcomments(e.target.outerText)
-            console.log(e, e.target.outerText)
+            console.log(e.target.outerText)
         }
         else {
 
@@ -55,6 +64,41 @@ const Row = (props) => {
     function closeUpdater() {
         setopenupdater(false)
     }
+    async function update_comments() {
+        if(comments){
+
+            let allComments=row.comments
+            console.log('allcoments',allComments)
+            allComments.push(comments)
+            console.log('allcoments new',allComments,row.trip_doc)
+            setDoc(doc(db, "Trip", row.trip_doc), {
+                comments: allComments
+            }, { merge: true });
+            
+            latestComments()
+            dochange()
+            setcomments()
+        }
+        else{
+            console.log("input please")
+        }
+       
+    }
+    async function latestComments() {
+        const docRef = doc(db, "Trip", `${row.trip_doc}`);
+        const docSnap = await getDoc(docRef);
+        
+        if (docSnap.exists()) {
+            setLatestComment(docSnap.data().comments)
+            console.log(docSnap.data())
+        } else {
+          console.log("No such document!");
+        }
+
+    }
+    useEffect(() => {
+        latestComments()
+    }, []);
     function OpenUpdater() {
         setopenupdater(true)
     }
@@ -107,19 +151,19 @@ const Row = (props) => {
                     {
                         update == 'destination' ? <div className='destination'>
                             <div className='contains_destination'>
-                            <p>current Destination:- {row.Destination}</p>
-                            <input placeholder='New Destination'></input>
-                            <button className='button_save' onClick={() => closeUpdater()}>save</button>
+                                <p>current Destination:- {row.Destination}</p>
+                                <input placeholder='New Destination'></input>
+                                <button className='button_save' onClick={() => closeUpdater()}>save</button>
 
                             </div>
                         </div> : <></>
                     }
-                     {
+                    {
                         update == 'number' ? <div className='destination'>
                             <div className='contains_destination'>
-                            <p>current contact_number:- {row.Contact_Number}</p>
-                            <input placeholder='New contact'></input>
-                            <button className='button_save' onClick={() => closeUpdater()}>save</button>
+                                <p>current contact_number:- {row.Contact_Number}</p>
+                                <input placeholder='New contact'></input>
+                                <button className='button_save' onClick={() => closeUpdater()}>save</button>
 
                             </div>
                         </div> : <></>
@@ -133,9 +177,7 @@ const Row = (props) => {
                         {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                     </IconButton>
                 </TableCell> */}
-                    <TableCell component="th" scope="row">
-                        {row.TripId}
-                    </TableCell>
+                    <TableCell component="th" scope="row">{row.TripId}</TableCell>
                     <TableCell align="right">{row.Traveller_name}</TableCell>
                     <TableCell align="right">{row.Lead_Status}</TableCell>
                     <TableCell align="right">{row.Destination}</TableCell>
@@ -154,16 +196,35 @@ const Row = (props) => {
                                     <p className='p' onClick={() => sethint('number')}>{row.Contact_Number}</p>
                                 </div>
                                 <div className='follow_up'>
-                                    <div >
-                                        {/* <text>{row.Remark}</text> */}
-                                        <textarea className='input_' placeholder='remark' value={row.Remark}></textarea>
+                                    <div className='remark' >
+                                        {row.Remark}
                                     </div>
-                                    <div >
-                                        <textarea className='input_' placeholder='map comments'> map comments</textarea>
+
+                                    <div className='remark'>
+
                                     </div>
-                                    <textarea className='input_' placeholder='map comments'>
-                                        pdf 1        downlod
-                                         </textarea>
+                                    <div className='remark_set'>
+                                        <div className='comments_box'>
+                                            <Autocomplete
+                                                key={change}
+                                                className='Autocomplete'
+                                                freeSolo={true}
+                                                onChange={(e) => handlecomment(e)}
+                                                options={reasons.map((option) => option.title)}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
+                                                )}
+                                            />
+                                            <button className='button_save_comments' onClick={() => update_comments()}>save</button>
+                                        </div>
+                                        {
+                                            latestComment.slice(0).reverse().map((text, index) => (
+                                                <div key={index} className='comments_maping'>
+                                                    {text}
+                                                </div>
+                                            ))
+                                        }
+                                    </div >
 
                                 </div>
                             </div>

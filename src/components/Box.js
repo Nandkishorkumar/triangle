@@ -320,6 +320,7 @@ const Box = (props) => {
                                                             handleFormChange(event, index)
                                                             // console.log(event)
                                                         }
+                                                       
 
                                                     >
                                                         {days_total.map((option, index) => (

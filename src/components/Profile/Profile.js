@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { SyncProblem } from '@material-ui/icons';
-import './profile.css'
-import jsPDF from 'jspdf'
 import { doc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import jsPDF from 'jspdf';
+import React from 'react';
 import app from '../required';
-import { async } from '@firebase/util';
+import './profile.css';
 const db = getFirestore(app);
 
 const Profile = (props) => {
@@ -13,6 +11,7 @@ const Profile = (props) => {
     const currentdate = new Date();
     console.log(currentdate)
     const TripId=Data.TripId
+    const month=currentdate.toLocaleString('default', { month: 'long' })
 
     async function dataSetter() {
         await setDoc(doc(db, "Quote", "JR",TripId,String(currentdate)), {
@@ -20,14 +19,16 @@ const Profile = (props) => {
             cost: props.cost,
             itineary:props.itineary,
             followUpDate:String(props.selected_date),
-            NightDataFields: props.NightDataFields
+            NightDataFields: props.NightDataFields,
+            
         });
     }
      async function update_quotation_flg() {
         let quotation_new = parseInt(props.travel_data.quotation) + 1
         await updateDoc(doc(db, "Trip", `${props.travel_data.trip_doc}`), {
             quotation: quotation_new,
-            quotation_flg: true
+            quotation_flg: true,
+            month:month
 
         });
     }
