@@ -5,6 +5,7 @@ import Select from 'react-select';
 import './TripComponent.css';
 import jsPDF from 'jspdf'
 import Profile from './Profile/Profile';
+import Inclusion from './Inclusion';
 
 
 
@@ -33,11 +34,18 @@ const Box = (props) => {
         { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
     const [openPDF, setPDF] = useState(false)
     const [selected_date, set_selected_date] = useState()
+    const [opennclusion, setInclusion] = useState(false)
     function closePDF() {
         setPDF(false)
     }
     function showPDF() {
         setPDF(true)
+    }
+    function openInclusion() {
+        setInclusion(true)
+    }
+    function closeInclusion() {
+        setInclusion(false)
     }
 
     function daysChanges(event) {
@@ -61,10 +69,10 @@ const Box = (props) => {
         let data = { Day: '', Description: '' }
         setItineary([...itineary, data])
     }
-    function setVar(){
-        for (let s = 0; s <Travel_Duration - 1; s++) {
+    function setVar() {
+        for (let s = 0; s < Travel_Duration - 1; s++) {
             let data = { Day: '', Description: '' }
-            let temp=itineary
+            let temp = itineary
             temp.push(data)
             setItineary(temp)
         }
@@ -72,7 +80,7 @@ const Box = (props) => {
     }
     useEffect(() => {
         setVar()
-        
+
     }, []);
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
@@ -135,7 +143,7 @@ const Box = (props) => {
 
     function openHandler() {
         setOpen(true)
-       
+
     }
     function closeHandler() {
         setOpen(false)
@@ -211,7 +219,7 @@ const Box = (props) => {
 
             </div>
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler}  itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -320,7 +328,7 @@ const Box = (props) => {
                                                             handleFormChange(event, index)
                                                             // console.log(event)
                                                         }
-                                                       
+
 
                                                     >
                                                         {days_total.map((option, index) => (
@@ -416,8 +424,14 @@ const Box = (props) => {
                             }
                             <div className='inclusionExclusion'>
                                 <ExtensionSharp />
-                                <button>Inclusion/Exclusion</button>
+                                <button onClick={() => openInclusion()}>Inclusion/Exclusion</button>
                             </div>
+                            <Modal open={opennclusion} onClose={closeInclusion} style={{justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
+                                <>
+                                <Inclusion></Inclusion>
+                                </>
+                            </Modal>
+
                             <div className='itineary'>
                                 <p>Itinerary Start date</p>
                                 <input type='date' onChange={(e) => select_date(e)}></input>
