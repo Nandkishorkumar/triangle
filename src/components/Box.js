@@ -428,7 +428,7 @@ const Box = (props) => {
                             </div>
                             <Modal open={opennclusion} onClose={closeInclusion} style={{justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
                                 <>
-                                <Inclusion></Inclusion>
+                                <Inclusion onClose={closeInclusion}></Inclusion>
                                 </>
                             </Modal>
 
