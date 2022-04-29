@@ -23,7 +23,8 @@ const Row = (props) => {
     const[pdfHolder,setpdf]=useState([])
     const [update, setUpdate] = useState('')
     const [change, setChange] = useState(true)
-    const reverse = latestComment.reverse();
+    const reverse = latestComment.slice(0).reverse();
+    console.log('reverse data',reverse,latestComment)
     const useRowStyles = makeStyles({
         root: {
             '& > *': {
@@ -217,7 +218,7 @@ const Row = (props) => {
                                 <div className='follow_up'>
                                     <div className='remark' >
                                         {
-                                            latestComment.slice(0).reverse().map((text, index) => (
+                                            reverse.map((text, index) => (
                                                 <div key={index} className='comments_maping'>
                                                     {text}
                                                 </div>
