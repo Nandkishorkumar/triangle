@@ -20,6 +20,7 @@ const Profile = (props) => {
             itineary:props.itineary,
             followUpDate:String(props.selected_date),
             NightDataFields: props.NightDataFields,
+            pdf_name:String(currentdate)
             
         });
     }

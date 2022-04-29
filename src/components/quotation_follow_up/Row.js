@@ -19,10 +19,11 @@ const Row = (props) => {
     const [openUpdater, setopenupdater] = useState(false)
     const [access_type, setAccessType] = useState(row.Lead_Status)
     const [comments, setcomments] = useState()
-    const[latestComment,setLatestComment]=useState([])
+    const [latestComment, setLatestComment] = useState([])
+    const[pdfHolder,setpdf]=useState([])
     const [update, setUpdate] = useState('')
-    const[change,setChange]=useState(true)
-    const reverse=latestComment.reverse();
+    const [change, setChange] = useState(true)
+    const reverse = latestComment.reverse();
     const useRowStyles = makeStyles({
         root: {
             '& > *': {
@@ -30,9 +31,10 @@ const Row = (props) => {
             },
         },
     });
-     function dochange(){
-         setChange(!change)
-     }
+    function dochange() {
+        setChange(!change)
+    }
+    
     function handlecomment(e) {
         // console.log('change')
         if (e.target.outerText) {
@@ -64,40 +66,57 @@ const Row = (props) => {
     function closeUpdater() {
         setopenupdater(false)
     }
-    async function update_comments() {
-        if(comments){
-
-            let allComments=row.comments
-            console.log('allcoments',allComments)
-            allComments.push(comments)
-            console.log('allcoments new',allComments,row.trip_doc)
-            setDoc(doc(db, "Trip", row.trip_doc), {
-                comments: allComments
-            }, { merge: true });
-            
-            latestComments()
-            dochange()
-            setcomments()
-        }
-        else{
-            console.log("input please")
-        }
-       
+    function closeOnstatusComments() {
+        update_comments()
+        setopenupdater(false)
     }
     async function latestComments() {
         const docRef = doc(db, "Trip", `${row.trip_doc}`);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
             setLatestComment(docSnap.data().comments)
-            console.log(docSnap.data())
+            console.log(docSnap.id)
         } else {
-          console.log("No such document!");
+            console.log("No such document!");
         }
 
     }
+    async function Allquote() {
+        const docRef = doc(db, "Quote","JR", `${row.TripId}`);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            setpdf(docSnap.data())
+            console.log(docSnap.data())
+        } else {
+            console.log("No such document!");
+        }
+
+    }
+    async function update_comments() {
+        if (comments) {
+            let allComments = row.comments
+            // console.log('allcoments', allComments)
+            allComments.push(comments)
+            // console.log('allcoments new', allComments, row.trip_doc)
+            setDoc(doc(db, "Trip", row.trip_doc), {
+                comments: allComments
+            }, { merge: true });
+
+            latestComments()
+            dochange()
+            setcomments()
+        }
+        else {
+            console.log("input please")
+        }
+
+    }    
+
     useEffect(() => {
         latestComments()
+        Allquote()
     }, []);
     function OpenUpdater() {
         setopenupdater(true)
@@ -143,7 +162,7 @@ const Row = (props) => {
                                             <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
                                         )}
                                     />
-                                    <button className='button_save' onClick={() => closeUpdater()}>save</button>
+                                    <button className='button_save' onClick={() => closeOnstatusComments()}>save</button>
                                 </div>
                             </div> : <></>
 
@@ -197,12 +216,18 @@ const Row = (props) => {
                                 </div>
                                 <div className='follow_up'>
                                     <div className='remark' >
+                                        {
+                                            latestComment.slice(0).reverse().map((text, index) => (
+                                                <div key={index} className='comments_maping'>
+                                                    {text}
+                                                </div>
+                                            ))
+                                        }
                                         {row.Remark}
-                                    </div>
-
-                                    <div className='remark'>
 
                                     </div>
+
+
                                     <div className='remark_set'>
                                         <div className='comments_box'>
                                             <Autocomplete
@@ -217,14 +242,17 @@ const Row = (props) => {
                                             />
                                             <button className='button_save_comments' onClick={() => update_comments()}>save</button>
                                         </div>
-                                        {
-                                            latestComment.slice(0).reverse().map((text, index) => (
-                                                <div key={index} className='comments_maping'>
-                                                    {text}
-                                                </div>
-                                            ))
-                                        }
+
                                     </div >
+                                    <div className='remark'>
+                                        {
+                                            pdfHolder.map((index,data)=>{
+                                                <>
+                                                <p key={index}>{data.pdf_name}</p>
+                                                </>
+                                            })
+                                        }
+                                    </div>
 
                                 </div>
                             </div>

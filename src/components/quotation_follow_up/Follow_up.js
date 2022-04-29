@@ -15,6 +15,8 @@ const FollowUp = (props) => {
     const [open, setopen] = useState(true)
     const [Destination, SetDestination_list] = useState([])
     const [month, setMonths] = useState([])
+    const [lead, setLead] = useState([])
+    const [agent, setagent] = useState([])
     const animatedComponents = makeAnimated();
 
 
@@ -43,6 +45,7 @@ const FollowUp = (props) => {
         }
 
     }
+
     // useEffect(() => {
     //     queryDesigner()
     // }, [Destination,month]);
@@ -61,7 +64,7 @@ const FollowUp = (props) => {
     //         if(month.length!=0){
     //             console.log(month)
     //             dynamic_query = query(collection(db, "Trip"), where("month", "in", month), where("quotation_flg", "==", true));
-                
+
     //         }
 
     //         try {
@@ -165,7 +168,7 @@ const FollowUp = (props) => {
             // console.log(e[len].value)
         }
         SetDestination_list(list)
-        
+
 
         // queryDesigner(list)
         if (list.length == 0) {
@@ -188,7 +191,38 @@ const FollowUp = (props) => {
             datahandle()
         }
     }
+    function leadHandler(e) {
+        console.log(e)
+        const list = []
+        if (e.length != 0) {
+            for (let len = 0; len <= e.length - 1; len++) {
+                list.push(e[len].value)
+                // console.log(e[len].value)
+            }
+            setLead(list)
+            console.log(e.value)
+        }
 
+        else if (list.length == 0) {
+            datahandle()
+        }
+    }
+    function AgentHandler(e) {
+        console.log(e)
+        const list = []
+        if (e.length != 0) {
+            for (let len = 0; len <= e.length - 1; len++) {
+                list.push(e[len].value)
+                // console.log(e[len].value)
+            }
+            setagent(list)
+            console.log(e.value)
+        }
+
+        else if (list.length == 0) {
+            datahandle()
+        }
+    }
     return (
         <div>
             {
@@ -196,51 +230,129 @@ const FollowUp = (props) => {
                     <div className='filter'>
                         <div>
                             <label>Destination</label>
-                            <Select
-                                placeholder='Destination'
-                                className='select_opt'
-                                closeMenuOnSelect={false}
-                                components={animatedComponents}
-                                isMulti
-                                options={Destinations}
-                                onChange={(e) => DestinationHandler(e)}
-                            />
+                            {
+                                month.length > 1 || lead.length > 1 || agent.length > 1 ? <>
+                                    <Select
+                                        placeholder='Destination'
+                                        className='select_opt'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        // isMulti
+                                        options={Destinations}
+                                        onChange={(e) => DestinationHandler(e)}
+                                    />
+                                </> : <>
+                                    {
+                                        month.length <= 1 || lead.length <= 1 || agent.length > 1 ?
+                                            <>
+                                                <Select
+                                                    placeholder='Destination'
+                                                    className='select_opt'
+                                                    closeMenuOnSelect={false}
+                                                    components={animatedComponents}
+                                                    isMulti
+                                                    options={Destinations}
+                                                    onChange={(e) => DestinationHandler(e)}
+                                                />
+                                            </> : <></>
+                                    }
+
+                                </>
+                            }
+
 
                         </div>
                         <div>
                             <label>Month of travel</label>
-                            <Select
-                                placeholder='Month'
-                                closeMenuOnSelect={false}
-                                components={animatedComponents}
-                                // isMulti
-                                options={months}
-                                onChange={(e) => monthHandler(e)}
-                            />
+                            {
+                                Destination.length > 1 || lead.length > 1 || agent.length > 1 ? <>
+                                    <Select
+                                        placeholder='Month'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        // isMulti
+                                        options={months}
+                                        onChange={(e) => monthHandler(e)}
+                                    />
+                                </> : <>
+                                    {
+                                        Destination.length <= 1 || lead.length <= 1 || agent.length <= 1 ? <>
+                                            <Select
+                                                placeholder='Month'
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={months}
+                                                onChange={(e) => monthHandler(e)}
+                                            />
+
+                                        </> : <></>
+                                    }
+                                </>
+
+                            }
+
 
                         </div>
                         <div>
                             <label>Lead Type</label>
-                            <Select
-                                placeholder='Lead'
-                                closeMenuOnSelect={false}
-                                components={animatedComponents}
-                                isMulti
-                                options={Lead_type}
-                            // onChange={(e) => leadHandler(e)}
-                            />
+                            {
+                                Destination.length > 1 || month.length > 1 || agent.length > 1 ? <>
+                                    <Select
+                                        placeholder='Lead'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        // isMulti
+                                        options={Lead_type}
+                                        onChange={(e) => leadHandler(e)}
+                                    />
+                                </> : <>
+                                    {
+                                        Destination.length <= 1 || month.length <= 1 || agent.length <= 1 ? <>
+                                            <Select
+                                                placeholder='Lead'
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={Lead_type}
+                                                onChange={(e) => leadHandler(e)}
+                                            />
+                                        </> : <></>
+                                    }</>
+
+                            }
+
 
                         </div>
                         <div>
                             <label>Agent</label>
-                            <Select
-                                placeholder='Agent'
-                                closeMenuOnSelect={false}
-                                components={animatedComponents}
-                                isMulti
-                                options={Agent}
-                            // onChange={(e) => leadHandler(e)}
-                            />
+                            {
+                                Destination.length > 1 || month.length > 1 || lead.length > 1 ? <>
+                                    <Select
+                                        placeholder='Agent'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        // isMulti
+                                        options={Agent}
+                                        onChange={(e) => AgentHandler(e)}
+                                    />
+                                </> : <>
+                                    {
+                                        Destination.length <= 1 || month.length <= 1 || lead.length <= 1 ? <>
+                                            <Select
+                                                placeholder='Agent'
+                                                closeMenuOnSelect={false}
+                                                components={animatedComponents}
+                                                isMulti
+                                                options={Agent}
+                                                onChange={(e) => AgentHandler(e)}
+                                            />
+                                        </> : <></>
+
+                                    }
+                                </>
+                            }
+
 
                         </div>
                     </div>
