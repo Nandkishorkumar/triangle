@@ -43,8 +43,16 @@
     font-family: cursive;
 }
 .comments_from{
-    height: 2.5rem;
-    width: 11rem;
+    height: 4.3rem;
+    width: 21.43rem;
+}
+.other_inclusion{
+    height: 5.06rem;
+    width: 47.93rem;
+}
+.other_exclusion{
+    height: 5.6rem;
+    width: 29.31rem;
 }
 .cancel_button{
     width: 4rem;

@@ -247,11 +247,11 @@ const Row = (props) => {
                                     </div >
                                     <div className='remark'>
                                         {
-                                            pdfHolder.map((index,data)=>{
+                                            pdfHolder.map((index,data)=>(
                                                 <>
                                                 <p key={index}>{data.pdf_name}</p>
                                                 </>
-                                            })
+                                            ))
                                         }
                                     </div>
 

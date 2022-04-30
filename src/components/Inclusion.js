@@ -137,11 +137,11 @@ const Inclusion = (props) => {
                     <div className='breakfast'>
                         other Inclusion
                     </div>
-                    <textarea className='comments_from' placeholder='Please write comments'></textarea>
+                    <textarea className='other_inclusion' placeholder='Please write comments'></textarea>
                     <div className='breakfast'>
                         other Exclusion
                     </div>
-                    <textarea className='comments_from' placeholder='Please write comments'></textarea>
+                    <textarea className='other_exclusion' placeholder='Please write comments'></textarea>
                 </div>
             </div>
             <div className='cancel_button_div'>

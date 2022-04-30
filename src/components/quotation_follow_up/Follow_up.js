@@ -242,20 +242,17 @@ const FollowUp = (props) => {
                                         onChange={(e) => DestinationHandler(e)}
                                     />
                                 </> : <>
-                                    {
-                                        month.length <= 1 || lead.length <= 1 || agent.length > 1 ?
-                                            <>
-                                                <Select
-                                                    placeholder='Destination'
-                                                    className='select_opt'
-                                                    closeMenuOnSelect={false}
-                                                    components={animatedComponents}
-                                                    isMulti
-                                                    options={Destinations}
-                                                    onChange={(e) => DestinationHandler(e)}
-                                                />
-                                            </> : <></>
-                                    }
+
+                                    <Select
+                                        placeholder='Destination'
+                                        className='select_opt'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        isMulti
+                                        options={Destinations}
+                                        onChange={(e) => DestinationHandler(e)}
+                                    />
+
 
                                 </>
                             }
@@ -275,19 +272,17 @@ const FollowUp = (props) => {
                                         onChange={(e) => monthHandler(e)}
                                     />
                                 </> : <>
-                                    {
-                                        Destination.length <= 1 || lead.length <= 1 || agent.length <= 1 ? <>
-                                            <Select
-                                                placeholder='Month'
-                                                closeMenuOnSelect={false}
-                                                components={animatedComponents}
-                                                isMulti
-                                                options={months}
-                                                onChange={(e) => monthHandler(e)}
-                                            />
 
-                                        </> : <></>
-                                    }
+                                    <Select
+                                        placeholder='Month'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        isMulti
+                                        options={months}
+                                        onChange={(e) => monthHandler(e)}
+                                    />
+
+
                                 </>
 
                             }
@@ -307,18 +302,16 @@ const FollowUp = (props) => {
                                         onChange={(e) => leadHandler(e)}
                                     />
                                 </> : <>
-                                    {
-                                        Destination.length <= 1 || month.length <= 1 || agent.length <= 1 ? <>
-                                            <Select
-                                                placeholder='Lead'
-                                                closeMenuOnSelect={false}
-                                                components={animatedComponents}
-                                                isMulti
-                                                options={Lead_type}
-                                                onChange={(e) => leadHandler(e)}
-                                            />
-                                        </> : <></>
-                                    }</>
+
+                                    <Select
+                                        placeholder='Lead'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        isMulti
+                                        options={Lead_type}
+                                        onChange={(e) => leadHandler(e)}
+                                    />
+                                </>
 
                             }
 
@@ -337,19 +330,16 @@ const FollowUp = (props) => {
                                         onChange={(e) => AgentHandler(e)}
                                     />
                                 </> : <>
-                                    {
-                                        Destination.length <= 1 || month.length <= 1 || lead.length <= 1 ? <>
-                                            <Select
-                                                placeholder='Agent'
-                                                closeMenuOnSelect={false}
-                                                components={animatedComponents}
-                                                isMulti
-                                                options={Agent}
-                                                onChange={(e) => AgentHandler(e)}
-                                            />
-                                        </> : <></>
 
-                                    }
+                                    <Select
+                                        placeholder='Agent'
+                                        closeMenuOnSelect={false}
+                                        components={animatedComponents}
+                                        isMulti
+                                        options={Agent}
+                                        onChange={(e) => AgentHandler(e)}
+                                    />
+
                                 </>
                             }
 
