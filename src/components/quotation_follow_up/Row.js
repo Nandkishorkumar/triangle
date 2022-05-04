@@ -6,8 +6,11 @@ import TableRow from '@material-ui/core/TableRow';
 import React, { useEffect, useState } from 'react';
 import './quote.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
+import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
 import app from '../required';
+import Profile from '../Profile/Profile';
+import Redownload from './ReDownload';
 
 
 
@@ -20,11 +23,21 @@ const Row = (props) => {
     const [access_type, setAccessType] = useState(row.Lead_Status)
     const [comments, setcomments] = useState()
     const [latestComment, setLatestComment] = useState([])
-    const[pdfHolder,setpdf]=useState([])
+    const [pdfHolder, setpdf] = useState([])
     const [update, setUpdate] = useState('')
     const [change, setChange] = useState(true)
     const reverse = latestComment.slice(0).reverse();
-    console.log('reverse data',reverse,latestComment)
+    const [viewPDF, setPDF] = useState(false)
+    const [data, setdata] = useState()
+    function closePDF() {
+        setPDF(false)
+    }
+    function showPDF(args) {
+        console.log("args",args)
+        setdata(args)
+        setPDF(true)
+
+    }
     const useRowStyles = makeStyles({
         root: {
             '& > *': {
@@ -35,7 +48,7 @@ const Row = (props) => {
     function dochange() {
         setChange(!change)
     }
-    
+
     function handlecomment(e) {
         // console.log('change')
         if (e.target.outerText) {
@@ -84,15 +97,14 @@ const Row = (props) => {
 
     }
     async function Allquote() {
-        const docRef = doc(db, "Quote","JR", `${row.TripId}`);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-            setpdf(docSnap.data())
-            console.log(docSnap.data())
-        } else {
-            console.log("No such document!");
-        }
+        let list = []
+        const q = query(collection(db, "Quote"), where("travel_data.TripId", "==", row.TripId));
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            list.push(doc.data())
+        });
+        setpdf(list)
+        console.log(list)
 
     }
     async function update_comments() {
@@ -110,10 +122,10 @@ const Row = (props) => {
             setcomments()
         }
         else {
-            console.log("input please")
+            // console.log("input please")
         }
 
-    }    
+    }
 
     useEffect(() => {
         latestComments()
@@ -245,15 +257,31 @@ const Row = (props) => {
                                         </div>
 
                                     </div >
+                                    { console.log('check',data)}
+                                    {
+                                        viewPDF?<>
+                                    <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+                                        <Redownload travel_data={data.travel_data} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                    </Modal>                                        
+                                        </>:<></>
+                                    }
                                     <div className='remark'>
                                         {
-                                            pdfHolder.map((index,data)=>(
+
+                                            pdfHolder.map((data, index) => (
                                                 <>
-                                                <p key={index}>{data.pdf_name}</p>
+                                                    <div className='pdf_setter'>
+                                                        <PictureAsPdfTwoToneIcon style={{ margin: '15px' }} />
+                                                        <p key={index}>{data.pdf_name}</p>
+                                                        <button onClick={() => showPDF(data)} className='download_requote'>downloadURL</button>
+                                                        <button className='download_requote'>Requote</button>
+                                                    </div>
+
                                                 </>
                                             ))
                                         }
                                     </div>
+
 
                                 </div>
                             </div>

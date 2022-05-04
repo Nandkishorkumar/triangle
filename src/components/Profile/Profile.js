@@ -1,4 +1,4 @@
-import { doc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
+import { addDoc, collection, doc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 import jsPDF from 'jspdf';
 import React from 'react';
 import app from '../required';
@@ -10,26 +10,31 @@ const Profile = (props) => {
     console.log(Data)
     const currentdate = new Date();
     console.log(currentdate)
-    const TripId=Data.TripId
-    const month=currentdate.toLocaleString('default', { month: 'long' })
+    const TripId = Data.TripId
+    const month = currentdate.toLocaleString('default', { month: 'long' })
 
     async function dataSetter() {
-        await setDoc(doc(db, "Quote", "JR",TripId,String(currentdate)), {
-            travel_data: props.travel_data,
-            cost: props.cost,
-            itineary:props.itineary,
-            followUpDate:String(props.selected_date),
-            NightDataFields: props.NightDataFields,
-            pdf_name:String(currentdate)
-            
-        });
+        if (props.indicator) {
+
+        }
+        else {
+            await addDoc(collection(db, "Quote"), {
+                travel_data: props.travel_data,
+                cost: props.cost,
+                itineary: props.itineary,
+                followUpDate: String(props.selected_date),
+                NightDataFields: props.NightDataFields,
+                pdf_name: `${currentdate.getDate() + 1}:${currentdate.getMonth()}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`
+
+            });
+        }
     }
-     async function update_quotation_flg() {
+    async function update_quotation_flg() {
         let quotation_new = parseInt(props.travel_data.quotation) + 1
         await updateDoc(doc(db, "Trip", `${props.travel_data.trip_doc}`), {
             quotation: quotation_new,
             quotation_flg: true,
-            month:month
+            month: month
 
         });
     }
@@ -41,10 +46,35 @@ const Profile = (props) => {
                 pdf.save(Data.Traveller_name)
             }
         })
-        props.closeHandler()
-        props.closePDF()
-        props.datahandle()
-        dataSetter()
+        try {
+
+            props.closeHandler()
+        }
+        catch (e) {
+            console.log(e)
+        }
+        try {
+
+            props.closePDF()
+        }
+        catch (e) {
+            console.log(e)
+        }
+        try {
+
+            props.datahandle()
+        }
+        catch (e) {
+            console.log(e)
+        }
+        try {
+
+            dataSetter()
+        }
+        catch (e) {
+            console.log(e)
+        }
+
     }
 
 
