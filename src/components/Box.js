@@ -1,16 +1,9 @@
 import { Modal, Radio } from '@material-ui/core';
 import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
-import Select from 'react-select';
-import './TripComponent.css';
-import jsPDF from 'jspdf'
-import Profile from './Profile/Profile';
 import Inclusion from './Inclusion';
-
-
-
-
-
+import Profile from './Profile/Profile';
+import './TripComponent.css';
 
 const Box = (props) => {
     // console.log(props.TripId)
@@ -32,9 +25,10 @@ const Box = (props) => {
     const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
         { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
-    const [openPDF, setPDF] = useState(false)
     const [selected_date, set_selected_date] = useState()
     const [opennclusion, setInclusion] = useState(false)
+    const [openPDF, setPDF] = useState(false)
+    const[inclusion_data,setinclusion]=useState()
     function closePDF() {
         setPDF(false)
     }
@@ -219,7 +213,7 @@ const Box = (props) => {
 
             </div>
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile inclusion_data={inclusion_data}travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -426,9 +420,9 @@ const Box = (props) => {
                                 <ExtensionSharp />
                                 <button onClick={() => openInclusion()}>Inclusion/Exclusion</button>
                             </div>
-                            <Modal open={opennclusion} onClose={closeInclusion} style={{justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
+                            <Modal open={opennclusion} onClose={closeInclusion} style={{ justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
                                 <>
-                                <Inclusion onClose={closeInclusion}></Inclusion>
+                                    <Inclusion onClose={closeInclusion} setinclusion={setinclusion}></Inclusion>
                                 </>
                             </Modal>
 

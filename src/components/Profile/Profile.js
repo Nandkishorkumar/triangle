@@ -7,9 +7,9 @@ const db = getFirestore(app);
 
 const Profile = (props) => {
     const Data = props.travel_data
-    console.log(Data)
+    // console.log(Data)
     const currentdate = new Date();
-    console.log(currentdate)
+    // console.log(currentdate)
     const TripId = Data.TripId
     const month = currentdate.toLocaleString('default', { month: 'long' })
 
@@ -196,10 +196,37 @@ const Profile = (props) => {
                             ))
                         }
                     </div>
+                    <p>inclusions/Exclusion</p>
+                    <p className='small_line'></p>
+                    <div className='details1'>
+                        <p className='inclusion'>{props.inclusion_data.breakfast}</p>
+                        <p className='comments_'>{props.inclusion_data.lunch}</p>
+                        <p> :-{props.inclusion_data.lunch_comments}</p>
+                        <p className='comments_'>{props.inclusion_data.dinner}</p>
+                        <p>:-{props.inclusion_data.dinner_comments}</p>
+                        <p>{props.inclusion_data.airport_arival}</p>
+                        <p>{props.inclusion_data.airport_departure}</p>
+                        <p>{props.inclusion_data.cab_SIC}</p>
+                        <p className='comments_'>{props.inclusion_data.cab_Private}</p>
+                        <p>:-{props.inclusion_data.cab_Private_comments}</p>
+                        <p>{props.inclusion_data.Gst}</p>
+                        <p>{props.inclusion_data.airfair}</p>
+                        <p className='comments_'> {props.inclusion_data.siteseeing}</p>
+                        <p>:-{props.inclusion_data.siteseeing_comments}</p>
+                        <p className='comments_'>{props.inclusion_data.Visa}</p>
+                        <p>:-{props.inclusion_data.Visa_comments}</p>
+                        <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
+                        <p>:-{props.inclusion_data.Entrance_comments}</p>
+                        <p>other_Inclusion</p>
+                        <p>{props.inclusion_data.other_Inclusion}</p>
+                        <p>other_Exclusion</p>
+                        <p>{props.inclusion_data.other_Exclusion}</p>
+                        {/* inclusion Exclusion here */}
+                    </div>
                 </div>
 
             </div>
-            <button className='download_button' onClick={() => pdfgenrator()}>gen pdf</button>
+            <button className='download_button' onClick={() => pdfgenrator()}>downloadURL</button>
 
         </div>
     );
