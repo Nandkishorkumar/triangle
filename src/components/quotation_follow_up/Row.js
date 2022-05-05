@@ -260,8 +260,11 @@ const Row = (props) => {
                                     { console.log('check',data)}
                                     {
                                         viewPDF?<>
+                                        {
+                                            console.log("datattttt",data.inclusion_data)
+                                        }
                                     <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                                        <Redownload travel_data={data.travel_data} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                        <Redownload travel_data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
                                     </Modal>                                        
                                         </>:<></>
                                     }

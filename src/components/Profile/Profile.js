@@ -24,7 +24,10 @@ const Profile = (props) => {
                 itineary: props.itineary,
                 followUpDate: String(props.selected_date),
                 NightDataFields: props.NightDataFields,
-                pdf_name: `${currentdate.getDate() + 1}:${currentdate.getMonth()}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`
+                pdf_name: `${currentdate.getDate() + 1}:${currentdate.getMonth()}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
+                cabDetailsData:props.cabDetailsData,
+                flights:props.flights,
+                inclusion_data:props.inclusion_data
 
             });
         }
@@ -195,6 +198,15 @@ const Profile = (props) => {
                                 </div>
                             ))
                         }
+                    </div>
+
+                    <div className='details1'>
+                        <p style={{ fontWeight: '600' }}>Flight</p>
+                        <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                        <p>{props.cabDetailsData}</p>
+                        <p style={{ fontWeight: '600' }}>Cabs</p>
+                        <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
+                        <p>{props.flights}</p>
                     </div>
                     <p>inclusions/Exclusion</p>
                     <p className='small_line'></p>

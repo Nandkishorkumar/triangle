@@ -29,6 +29,12 @@ const Box = (props) => {
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
     const[inclusion_data,setinclusion]=useState()
+    const[flights,setflights]=useState()
+    const[cabDetailsData,setcabDetails]=useState()
+
+    function cabDetails(e){
+        setcabDetails(e.target.value)
+    }
     function closePDF() {
         setPDF(false)
     }
@@ -151,6 +157,9 @@ const Box = (props) => {
     function select_date(e) {
         set_selected_date(e.target.value)
     }
+    function flightDetails(e){
+        setflights(e.target.value)
+    }
 
     return (
         <>
@@ -213,7 +222,7 @@ const Box = (props) => {
 
             </div>
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile inclusion_data={inclusion_data}travel_data={Data} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile inclusion_data={inclusion_data}travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -394,7 +403,7 @@ const Box = (props) => {
                             {
                                 flight ?
                                     <>
-                                        <textarea className='flightdetails'>
+                                        <textarea onChange={(e)=>flightDetails(e)} value={flights} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
@@ -410,7 +419,7 @@ const Box = (props) => {
                             {
                                 cab ?
                                     <>
-                                        <textarea className='flightdetails'>
+                                        <textarea onChange={(e)=>cabDetails(e)} value={cabDetailsData} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
