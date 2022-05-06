@@ -135,7 +135,7 @@ const Redownload = (props) => {
                     </div>
                     <div className='details1'>
                         <p style={{ fontWeight: '600' }}>Flight</p>
-                        <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                        <img alt='plane' src='/assets/img/plane2.webp' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
                         <p>{props.cabDetailsData}</p>
                         <p style={{ fontWeight: '600' }}>Cabs</p>
                         <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
