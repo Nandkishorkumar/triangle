@@ -2,7 +2,7 @@ import React from 'react';
 import '../Profile/profile.css';
 import jsPDF from 'jspdf';
 const Redownload = (props) => {
-    const path='/assets/img/planejpg.jpg'
+    const path='/assets/img/logoPlane.jpg'
     function pdfgenrator() {
         // update_quotation_flg()
         var doc = new jsPDF("p", "pt", "a4");
@@ -172,7 +172,7 @@ const Redownload = (props) => {
                 </div>
 
             </div>
-            <button className='download_button' onClick={() => pdfgenrator()}>gen pdf</button>
+            <button className='download_button' onClick={() => pdfgenrator()}>downloadURL</button>
 
         </div>
     );
