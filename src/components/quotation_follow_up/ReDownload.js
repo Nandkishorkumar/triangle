@@ -2,7 +2,7 @@ import React from 'react';
 import '../Profile/profile.css';
 import jsPDF from 'jspdf';
 const Redownload = (props) => {
-    const path='/assets/img/apple_a_day_room.jpg'
+    const path='/assets/img/planejpg.jpg'
     function pdfgenrator() {
         // update_quotation_flg()
         var doc = new jsPDF("p", "pt", "a4");
