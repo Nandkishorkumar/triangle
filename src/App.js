@@ -6,14 +6,13 @@ import { getStorage, ref } from "firebase/storage";
 import React, { useEffect, useState } from 'react';
 import readXlsxFile from 'read-excel-file';
 import './App.css';
-import Createquote from './components/CreateQuote';
-import Loginform from './components/loginForm';
-import Profile from './components/Profile/Profile';
 import FollowUp from './components/quotation_follow_up/Follow_up';
 import Rapid from './components/Rapid/Rapid';
 import app from './components/required';
 import Test from './components/tester/Test';
 import Usercontrol from './components/usercontrol/UserControl';
+import Createquote from './components/CreateQuote/CreateQuote';
+import Loginform from './components/CreateQuote/loginForm';
 
 
 function App() {
