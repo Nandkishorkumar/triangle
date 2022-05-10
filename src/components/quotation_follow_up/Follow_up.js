@@ -27,16 +27,23 @@ const FollowUp = (props) => {
             const q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", true));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
-            if (querySnapshot.docs.length == 0) {
+            try{
+
+                if (querySnapshot.docs.length == 0) {
+                    setopen(false)
+                }
+                
+                querySnapshot.forEach((doc) => {
+                    list.push(doc.data())
+                    // doc.data() is never undefined for query doc snapshots
+                    // console.log(doc.id, " => ", doc.data());
+                });
+                setLead_data(list)
                 setopen(false)
             }
-            querySnapshot.forEach((doc) => {
-                list.push(doc.data())
-                // doc.data() is never undefined for query doc snapshots
-                // console.log(doc.id, " => ", doc.data());
-            });
-            setLead_data(list)
-            setopen(false)
+            catch (error){
+                console.log(error)
+            }
             // console.log(lead_data)
         }
         else {

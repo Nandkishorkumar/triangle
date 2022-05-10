@@ -12,6 +12,7 @@ import Profile from './components/Profile/Profile';
 import FollowUp from './components/quotation_follow_up/Follow_up';
 import Rapid from './components/Rapid/Rapid';
 import app from './components/required';
+import Test from './components/tester/Test';
 import Usercontrol from './components/usercontrol/UserControl';
 
 
@@ -75,8 +76,8 @@ function App() {
             uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
             quotation: 0,
             quotation_flg: false,
-            month:'',
-            comments:[]
+            month: '',
+            comments: []
 
           });
         }
@@ -302,7 +303,9 @@ function App() {
           }
           {
             Page === "profile" ?
-              <></>
+              <>
+                {/* <Test /> */}
+              </>
               : <></>
           }
         </div>

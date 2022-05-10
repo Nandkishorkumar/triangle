@@ -135,7 +135,7 @@
     background-color: #eaec9c;
     margin-top: 0.2rem    ;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
 }
 .pdf_setter{
@@ -148,4 +148,9 @@
     height: 2rem;
     color: #99d57f;
     border-color: aliceblue;
+}
+.time_date{
+    width: 46%;
+    display: flex;
+    justify-content: space-between;
 }

@@ -11,6 +11,7 @@ import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
 import app from '../required';
 import Profile from '../Profile/Profile';
 import Redownload from './ReDownload';
+import moment from 'moment';
 
 
 
@@ -21,7 +22,7 @@ const Row = (props) => {
     const [Lead_Status, setLead_Status] = useState(row.Lead_Status)
     const [openUpdater, setopenupdater] = useState(false)
     const [access_type, setAccessType] = useState(row.Lead_Status)
-    const [comments, setcomments] = useState()
+    const [comments, setcomments] = useState([])
     const [latestComment, setLatestComment] = useState([])
     const [pdfHolder, setpdf] = useState([])
     const [update, setUpdate] = useState('')
@@ -29,11 +30,14 @@ const Row = (props) => {
     const reverse = latestComment.slice(0).reverse();
     const [viewPDF, setPDF] = useState(false)
     const [data, setdata] = useState()
+    var today = new Date();
+    // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+    // var date= today.getDate()+":"+(today.getMonth()+1)+":"+today.getFullYear();
     function closePDF() {
         setPDF(false)
     }
     function showPDF(args) {
-        console.log("args",args)
+        console.log("args", args)
         setdata(args)
         setPDF(true)
 
@@ -50,15 +54,24 @@ const Row = (props) => {
     }
 
     function handlecomment(e) {
-        // console.log('change')
+        console.log('e')
         if (e.target.outerText) {
-            setcomments(e.target.outerText)
-            console.log(e.target.outerText)
+            if(e.target.outerText.length===0){
+                alert('comments')
+            }
+            else{
+                setcomments(e.target.outerText)
+                console.log(e.target.outerText)
+            }
         }
         else {
-
-            setcomments(e.target.value)
-            console.log(e.target.value)
+            if(e.target.value.length===0){
+                alert('comments')
+            }
+            else{                
+                setcomments(e.target.value)
+                console.log(e.target.value)
+            }
         }
 
 
@@ -110,8 +123,12 @@ const Row = (props) => {
     async function update_comments() {
         if (comments) {
             let allComments = row.comments
-            // console.log('allcoments', allComments)
-            allComments.push(comments)
+            let comment_holder = {
+                 comments: comments, 
+                 time:moment(today).format('MMMM Do YYYY'),
+                 date:moment(today).format('h:mm:ss')
+                }
+            allComments.push(comment_holder)
             // console.log('allcoments new', allComments, row.trip_doc)
             setDoc(doc(db, "Trip", row.trip_doc), {
                 comments: allComments
@@ -169,6 +186,7 @@ const Row = (props) => {
 
                                     <Autocomplete
                                         freeSolo={true}
+                                        key={change}
                                         onChange={(e) => handlecomment(e)}
                                         options={reasons.map((option) => option.title)}
                                         renderInput={(params) => (
@@ -232,7 +250,15 @@ const Row = (props) => {
                                         {
                                             reverse.map((text, index) => (
                                                 <div key={index} className='comments_maping'>
-                                                    {text}
+                                                    {/* {console.log("comments data",text)} */}
+                                                    <p>
+                                                    {text.comments}
+                                                    </p>
+                                                    <div className='time_date'>
+                                                        <p>{text.time}</p>
+                                                        <p>{text.date}</p>
+
+                                                    </div>
                                                 </div>
                                             ))
                                         }
@@ -257,16 +283,13 @@ const Row = (props) => {
                                         </div>
 
                                     </div >
-                                    { console.log('check',data)}
                                     {
-                                        viewPDF?<>
-                                        {
-                                            console.log("datattttt",data.inclusion_data)
-                                        }
-                                    <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                                        <Redownload travel_data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
-                                    </Modal>                                        
-                                        </>:<></>
+                                        viewPDF ? <>
+                                            <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+
+                                                <Redownload travel_data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                            </Modal>
+                                        </> : <></>
                                     }
                                     <div className='remark'>
                                         {

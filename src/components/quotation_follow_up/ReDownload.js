@@ -6,6 +6,7 @@ const Redownload = (props) => {
     function pdfgenrator() {
         // update_quotation_flg()
         var doc = new jsPDF("p", "pt", "a4");
+       
         doc.html(document.querySelector("#sample"), {
             callback: function (pdf) {
                 pdf.save(props.travel_data.Traveller_name)
@@ -122,7 +123,7 @@ const Redownload = (props) => {
                         </p>
                         {
                             props.NightDataFields.map((data, index) => (
-                                <div key={index} className='night_details'>
+                                <div key={index} className='details1'>
                                     <p>{data.HotelName}</p>
                                     <p>Room Type {data.HotelType}</p>
                                     <div className='pdfImg'>
@@ -136,11 +137,9 @@ const Redownload = (props) => {
                     </div>
                     <div className='details1'>
                         <p style={{ fontWeight: '600' }}>Flight</p>
-                        <img alt='plane' src={path} width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
-                        <p>{props.cabDetailsData}</p>
+                        <p>:-{props.cabDetailsData}</p>
                         <p style={{ fontWeight: '600' }}>Cabs</p>
-                        <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
-                        <p>{props.flights}</p>
+                        <p>:-{props.flights}</p>
                     </div>
                     <p>inclusions/Exclusion</p>
                     <p className='small_line'></p>

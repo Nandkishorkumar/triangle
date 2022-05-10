@@ -211,6 +211,7 @@ const Profile = (props) => {
                     <p>inclusions/Exclusion</p>
                     <p className='small_line'></p>
                     <div className='details1'>
+                        {props.inclusion_data?<>
                         <p className='inclusion'>{props.inclusion_data.breakfast}</p>
                         <p className='comments_'>{props.inclusion_data.lunch}</p>
                         <p> :-{props.inclusion_data.lunch_comments}</p>
@@ -234,6 +235,8 @@ const Profile = (props) => {
                         <p>other_Exclusion</p>
                         <p>{props.inclusion_data.other_Exclusion}</p>
                         {/* inclusion Exclusion here */}
+                        </>:<></>
+                        }
                     </div>
                 </div>
 

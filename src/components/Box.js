@@ -28,11 +28,11 @@ const Box = (props) => {
     const [selected_date, set_selected_date] = useState()
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
-    const[inclusion_data,setinclusion]=useState()
-    const[flights,setflights]=useState()
-    const[cabDetailsData,setcabDetails]=useState()
+    const [inclusion_data, setinclusion] = useState()
+    const [flights, setflights] = useState()
+    const [cabDetailsData, setcabDetails] = useState()
 
-    function cabDetails(e){
+    function cabDetails(e) {
         setcabDetails(e.target.value)
     }
     function closePDF() {
@@ -52,11 +52,11 @@ const Box = (props) => {
         // console.log('target', event.target.value, typeof (event.target.value))
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
-        console.log(event.target.value)
+        // console.log(event.target.value)
         // for(let s=0;)
         setTotalDays(temp)
         if (countNight < len) {
-            console.log(NightDataFields.length)
+            // console.log(NightDataFields.length)
             setCountnight(countNight - 1)
         }
         else if (countNight > len) {
@@ -76,7 +76,7 @@ const Box = (props) => {
             temp.push(data)
             setItineary(temp)
         }
-        console.log(itineary)
+        // console.log(itineary)
     }
     useEffect(() => {
         setVar()
@@ -87,7 +87,7 @@ const Box = (props) => {
         // console.log(data[index][event.target.name])
         data[index][event.target.name] = event.target.value;
         setItineary(data);
-        console.log(itineary)
+        // console.log(itineary)
     }
     function addFields() {
         if (countNight < Travel_Duration - 2) {
@@ -110,7 +110,7 @@ const Box = (props) => {
         let data = [...NightDataFields];
         data[index][event.target.name] = event.target.value;
         setNightDataFields(data);
-        console.log(data)
+        // console.log(data)
     }
 
     function flightcostChange(e) {
@@ -157,7 +157,7 @@ const Box = (props) => {
     function select_date(e) {
         set_selected_date(e.target.value)
     }
-    function flightDetails(e){
+    function flightDetails(e) {
         setflights(e.target.value)
     }
 
@@ -222,7 +222,7 @@ const Box = (props) => {
 
             </div>
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile inclusion_data={inclusion_data}travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -319,6 +319,7 @@ const Box = (props) => {
                         <div className='cost_estimation_body'>
                             <p className='HotelDetailsheading'>Hotel Details</p>
                             {
+                                NightDataFields &&
                                 NightDataFields.map((form, index) => {
                                     return (
                                         <>
@@ -403,7 +404,7 @@ const Box = (props) => {
                             {
                                 flight ?
                                     <>
-                                        <textarea onChange={(e)=>flightDetails(e)} value={flights} className='flightdetails'>
+                                        <textarea onChange={(e) => flightDetails(e)} value={flights} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
@@ -419,7 +420,7 @@ const Box = (props) => {
                             {
                                 cab ?
                                     <>
-                                        <textarea onChange={(e)=>cabDetails(e)} value={cabDetailsData} className='flightdetails'>
+                                        <textarea onChange={(e) => cabDetails(e)} value={cabDetailsData} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
@@ -440,7 +441,7 @@ const Box = (props) => {
                                 <input type='date' onChange={(e) => select_date(e)}></input>
                             </div>
                             {
-
+                                days_total &&
                                 days_total.map((data, index) => {
                                     return (
                                         <div className='days'>
