@@ -18,7 +18,7 @@ const Userunitcomponent = (props) => {
     const [WhatsApp_number, setWhatsApp_number] = useState(props.data.WhatsApp_number)
     const animatedComponents = makeAnimated();
     const [lead_list,setLead_list]=useState([])
-    const colourOptions = [
+    const Destinations = [
         { value:'Thailand', label:'Thailand', color:'#00B8D9' },
         { value:'Bali', label:'Bali', color:'#0052CC' },
         { value:'Dubai', label:'Dubai', color:'#5243AA'},
@@ -159,7 +159,7 @@ const Userunitcomponent = (props) => {
                                         closeMenuOnSelect={false}
                                         components={animatedComponents}
                                         isMulti
-                                        options={colourOptions}
+                                        options={Destinations}
                                         onChange={(e)=>leadHandler(e)}
                                     />
                                 </div>

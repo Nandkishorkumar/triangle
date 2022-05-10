@@ -37,8 +37,7 @@ export async function UploadFile() {
                 Remark: Row[15],
                 Follow_Up_date: Row[16],
                 uploaded_by: "nandu",
-                quotation:0,
-                quotation_flg:false
+                
 
             });
         }
