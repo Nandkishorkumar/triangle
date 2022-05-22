@@ -14,7 +14,7 @@ const Profile = (props) => {
     const month = currentdate.toLocaleString('default', { month: 'long' })
 
     async function dataSetter() {
-        console.log(props.indicator,"indicator")
+        console.log(props.indicator, "indicator")
         if (props.indicator) {
 
         }
@@ -26,9 +26,9 @@ const Profile = (props) => {
                 followUpDate: String(props.selected_date),
                 NightDataFields: props.NightDataFields,
                 pdf_name: `${currentdate.getDate() + 1}:${currentdate.getMonth()}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
-                cabDetailsData:props.cabDetailsData,
-                flights:props.flights,
-                inclusion_data:props.inclusion_data?props.inclusion_data:''
+                cabDetailsData: props.cabDetailsData,
+                flights: props.flights,
+                inclusion_data: props.inclusion_data ? props.inclusion_data : '',
 
             });
         }
@@ -78,10 +78,10 @@ const Profile = (props) => {
         catch (e) {
             console.log(e)
         }
-        try{
+        try {
             props.Allquote()
         }
-        catch (error){
+        catch (error) {
             console.log(error)
         }
 
@@ -114,16 +114,13 @@ const Profile = (props) => {
                     </div>
                     <div>
                         {
-                            props.itineary.map((data, index) => (                                
+                            props.itineary.map((data, index) => (
                                 <div key={index} className='details1'>
                                     <p className='day_'>Day:{index + 1}</p>
                                     <div>
                                         {data.Day}
                                     </div>
-                                    <text className='pdfImg'>
-                                        <img alt='hotel img' src='/assets/img/apple_a_day_room.jpg' width='160px' height='160px' />
-                                        <img alt='hotel img' src='/assets/img/apple_a_day_pool.jpg' width='160px' height='160px' />
-                                    </text>
+                                   
                                     <div>
                                         {data.Description}
                                     </div>
@@ -218,31 +215,31 @@ const Profile = (props) => {
                     <p>inclusions/Exclusion</p>
                     <p className='small_line'></p>
                     <div className='details1'>
-                        {props.inclusion_data?<>
-                        <p className='inclusion'>{props.inclusion_data.breakfast}</p>
-                        <p className='comments_'>{props.inclusion_data.lunch}</p>
-                        <p> :-{props.inclusion_data.lunch_comments}</p>
-                        <p className='comments_'>{props.inclusion_data.dinner}</p>
-                        <p>:-{props.inclusion_data.dinner_comments}</p>
-                        <p>{props.inclusion_data.airport_arival}</p>
-                        <p>{props.inclusion_data.airport_departure}</p>
-                        <p>{props.inclusion_data.cab_SIC}</p>
-                        <p className='comments_'>{props.inclusion_data.cab_Private}</p>
-                        <p>:-{props.inclusion_data.cab_Private_comments}</p>
-                        <p>{props.inclusion_data.Gst}</p>
-                        <p>{props.inclusion_data.airfair}</p>
-                        <p className='comments_'> {props.inclusion_data.siteseeing}</p>
-                        <p>:-{props.inclusion_data.siteseeing_comments}</p>
-                        <p className='comments_'>{props.inclusion_data.Visa}</p>
-                        <p>:-{props.inclusion_data.Visa_comments}</p>
-                        <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
-                        <p>:-{props.inclusion_data.Entrance_comments}</p>
-                        <p>other_Inclusion</p>
-                        <p>{props.inclusion_data.other_Inclusion}</p>
-                        <p>other_Exclusion</p>
-                        <p>{props.inclusion_data.other_Exclusion}</p>
-                        {/* inclusion Exclusion here */}
-                        </>:<></>
+                        {props.inclusion_data ? <>
+                            <p className='inclusion'>{props.inclusion_data.breakfast}</p>
+                            <p className='comments_'>{props.inclusion_data.lunch}</p>
+                            <p> :-{props.inclusion_data.lunch_comments}</p>
+                            <p className='comments_'>{props.inclusion_data.dinner}</p>
+                            <p>:-{props.inclusion_data.dinner_comments}</p>
+                            <p>{props.inclusion_data.airport_arival}</p>
+                            <p>{props.inclusion_data.airport_departure}</p>
+                            <p>{props.inclusion_data.cab_SIC}</p>
+                            <p className='comments_'>{props.inclusion_data.cab_Private}</p>
+                            <p>:-{props.inclusion_data.cab_Private_comments}</p>
+                            <p>{props.inclusion_data.Gst}</p>
+                            <p>{props.inclusion_data.airfair}</p>
+                            <p className='comments_'> {props.inclusion_data.siteseeing}</p>
+                            <p>:-{props.inclusion_data.siteseeing_comments}</p>
+                            <p className='comments_'>{props.inclusion_data.Visa}</p>
+                            <p>:-{props.inclusion_data.Visa_comments}</p>
+                            <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
+                            <p>:-{props.inclusion_data.Entrance_comments}</p>
+                            <p>other_Inclusion</p>
+                            <p>{props.inclusion_data.other_Inclusion}</p>
+                            <p>other_Exclusion</p>
+                            <p>{props.inclusion_data.other_Exclusion}</p>
+                            {/* inclusion Exclusion here */}
+                        </> : <></>
                         }
                     </div>
                 </div>

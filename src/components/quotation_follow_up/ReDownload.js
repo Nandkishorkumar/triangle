@@ -49,10 +49,7 @@ const Redownload = (props) => {
                                     <div>
                                         {data.Day}
                                     </div>
-                                    <text className='pdfImg'>
-                                        <img alt='hotel img' src='/assets/img/apple_a_day_room.jpg' width='160px' height='160px' />
-                                        <img alt='hotel img' src='/assets/img/apple_a_day_pool.jpg' width='160px' height='160px' />
-                                    </text>
+                                   
                                     <div>
                                         {data.Description}
                                     </div>
