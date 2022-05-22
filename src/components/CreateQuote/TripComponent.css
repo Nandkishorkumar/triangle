@@ -1,4 +1,4 @@
-.fullContainer{
+.fullContainer {
     width: 99%;
     height: 15rem;
     /* background-color: blueviolet; */
@@ -7,7 +7,8 @@
     border: 0.2rem solid #56c2c4;
     border-radius: 0.5rem;
 }
-.compo_header{
+
+.compo_header {
     /* margin-top: -1rem; */
     width: 100%;
     height: 3rem;
@@ -16,11 +17,13 @@
     justify-content: space-between;
     align-items: center;
 }
-.text{
-    text-decoration: underline!important;
+
+.text {
+    text-decoration: underline !important;
     font-weight: 500;
 }
-.compo_button{
+
+.compo_button {
     text-align: right;
     position: relative;
     background: none repeat scroll 0 0 #fe7774;
@@ -29,91 +32,107 @@
     padding: 2px 10px;
     cursor: pointer;
 }
-.compo_details{
+
+.compo_details {
     display: flex;
     justify-content: space-between;
 }
-.item1{
+
+.item1 {
     font-size: 12px;
     line-height: 16px;
 }
-.line1{
+
+.line1 {
     height: 4rem;
     display: flex;
     justify-content: space-between;
 }
-.line2{
-    margin-top: -0.8rem ;
+
+.line2 {
+    margin-top: -0.8rem;
     height: 4rem;
     display: flex;
     justify-content: space-between;
 }
-.leftDiv{
+
+.leftDiv {
     width: 50%;
     height: 10rem;
     /* background-color: #fe7774; */
 }
-.line{
+
+.line {
     width: 100%;
     height: 1px;
     margin-top: 1.5rem;
     margin-bottom: 1rem;
     background-color: black;
 }
-.verticle_line{
+
+.verticle_line {
     height: 100%;
     margin-top: 1rem;
     width: 1px;
     background-color: black;
 }
-.right{
+
+.right {
     width: 48%;
     float: left;
 }
-.line1_right{
+
+.line1_right {
     margin: 2rem;
 }
-.traveller_details{
+
+.traveller_details {
     display: flex;
     align-items: center;
 
 }
-.no_data{
+
+.no_data {
     background-image: url("https://i.pinimg.com/originals/49/e5/8d/49e58d5922019b8ec4642a2e2b9291c2.png");
     height: 35rem;
     background-repeat: no-repeat;
 }
-.popUp_body{
+
+.popUp_body {
     width: 80%;
     height: 100%;
-    background-color:#FFFFFF;
+    background-color: #FFFFFF;
     overflow-y: scroll;
 }
-.save_close{
+
+.save_close {
     display: flex;
     justify-content: space-between;
     position: sticky;
     top: 0;
 }
 
-.basicDetailsheading{
+.basicDetailsheading {
     margin: 10px;
     width: 89px;
     border: 0.2px dashed rgb(15, 15, 15);
     background-color: #56c2c4;
 }
-.HotelDetailsheading{
+
+.HotelDetailsheading {
     margin: 10px;
     width: 95px;
     border: 0.2px dashed rgb(15, 15, 15);
     background-color: #56c2c4;
 }
-.basicDetails{
+
+.basicDetails {
     width: 40rem;
     display: flex;
     justify-content: space-evenly;
 }
-.cost_estimation_body{
+
+.cost_estimation_body {
 
     /* width: 27rem; */
     height: 100%;
@@ -121,39 +140,46 @@
     display: flex;
     flex-direction: column;
     margin-top: 0.4rem;
-    
+
 }
-.costOption{
-    margin:2rem;
+
+.costOption {
+    margin: 2rem;
     width: 27rem;
     display: flex;
     justify-content: space-evenly;
     /* background-color: #fe7774; */
 }
-.currency_option{
+
+.currency_option {
     width: 5rem;
     margin-top: 0.5rem;
 }
-.costOption_estimatiom{
+
+.costOption_estimatiom {
     display: flex;
     justify-content: space-evenly;
     font-weight: 600;
     margin-bottom: 2rem;
 
 }
-.totalSeprator{
+
+.totalSeprator {
     margin-left: 4rem;
 }
-.input_filed{
+
+.input_filed {
     width: 7rem;
     height: 2rem;
     border-radius: 0.5rem;
     margin-top: 1rem;
 }
-.spacer{
+
+.spacer {
     margin-left: 2rem;
 }
-.addMore{
+
+.addMore {
     width: 6rem;
     background: none repeat scroll 0 0 #2ceb46;
     color: #fff;
@@ -163,51 +189,61 @@
     margin-bottom: 3rem;
     border-radius: 1rem
 }
-.comments{
+
+.comments {
     width: 25rem;
     height: 5rem;
     margin-left: 4rem;
 }
-.FlightDetails{
+
+.FlightDetails {
     margin-left: 2rem;
     width: 90%;
     display: flex;
     justify-content: space-between;
 }
-.flightdetails{
+
+.flightdetails {
     margin-left: 2rem;
     width: 70rem;
     height: 9rem;
     margin-bottom: 2rem;
 }
-.inclusionExclusion{
+
+.inclusionExclusion {
     margin-left: 2rem;
     width: 20%;
     display: flex;
     justify-content: space-between;
 }
-.itineary{
+
+.itineary {
     margin-left: 2rem;
     width: 15%;
     font-size: large;
     font-weight: 600;
 }
-.dayByitineary{
+
+.dayByitineary {
     width: 55%;
     height: 3rem;
     margin: 1rem;
     border-radius: 1rem;
 }
-.title{
+
+.title {
     margin: 1rem;
     font-weight: 600;
 }
-.Description{
+
+.Description {
     width: 80%;
     height: 4rem;
     margin: 1rem;
 
 }
-.days{
+
+.days {
     border-bottom: 1px dotted rgb(117, 111, 111);
 }
+

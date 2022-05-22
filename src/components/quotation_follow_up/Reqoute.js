@@ -1,15 +1,15 @@
 import { Modal, Radio } from '@material-ui/core';
 import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
-import Inclusion from './Inclusion';
-import Profile from './Profile/Profile';
-import './TripComponent.css';
+import Inclusion from '../CreateQuote/Inclusion';
+import Profile from '../Profile/Profile';
+import '../CreateQuote/TripComponent.css';
 
 const Reqoute = (props) => {
     // console.log(props.TripId)
     const Data = props.data
-    // console.log(Data)
-    const [Travel_Duration, setTravel_Duration] = useState(Data.Travel_Duration)
+    console.log(props.itineary)
+    const [Travel_Duration, setTravel_Duration] = useState(Data)
     const [open, setOpen] = useState(true)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
     const [flightcost, setFlightcost] = useState(0)
@@ -19,9 +19,9 @@ const Reqoute = (props) => {
     const [countNight, setCountnight] = useState(0)
     const [flight, setflight] = useState(true)
     const [cab, setcab] = useState(true)
-    const [itineary, setItineary] = useState([{ Day: '', Description: '' },])
+    const [itineary, setItineary] = useState(props.itineary)
     const days = Array(Data.Travel_Duration).fill('a');
-    const [days_total, setTotalDays] = useState(days);
+    const [days_total, setTotalDays] = useState(props.itineary);
     const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
         { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
@@ -29,15 +29,16 @@ const Reqoute = (props) => {
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
     const [inclusion_data, setinclusion] = useState()
-    const [flights, setflights] = useState()
-    const [cabDetailsData, setcabDetails] = useState()
+    const [flights, setflights] = useState(props.flights)
+    const [cabDetailsData, setcabDetails] = useState(props.cabDetailsData)
 
     function cabDetails(e) {
         setcabDetails(e.target.value)
     }
     function closePDF() {
         setPDF(false)
-        setOpen(false)
+        // setOpen(false)
+        // props.closeReqoute_flg()
     }
     function showPDF() {
         setPDF(true)
@@ -148,6 +149,7 @@ const Reqoute = (props) => {
     }
     function closeHandler() {
         setOpen(false)
+        props.closeReqoute_flg()
     }
     function handleChange(event) {
         setSelectedValue(event.target.value);
@@ -166,7 +168,7 @@ const Reqoute = (props) => {
         <>
             
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile  Allquote={props.Allquote} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -235,6 +237,7 @@ const Reqoute = (props) => {
                                         className='input_filed'
                                         placeholder='0'
                                         onChange={(e) => flightcostChange(e)}
+                                        
                                     ></input>
                                     <text className='spacer'>+</text>
                                 </div>
@@ -341,14 +344,14 @@ const Reqoute = (props) => {
                             <div className='FlightDetails'>
                                 <Flight />
                                 <p>
-                                    <input type='checkbox' onChange={() => setflight(!flight)}></input>
+                                    <input type='checkbox' onChange={() => setflight(!flight)} ></input>
                                     <label>Flight Not Included</label>
                                 </p>
                             </div>
                             {
                                 flight ?
                                     <>
-                                        <textarea onChange={(e) => flightDetails(e)} value={flights} className='flightdetails'>
+                                        <textarea onChange={(e) => flightDetails(e)}  value={flights} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
@@ -382,7 +385,7 @@ const Reqoute = (props) => {
 
                             <div className='itineary'>
                                 <p>Itinerary Start date</p>
-                                <input type='date' onChange={(e) => select_date(e)}></input>
+                                <input type='date' onChange={(e) => select_date(e)} value={props.selected_date}></input>
                             </div>
                             {
                                 days_total &&
@@ -390,10 +393,10 @@ const Reqoute = (props) => {
                                     return (
                                         <div className='days'>
                                             <label className='title'>Day{index + 1}:Title</label><br />
-                                            <input className='dayByitineary' placeholder='Enter Title of the day' name='Day' onChange={(e) => handleFormChangeItineary(e, index)}></input>
+                                            <input className='dayByitineary' value={data.Day} placeholder='Enter Title of the day' name='Day' onChange={(e) => handleFormChangeItineary(e, index)}></input>
                                             <div>
                                                 <label className='title'>Description</label><br />
-                                                <textarea placeholder=' Write Description' name='Description' onChange={(event) => handleFormChangeItineary(event, index)} className='Description'></textarea>
+                                                <textarea placeholder=' Write Description' value={data.Description} name='Description' onChange={(event) => handleFormChangeItineary(event, index)} className='Description'></textarea>
                                             </div>
                                         </div>
                                     )

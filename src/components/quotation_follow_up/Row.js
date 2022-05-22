@@ -12,6 +12,7 @@ import app from '../required';
 import Profile from '../Profile/Profile';
 import Redownload from './ReDownload';
 import moment from 'moment';
+import Reqoute from './Reqoute';
 
 
 
@@ -30,9 +31,16 @@ const Row = (props) => {
     const reverse = latestComment.slice(0).reverse();
     const [viewPDF, setPDF] = useState(false)
     const [data, setdata] = useState()
+    const[Reqoute_flg,setReqoute_flg]=useState(false)
     var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     // var date= today.getDate()+":"+(today.getMonth()+1)+":"+today.getFullYear();
+    function Controller_reqoute(){
+        setReqoute_flg(true)
+    }
+    function closeReqoute_flg(){
+        setReqoute_flg(false)
+    }
     function closePDF() {
         setPDF(false)
     }
@@ -162,7 +170,7 @@ const Row = (props) => {
 
     return (
         <>
-            <Modal open={openUpdater} onClose={closeUpdater} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+            <Modal open={openUpdater}  style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <div className='popOver'>
                     {
                         update == 'status' ?
@@ -238,7 +246,7 @@ const Row = (props) => {
                         <Collapse in={open} timeout="auto" unmountOnExit>
                             <div className='collaps'>
                                 <div className='client_details'>
-                                    <p className='p' onClick={() => sethint('status')}>{Lead_Status}</p>
+                                    <p className='p' onClick={() => sethint('status')}>{access_type}</p>
                                     <p className='p1' >{row.Traveller_name}</p>
                                     <p>{row.Email}</p>
                                     <p>{row.Budget}</p>
@@ -300,7 +308,13 @@ const Row = (props) => {
                                                         <PictureAsPdfTwoToneIcon style={{ margin: '15px' }} />
                                                         <p key={index}>{data.pdf_name}</p>
                                                         <button onClick={() => showPDF(data)} className='download_requote'>downloadURL</button>
-                                                        <button className='download_requote'>Requote</button>
+                                                        <button className='download_requote' onClick={()=>Controller_reqoute()}>Requote</button>
+                                                        {
+                                                            
+                                                            Reqoute_flg?<>
+                                                            <Reqoute Allquote={Allquote} closeReqoute_flg={closeReqoute_flg} data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={false} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost}/>
+                                                            </>:<></>
+                                                        }
                                                     </div>
 
                                                 </>

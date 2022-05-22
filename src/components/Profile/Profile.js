@@ -14,6 +14,7 @@ const Profile = (props) => {
     const month = currentdate.toLocaleString('default', { month: 'long' })
 
     async function dataSetter() {
+        console.log(props.indicator,"indicator")
         if (props.indicator) {
 
         }
@@ -27,7 +28,7 @@ const Profile = (props) => {
                 pdf_name: `${currentdate.getDate() + 1}:${currentdate.getMonth()}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
                 cabDetailsData:props.cabDetailsData,
                 flights:props.flights,
-                inclusion_data:props.inclusion_data
+                inclusion_data:props.inclusion_data?props.inclusion_data:''
 
             });
         }
@@ -77,6 +78,12 @@ const Profile = (props) => {
         catch (e) {
             console.log(e)
         }
+        try{
+            props.Allquote()
+        }
+        catch (error){
+            console.log(error)
+        }
 
     }
 
@@ -107,7 +114,7 @@ const Profile = (props) => {
                     </div>
                     <div>
                         {
-                            props.itineary.map((data, index) => (
+                            props.itineary.map((data, index) => (                                
                                 <div key={index} className='details1'>
                                     <p className='day_'>Day:{index + 1}</p>
                                     <div>
@@ -203,10 +210,10 @@ const Profile = (props) => {
                     <div className='details1'>
                         <p style={{ fontWeight: '600' }}>Flight</p>
                         <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
-                        <p>{props.cabDetailsData}</p>
+                        <p>{props.flights}</p>
                         <p style={{ fontWeight: '600' }}>Cabs</p>
                         <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
-                        <p>{props.flights}</p>
+                        <p>{props.cabDetailsData}</p>
                     </div>
                     <p>inclusions/Exclusion</p>
                     <p className='small_line'></p>

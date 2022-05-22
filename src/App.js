@@ -177,15 +177,12 @@ function App() {
 
   useEffect(() => {
     authListener()
-    // console.log("useEffect in app.js" )
   }, [auth])
 
   useEffect(() => {
     if (data) {
-      // debugger
     }
     else {
-      // console.log("no data", auth)
       fetch_profile(auth)
     }
   }, [auth]);
@@ -276,7 +273,7 @@ function App() {
             Page === "create_quote" ?
               <>{
                 auth &&
-                <Createquote auth={auth} />
+                <Createquote auth={auth} userProfile={data} />
               }
               </> : <></>
           }

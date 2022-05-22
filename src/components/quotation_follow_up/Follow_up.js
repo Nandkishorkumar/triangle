@@ -24,7 +24,7 @@ const FollowUp = (props) => {
         if (props.auth) {
             // console.log("create quote datahandler")
             let list = []
-            const q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", true));
+            const q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", true), where("Lead_Status", "!=", "Dump"));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
             try{
@@ -36,9 +36,9 @@ const FollowUp = (props) => {
                 querySnapshot.forEach((doc) => {
                     list.push(doc.data())
                     // doc.data() is never undefined for query doc snapshots
-                    // console.log(doc.id, " => ", doc.data());
                 });
                 setLead_data(list)
+                console.log(list);
                 setopen(false)
             }
             catch (error){
