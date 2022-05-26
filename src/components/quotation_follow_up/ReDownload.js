@@ -46,11 +46,11 @@ const Redownload = (props) => {
                             props.itineary.map((data, index) => (
                                 <div key={index} className='details1'>
                                     <p className='day_'>Day:{index + 1}</p>
-                                    <div>
+                                    <div className='comments_details'>
                                         {data.Day}
                                     </div>
                                    
-                                    <div>
+                                    <div className='comments_details'>
                                         {data.Description}
                                     </div>
 
@@ -121,8 +121,8 @@ const Redownload = (props) => {
                         {
                             props.NightDataFields.map((data, index) => (
                                 <div key={index} className='details1'>
-                                    <p>{data.HotelName}</p>
-                                    <p>Room Type {data.HotelType}</p>
+                                    <span className='index'> Hotel Name:-</span> {data.HotelName}<br/>
+                                    <span className='index'>Room Type:- </span>{data.HotelType}
                                     <div className='pdfImg'>
                                         <img alt='hotel img' src='/assets/img/apple_a_day_room.jpg' width='160px' height='160px' />
                                         <img alt='hotel img' src='/assets/img/apple_a_day_pool.jpg' width='160px' height='160px' />
@@ -133,36 +133,36 @@ const Redownload = (props) => {
                         }
                     </div>
                     <div className='details1'>
-                        <p style={{ fontWeight: '600' }}>Flight</p>
-                        <p>:-{props.cabDetailsData}</p>
-                        <p style={{ fontWeight: '600' }}>Cabs</p>
-                        <p>:-{props.flights}</p>
+                        <p className='index' style={{ fontWeight: '600' }}>Flight</p>
+                        <p>{props.cabDetailsData}</p>
+                        <p className='index' style={{ fontWeight: '600' }}>Cabs</p>
+                        <p>{props.flights}</p>
                     </div>
-                    <p>inclusions/Exclusion</p>
+                    <p className='index'>inclusions /Exclusion</p>
                     <p className='small_line'></p>
                     <div className='details1'>
-                        <p className='inclusion'>{props.inclusion_data.breakfast}</p>
+                        <p className='comments_'>{props.inclusion_data.breakfast}</p>
                         <p className='comments_'>{props.inclusion_data.lunch}</p>
-                        <p> :-{props.inclusion_data.lunch_comments}</p>
+                        <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
                         <p className='comments_'>{props.inclusion_data.dinner}</p>
-                        <p>:-{props.inclusion_data.dinner_comments}</p>
-                        <p>{props.inclusion_data.airport_arival}</p>
-                        <p>{props.inclusion_data.airport_departure}</p>
-                        <p>{props.inclusion_data.cab_SIC}</p>
+                        <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
+                        <p className='comments_'>{props.inclusion_data.airport_arival}</p>
+                        <p className='comments_'>{props.inclusion_data.airport_departure}</p>
+                        <p className='comments_'>{props.inclusion_data.cab_SIC}</p>
                         <p className='comments_'>{props.inclusion_data.cab_Private}</p>
-                        <p>:-{props.inclusion_data.cab_Private_comments}</p>
-                        <p>{props.inclusion_data.Gst}</p>
-                        <p>{props.inclusion_data.airfair}</p>
+                        <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
+                        <p className='comments_'>{props.inclusion_data.Gst}</p>
+                        <p className='comments_'>{props.inclusion_data.airfair}</p>
                         <p className='comments_'> {props.inclusion_data.siteseeing}</p>
-                        <p>:-{props.inclusion_data.siteseeing_comments}</p>
+                        <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
                         <p className='comments_'>{props.inclusion_data.Visa}</p>
-                        <p>:-{props.inclusion_data.Visa_comments}</p>
+                        <p className='comments_details'>{props.inclusion_data.Visa_comments}</p>
                         <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
-                        <p>:-{props.inclusion_data.Entrance_comments}</p>
-                        <p>other_Inclusion</p>
-                        <p>{props.inclusion_data.other_Inclusion}</p>
-                        <p>other_Exclusion</p>
-                        <p>{props.inclusion_data.other_Exclusion}</p>
+                        <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
+                        <p className='comments_'>other_Inclusion</p>
+                        <p className='comments_details'>{props.inclusion_data.other_Inclusion}</p>
+                        <p className='comments_'>other_Exclusion</p>
+                        <p className='comments_details'>{props.inclusion_data.other_Exclusion}</p>
                         {/* inclusion Exclusion here */}
                     </div>
                 </div>

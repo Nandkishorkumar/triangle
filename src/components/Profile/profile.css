@@ -1,21 +1,22 @@
-
-.pre{
+.pre {
     display: flex;
     flex-direction: column;
 }
 
-#sample{
+#sample {
     margin-right: 4rem;
     margin-left: 4rem;
     background-color: #FFFF;
     width: 464px;
-    overflow-y: scroll;    
+    overflow-y: scroll;
 }
-.pdf_Header{
+
+.pdf_Header {
     display: flex;
 }
-.name{
-    font-size:6px;
+
+.name {
+    font-size: 6px;
     font-weight: 600;
     font-family: Brush Script MT;
     letter-spacing: 2px;
@@ -23,68 +24,94 @@
     margin-top: -4px;
     margin-left: 15px;
 }
-.details{
+
+.details {
     font-size: 8px;
     letter-spacing: 0.2px;
     font-family: monospace;
 }
-.details1{
+
+.details1 {
     font-size: 12px;
     letter-spacing: 0.2px;
     font-family: monospace;
     border-bottom: 1px dashed;
+    color: rgb(131, 161, 215);
+    font-weight: bold;
 
 }
-.underline{
+.index{
+    color: rgb(94, 212, 129);
+    font-weight: bold;
+}
+
+.underline {
     border-bottom: 0.2px dashed rgb(134, 130, 130);
 }
-.destination_details{
+
+.destination_details {
     display: flex;
     justify-content: space-between;
 }
-.Itinerary
-{
+
+.Itinerary {
     display: flex;
     justify-content: center;
     font-size: larger;
     font-weight: 600;
     font-family: Arial;
 }
-.pdfImg{
+
+.pdfImg {
     width: auto;
     display: flex;
     justify-content: space-evenly;
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
 }
-.day_{
-font-family: Arial, Helvetica, sans-serif;
-font-weight: 600;
+
+.day_ {
+    font-family: Arial, Helvetica, sans-serif;
+    /* font-weight: 600; */
+    text-decoration: underline;
+    color: rgb(94, 212, 129);
+    font-weight: bold;
 }
-.travel_info{
+
+.travel_info {
     display: flex;
     justify-content: space-evenly;
     width: 12rem;
     align-items: center;
+    color: rgb(94, 212, 129);
+    font-weight: bold;
 }
-.parallel{
+
+.parallel {
     display: flex;
     justify-content: center;
     justify-content: space-evenly;
     border-bottom: 0.2px dashed;
+    color: rgb(131, 161, 215);
+    font-weight: bold;
 }
-.travel_info1{
+
+.travel_info1 {
     display: flex;
     justify-content: space-evenly;
     width: 8rem;
     align-items: center;
     font-weight: 600;
+    color: rgb(94, 212, 129);
+    font-weight: bold;
 
 }
-.night_details{
+
+.night_details {
     border-bottom: 0.2px dashed;
 }
-.download_button{
+
+.download_button {
     width: 6rem;
     height: 2rem;
     background-color: rgb(156, 156, 227);
@@ -92,21 +119,38 @@ font-weight: 600;
     margin: 2rem;
     margin-left: 4rem;
 }
-.download_button:hover{
+
+.download_button:hover {
     background-color: rgb(85, 225, 85);
     cursor: pointer;
 }
-.inclusion{
+
+.inclusion {
     margin-bottom: -0.4rem;
+    text-decoration: underline;
 }
-.comments_{
+
+.comments_ {
     margin-bottom: -0.7rem;
+    text-decoration: underline;
+    color: rgb(94, 212, 129);
+    font-weight: bold;
+
     /* border-bottom: 1px  solid black; */
 }
-.small_line{
+
+.small_line {
     width: 9rem;
     height: 0.01rem;
     background-color: black;
     margin-top: -0.7rem;
+
+}
+
+.comments_details {
+    font-weight: 100;
+    font-size: x-small;
+    color: rgb(131, 161, 215);
+    font-weight: bold;
 
 }

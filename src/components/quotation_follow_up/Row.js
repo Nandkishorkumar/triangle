@@ -85,13 +85,10 @@ const Row = (props) => {
 
     }
     const reasons = [
-        { title: 'not interested', year: 1994 },
-        { title: 'change mind', year: 1972 },
-        { title: 'next year plan', year: 1974 },
-        { title: 'confirmed', year: 2008 },
-        { title: 'budget issue', year: 1957 },
-        { title: "converted", year: 1993 },
-        { title: "others", year: 1993 },
+        { title: 'Traveler not Reachable' },
+        { title: "Won't book with me" },
+        { title: 'Talk in progress with traveler' },
+        { title: "Traveler will Finalize and it's my hot"},
     ]
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
@@ -196,7 +193,11 @@ const Row = (props) => {
                                         freeSolo={true}
                                         key={change}
                                         onChange={(e) => handlecomment(e)}
-                                        options={reasons.map((option) => option.title)}
+                                        options={reasons.map((option) =>(
+                                            <>
+                                            <p placeholder='Comments'>{option.title}</p>
+                                            </>
+                                        ))}
                                         renderInput={(params) => (
                                             <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
                                         )}
