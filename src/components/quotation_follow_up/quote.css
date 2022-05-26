@@ -147,8 +147,10 @@
 .download_requote{
     width: 7rem;
     height: 2rem;
-    color: #99d57f;
+    color: #d5c97f;
     border-color: aliceblue;
+    background-color: #8c98cb;
+    border-radius: 1rem;
 }
 .time_date{
     width: 46%;

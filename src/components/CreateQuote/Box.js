@@ -1,11 +1,15 @@
 import { Modal, Radio } from '@material-ui/core';
+import Select from'react-select';
 import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import Profile from '../Profile/Profile';
 import Inclusion from './Inclusion';
+import makeAnimated from'react-select/animated';
 import './TripComponent.css';
 
 const Box = (props) => {
+    const animatedComponents = makeAnimated();
+
     // console.log(props.TripId)
     const Data = props.data
     // console.log(Data)
@@ -24,7 +28,7 @@ const Box = (props) => {
     const [days_total, setTotalDays] = useState(days);
     const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
-        { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
+        { Night: [], HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
     const [selected_date, set_selected_date] = useState()
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
@@ -80,7 +84,6 @@ const Box = (props) => {
     }
     useEffect(() => {
         setVar()
-
     }, []);
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
@@ -105,6 +108,15 @@ const Box = (props) => {
         setNightDataFields(data)
         setCountnight(countNight - 1)
 
+    }
+    function advance_controller_nights(e,index){
+        let data = [...NightDataFields];
+        let local_list=[]
+        for(var i=0;i<e.length;i++){
+            local_list.push(e[i].value)
+        }
+        data[index]['Night'] = local_list;
+        setNightDataFields(data);
     }
     const handleFormChange = (event, index) => {
         let data = [...NightDataFields];
@@ -140,6 +152,12 @@ const Box = (props) => {
         "USD",
         "CLP"
     ]
+    const nights = [
+        { value:'1st', label:'1st'},
+        { value:'2nd', label:'2nd' },
+        { value:'3rd', label:'3rd'},
+
+    ]
 
     function openHandler() {
         setOpen(true)
@@ -152,6 +170,7 @@ const Box = (props) => {
         setSelectedValue(event.target.value);
     };
     function Save_download() {
+        console.log(NightDataFields)
         showPDF()
     }
     function select_date(e) {
@@ -160,6 +179,7 @@ const Box = (props) => {
     function flightDetails(e) {
         setflights(e.target.value)
     }
+    
 
     return (
         <>
@@ -326,29 +346,39 @@ const Box = (props) => {
                                             <div className='costOption_estimatiom'>
                                                 <div className='unitComponent'>
                                                     <label>Night</label><br />
-                                                    <select placeholder='select'
+                                                    <Select
+                                                        closeMenuOnSelect={false}
+                                                        components={animatedComponents}
+                                                        isMulti
+                                                        options={nights}
+                                                        onChange={(e) => advance_controller_nights(e,index)}
+                                                    />
+                                                    {/* <select placeholder='select'
                                                         name='Night'
                                                         onChange={(event) =>
                                                             handleFormChange(event, index)
-                                                            // console.log(event)
                                                         }
 
 
                                                     >
                                                         {days_total.map((option, index) => (
-                                                            <option value={index + 1}>{index + 1} night</option>
+                                                            <option value={index + 1}>{index + 1}  night</option>
                                                         ))}
 
 
-                                                    </select>
+                                                    </select> */}
                                                 </div>
                                                 <div className='unitComponent'>
                                                     <label>Hotel Name</label><br />
                                                     <input placeholder='hotel Name'
                                                         name='HotelName'
                                                         onChange={(event) => handleFormChange(event, index)}
-                                                    ></input>
+                                                        list="suggestions"
+                                                    >
+                                                    </input>
+
                                                 </div>
+
                                                 <div className='unitComponent'>
                                                     <label>City</label><br />
                                                     <input placeholder='city'
@@ -364,7 +394,7 @@ const Box = (props) => {
                                                     ></input>
                                                 </div>
                                                 <div className='unitComponent'>
-                                                    <label>Hotel Type</label><br />
+                                                    <label>Room Type</label><br />
                                                     <select defaultValue='normal' name='HotelType' onChange={(event) => handleFormChange(event, index)}>
                                                         <option value='standrad'>standrad</option>
                                                         <option value='delux'>delux</option>

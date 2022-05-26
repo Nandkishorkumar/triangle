@@ -7,6 +7,8 @@ import React, { useEffect, useState } from 'react';
 import './quote.css';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
+import download_button from '@material-ui/icons/CloudDownloadTwoTone';
+
 import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
 import app from '../required';
 import Profile from '../Profile/Profile';
@@ -308,7 +310,8 @@ const Row = (props) => {
                                                     <div className='pdf_setter'>
                                                         <PictureAsPdfTwoToneIcon style={{ margin: '15px' }} />
                                                         <p key={index}>{data.pdf_name}</p>
-                                                        <button onClick={() => showPDF(data)} className='download_requote'>downloadURL</button>
+                                                        <button onClick={() => showPDF(data)} className='download_requote'>
+                                                            downloadURL</button>
                                                         <button className='download_requote' onClick={()=>Controller_reqoute()}>Requote</button>
                                                         {
                                                             

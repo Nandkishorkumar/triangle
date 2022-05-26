@@ -194,6 +194,11 @@ const Profile = (props) => {
                                 <div key={index} className='night_details'>
                                     <p>{data.HotelName}</p>
                                     <p>Room Type {data.HotelType}</p>
+                                    <p className='set_in_line'>nights:-{
+                                        data.Night.map((value,index)=>(
+                                            <div> {value}, </div>
+                                        ))
+                                        }</p>
                                     <div className='pdfImg'>
                                         <img alt='hotel img' src='/assets/img/apple_a_day_room.jpg' width='160px' height='160px' />
                                         <img alt='hotel img' src='/assets/img/apple_a_day_pool.jpg' width='160px' height='160px' />

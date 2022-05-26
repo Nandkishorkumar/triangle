@@ -45,6 +45,7 @@
     font-weight: bold;
 }
 
+
 .underline {
     border-bottom: 0.2px dashed rgb(134, 130, 130);
 }
@@ -153,4 +154,11 @@
     color: rgb(131, 161, 215);
     font-weight: bold;
 
+}
+.set_in_line{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* width: 33% */
+    /* align-items: flex-start; */
 }
