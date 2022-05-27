@@ -3,13 +3,15 @@ import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from
 import React, { useEffect, useState } from 'react';
 import Inclusion from '../CreateQuote/Inclusion';
 import Profile from '../Profile/Profile';
+import Select from'react-select';
 import '../CreateQuote/TripComponent.css';
+import makeAnimated from'react-select/animated';
+
 
 const Reqoute = (props) => {
-    // console.log(props.TripId)
+    const animatedComponents = makeAnimated();
     const Data = props.data
-    console.log(props.itineary)
-    const [Travel_Duration, setTravel_Duration] = useState(Data)
+    const [Travel_Duration, setTravel_Duration] = useState(Data.Travel_Duration)
     const [open, setOpen] = useState(true)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
     const [flightcost, setFlightcost] = useState(0)
@@ -24,18 +26,24 @@ const Reqoute = (props) => {
     const [days_total, setTotalDays] = useState(props.itineary);
     const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
-        { Night: '1', HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
-    const [selected_date, set_selected_date] = useState()
+        { Night: [], HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
+    const [selected_date, set_selected_date] = useState(props.selected_date)
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
     const [inclusion_data, setinclusion] = useState()
     const [flights, setflights] = useState(props.flights)
     const [cabDetailsData, setcabDetails] = useState(props.cabDetailsData)
+    const nights = [
+        { value:'1st', label:'1st'},
+        { value:'2nd', label:'2nd' },
+        { value:'3rd', label:'3rd'},
 
+    ]
     function cabDetails(e) {
         setcabDetails(e.target.value)
     }
     function closePDF() {
+        console.log(days_total)
         setPDF(false)
         // setOpen(false)
         // props.closeReqoute_flg()
@@ -49,16 +57,19 @@ const Reqoute = (props) => {
     function closeInclusion() {
         setInclusion(false)
     }
-
+   
     function daysChanges(event) {
-        // console.log('target', event.target.value, typeof (event.target.value))
+        console.log(event,)
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
-        // console.log(event.target.value)
-        // for(let s=0;)
         setTotalDays(temp)
+        if(len>days_total.length){
+            itinearyDaysincrease()
+        }
+        if(len<days_total.length){
+            itinearyDaydecrease()
+        }
         if (countNight < len) {
-            // console.log(NightDataFields.length)
             setCountnight(countNight - 1)
         }
         else if (countNight > len) {
@@ -67,38 +78,32 @@ const Reqoute = (props) => {
         }
 
     }
-    function itinearyDays() {
+    function itinearyDaysincrease() {
         let data = { Day: '', Description: '' }
         setItineary([...itineary, data])
     }
-    function setVar() {
-        for (let s = 0; s < Travel_Duration - 1; s++) {
-            let data = { Day: '', Description: '' }
-            let temp = itineary
-            temp.push(data)
-            setItineary(temp)
-        }
-        // console.log(itineary)
+    function itinearyDaydecrease() {
+        let data = [...itineary];
+        data.pop()
+        setItineary(data)
     }
-    useEffect(() => {
-        setVar()
-
-    }, []);
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
         // console.log(data[index][event.target.name])
         data[index][event.target.name] = event.target.value;
         setItineary(data);
-        // console.log(itineary)
+        console.log(itineary)
     }
     function addFields() {
         if (countNight < Travel_Duration - 2) {
-            // console.log('hiii')
-            let object = { Night: '', HotelName: '', City: '', Category: '', HotelType: '', comments: '' }
+            console.log('hiii')
+            let object = { Night: [], HotelName: '', City: '', Category: '', HotelType: '', comments: '' }
             setNightDataFields([...NightDataFields, object])
             setCountnight(countNight + 1)
             // console.log(NightDataFields)
         }
+        console.log('hiii')
+
 
     }
     function removeFields(index) {
@@ -146,6 +151,16 @@ const Reqoute = (props) => {
     function openHandler() {
         setOpen(true)
 
+
+    }
+    function advance_controller_nights(e,index){
+        let data = [...NightDataFields];
+        let local_list=[]
+        for(var i=0;i<e.length;i++){
+            local_list.push(e[i].value)
+        }
+        data[index]['Night'] = local_list;
+        setNightDataFields(data);
     }
     function closeHandler() {
         setOpen(false)
@@ -158,6 +173,7 @@ const Reqoute = (props) => {
         showPDF()
     }
     function select_date(e) {
+        console.log(e)
         set_selected_date(e.target.value)
     }
     function flightDetails(e) {
@@ -273,7 +289,14 @@ const Reqoute = (props) => {
                                             <div className='costOption_estimatiom'>
                                                 <div className='unitComponent'>
                                                     <label>Night</label><br />
-                                                    <select placeholder='select'
+                                                    <Select
+                                                        closeMenuOnSelect={false}
+                                                        components={animatedComponents}
+                                                        isMulti
+                                                        options={nights}
+                                                        onChange={(e) => advance_controller_nights(e,index)}
+                                                    />
+                                                    {/* <select placeholder='select'
                                                         name='Night'
                                                         onChange={(event) =>
                                                             handleFormChange(event, index)
@@ -287,7 +310,7 @@ const Reqoute = (props) => {
                                                         ))}
 
 
-                                                    </select>
+                                                    </select> */}
                                                 </div>
                                                 <div className='unitComponent'>
                                                     <label>Hotel Name</label><br />
@@ -385,7 +408,7 @@ const Reqoute = (props) => {
 
                             <div className='itineary'>
                                 <p>Itinerary Start date</p>
-                                <input type='date' onChange={(e) => select_date(e)} value={props.selected_date}></input>
+                                <input type='date' onChange={(e) => select_date(e)} value={selected_date}></input>
                             </div>
                             {
                                 days_total &&
