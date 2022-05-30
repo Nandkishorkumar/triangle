@@ -1,6 +1,6 @@
 import { addDoc, collection, doc, getFirestore, setDoc, updateDoc } from 'firebase/firestore';
 import jsPDF from 'jspdf';
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import app from '../required';
 import './profile.css';
 import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
@@ -12,18 +12,17 @@ const Profile = (props) => {
         value: "size-a4"
     });
     const Data = props.travel_data
+    const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
-
 
     // console.log(Data)
     const currentdate = new Date();
     // console.log(currentdate)
-    var doc = new jsPDF("p", "pt", "a4");
+    // var doc = new jsPDF("p", "pt", "a4");
     const TripId = Data.TripId
     const month = currentdate.toLocaleString('default', { month: 'long' })
 
     async function dataSetter() {
-        console.log(props.indicator, "indicator")
         if (props.indicator) {
 
         }
@@ -42,6 +41,7 @@ const Profile = (props) => {
             });
         }
     }
+
     async function update_quotation_flg() {
         let quotation_new = parseInt(props.travel_data.quotation) + 1
         await updateDoc(doc(db, "Trip", `${props.travel_data.trip_doc}`), {
@@ -52,6 +52,7 @@ const Profile = (props) => {
         });
     }
     function pdfgenrator() {
+        // pdfExportComponent.current.save()      
         update_quotation_flg()
         // doc.html(document.querySelector("#sample"), {
         //     // autoPaging:'text',
@@ -95,16 +96,20 @@ const Profile = (props) => {
         catch (error) {
             console.log(error)
         }
+        handleExportWithComponent()
 
     }
-    function handleExportWithComponent () {
+    function handleExportWithComponent() {
         pdfExportComponent.current.save();
-        pdfgenrator()
+        // pdfgenrator
     };
 
     return (
         <>
-            <PDFExport ref={pdfExportComponent}>
+            <PDFExport
+                ref={pdfExportComponent}
+                fileName={`${Data.Traveller_name}`}
+            >
                 <div className={`pre ${layoutSelection.value}`}>
                     <div id='sample'>
                         <div className='pdf_Header'>
@@ -114,7 +119,7 @@ const Profile = (props) => {
                         <p className='name'>Journey Routers</p>
                         <div >
                             <div className='details'>
-                               
+
                                 <p>Dear {props.travel_data.Traveller_name},</p>
                                 <p >
                                     Greeting from Journey Routers.com! We have listed below the holiday package details by one of our trusted
@@ -272,7 +277,13 @@ const Profile = (props) => {
 
                 </div>
             </PDFExport>
-            <button className='download_button' onClick={() => handleExportWithComponent()}>downloadURL</button>
+            {
+                callback ?
+                <button className='download_button' onClick={() => handleExportWithComponent()}>downloadURL</button>:
+                <button className='download_button' onClick={() => pdfgenrator()}>save Quote</button> 
+
+            }
+
         </>
     );
 }
