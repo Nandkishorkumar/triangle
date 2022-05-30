@@ -4,11 +4,18 @@
 }
 
 #sample {
-    margin-right: 4rem;
+    margin-right: 5rem;
     margin-left: 4rem;
     background-color: #FFFF;
-    width: 464px;
+    width: 630px;
     overflow-y: scroll;
+    padding-left: 10px;
+    padding-right: 10px;
+    /* background-image: url("https://www.planetware.com/wpimages/2019/10/malaysia-best-beaches-mersing.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    opacity: 0.5; */
 }
 
 .pdf_Header {
@@ -26,9 +33,16 @@
 }
 
 .details {
+    width: 99%;
+    height: 6rem;
     font-size: 8px;
     letter-spacing: 0.2px;
     font-family: monospace;
+     /* background-image: url("/assets/img/topview.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover; */
+    /* opacity: 0.5; */
 }
 
 .details1 {
@@ -40,7 +54,8 @@
     font-weight: bold;
 
 }
-.index{
+
+.index {
     color: rgb(94, 212, 129);
     font-weight: bold;
 }
@@ -61,6 +76,8 @@
     font-size: larger;
     font-weight: 600;
     font-family: Arial;
+    /* border-bottom: 0.2px dashed; */
+    color: rgb(149, 215, 78);
 }
 
 .pdfImg {
@@ -155,7 +172,8 @@
     font-weight: bold;
 
 }
-.set_in_line{
+
+.set_in_line {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
