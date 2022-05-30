@@ -124,7 +124,7 @@ const Row = (props) => {
             list.push(doc.data())
         });
         setpdf(list)
-        console.log(list)
+        console.log('all quote',list)
 
     }
     async function update_comments() {
