@@ -28,15 +28,15 @@ const Profile = (props) => {
         }
         else {
             await addDoc(collection(db, "Quote"), {
-                travel_data: props.travel_data ? props.travel_data : '',
-                cost: props.cost ? props.cost : '',
-                itineary: props.itineary ? props.itineary : '',
+                travel_data: props.travel_data,
+                cost: props.cost ,
+                itineary: props.itineary,
                 followUpDate: String(props.selected_date),
                 NightDataFields: props.NightDataFields,
                 pdf_name: `${currentdate.getDate()}:${currentdate.getMonth() + 1}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
                 cabDetailsData: props.cabDetailsData,
                 flights: props.flights,
-                inclusion_data: props.inclusion_data ? props.inclusion_data : '',
+                inclusion_data: props.inclusion_data ,
 
             });
         }
@@ -52,7 +52,6 @@ const Profile = (props) => {
         });
     }
     function pdfgenrator() {
-        // pdfExportComponent.current.save()      
         update_quotation_flg()
         // doc.html(document.querySelector("#sample"), {
         //     // autoPaging:'text',

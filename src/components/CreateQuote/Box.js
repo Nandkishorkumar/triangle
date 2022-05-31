@@ -244,7 +244,7 @@ const Box = (props) => {
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <Profile userProfile={props.userProfile} indicator={false}inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
-            <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
+            <Modal open={open} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
                     <div className='save_close'>
                         <button className='compo_button' onClick={() => closeHandler()} >close</button>

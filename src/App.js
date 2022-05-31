@@ -13,6 +13,7 @@ import Test from './components/tester/Test';
 import Usercontrol from './components/usercontrol/UserControl';
 import Createquote from './components/CreateQuote/CreateQuote';
 import Loginform from './components/CreateQuote/loginForm';
+import Vouchers from './components/payments_vouchers/Vouchers'
 
 
 function App() {
@@ -243,6 +244,12 @@ function App() {
               <p>Profile</p>
             </div>
           </div>
+          <div className='sidebarCard' onClick={(() => page("voucher"))}>
+            <div className='sidebarCardContaint'>
+              <PersonOutlineOutlined style={{ marginRight: "1rem" }} />
+              <p>voucher & payments</p>
+            </div>
+          </div>
           {
             data ?
               <>
@@ -293,6 +300,15 @@ function App() {
                 {
                   auth &&
                   <FollowUp auth={auth} />
+                }
+              </>
+              : <></>
+          }
+          {Page === "voucher" ?
+              <>
+                {
+                  auth &&
+                  <Vouchers auth={auth} />
                 }
               </>
               : <></>
