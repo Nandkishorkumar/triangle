@@ -29,14 +29,14 @@ const Profile = (props) => {
         else {
             await addDoc(collection(db, "Quote"), {
                 travel_data: props.travel_data,
-                cost: props.cost ,
+                cost: props.cost,
                 itineary: props.itineary,
                 followUpDate: String(props.selected_date),
                 NightDataFields: props.NightDataFields,
                 pdf_name: `${currentdate.getDate()}:${currentdate.getMonth() + 1}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
                 cabDetailsData: props.cabDetailsData,
                 flights: props.flights,
-                inclusion_data: props.inclusion_data ,
+                inclusion_data: props.inclusion_data,
 
             });
         }
@@ -51,7 +51,13 @@ const Profile = (props) => {
 
         });
     }
+
+    function handleExportWithComponent() {
+        pdfExportComponent.current.save();
+        // pdfgenrator
+    };
     function pdfgenrator() {
+        handleExportWithComponent()
         update_quotation_flg()
         // doc.html(document.querySelector("#sample"), {
         //     // autoPaging:'text',
@@ -61,27 +67,14 @@ const Profile = (props) => {
         //         pdf.save(Data.Traveller_name)
         //     }
         // })
-        try {
 
-            props.closeHandler()
-        }
-        catch (e) {
-            console.log(e)
-        }
-        try {
+        // try {
+        //     props.closePDF()
+        // }
+        // catch (e) {
+        //     console.log(e)
+        // }
 
-            props.closePDF()
-        }
-        catch (e) {
-            console.log(e)
-        }
-        try {
-
-            props.datahandle()
-        }
-        catch (e) {
-            console.log(e)
-        }
         try {
 
             dataSetter()
@@ -95,13 +88,9 @@ const Profile = (props) => {
         catch (error) {
             console.log(error)
         }
-        handleExportWithComponent()
-
     }
-    function handleExportWithComponent() {
-        pdfExportComponent.current.save();
-        // pdfgenrator
-    };
+
+
 
     return (
         <>
@@ -276,12 +265,11 @@ const Profile = (props) => {
 
                 </div>
             </PDFExport>
-            {
-                callback ?
-                <button className='download_button' onClick={() => handleExportWithComponent()}>downloadURL</button>:
-                <button className='download_button' onClick={() => pdfgenrator()}>save Quote</button> 
 
-            }
+            <button className='download_button' onClick={() => pdfgenrator()}>downloadURL</button>
+            {/* <button className='download_button' onClick={() => pdfgenrator()}>save Quote</button> */}
+
+
 
         </>
     );

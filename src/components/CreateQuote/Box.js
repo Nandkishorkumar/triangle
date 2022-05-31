@@ -14,7 +14,7 @@ const Box = (props) => {
     const Data = props.data
     // console.log(Data)
     const [Travel_Duration, setTravel_Duration] = useState(Data.Travel_Duration)
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(true)
     const [SelectedValue, setSelectedValue] = useState("perPerson")
     const [flightcost, setFlightcost] = useState(0)
     const [visacost, setvisacost] = useState(0)
@@ -32,7 +32,7 @@ const Box = (props) => {
     const [selected_date, set_selected_date] = useState()
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
-    const [inclusion_data, setinclusion] = useState()
+    const [inclusion_data, setinclusion] = useState([])
     const [flights, setflights] = useState()
     const [cabDetailsData, setcabDetails] = useState()
 
@@ -165,6 +165,7 @@ const Box = (props) => {
     }
     function closeHandler() {
         setOpen(false)
+        props.set_popupopner(false)
     }
     function handleChange(event) {
         setSelectedValue(event.target.value);
@@ -183,7 +184,7 @@ const Box = (props) => {
 
     return (
         <>
-            <div className='fullContainer'>
+            {/* <div className='fullContainer'>
                 <div className='compo_header'>
 
                     <p className='text'>Trip Id: {Data.TripId}</p>
@@ -229,7 +230,6 @@ const Box = (props) => {
                     </div>
 
                     <div className='right'>
-                        {/* <div className='verticle_line'></div> */}
                         <div className='line1_right'>
                             <div className='traveller_details'>
                                 <PermIdentityTwoTone />
@@ -240,7 +240,7 @@ const Box = (props) => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <Profile userProfile={props.userProfile} indicator={false}inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>

@@ -96,7 +96,7 @@ const Reqoute = (props) => {
     }
     function addFields() {
         if (countNight < Travel_Duration - 2) {
-            console.log('hiii')
+            // console.log('hiii')
             let object = { Night: [], HotelName: '', City: '', Category: '', HotelType: '', comments: '' }
             setNightDataFields([...NightDataFields, object])
             setCountnight(countNight + 1)

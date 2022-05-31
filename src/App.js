@@ -14,6 +14,7 @@ import Usercontrol from './components/usercontrol/UserControl';
 import Createquote from './components/CreateQuote/CreateQuote';
 import Loginform from './components/CreateQuote/loginForm';
 import Vouchers from './components/payments_vouchers/Vouchers'
+import TestTable from './components/tester/TestTable';
 
 
 function App() {
@@ -238,18 +239,19 @@ function App() {
               <p>Quotation Followup</p>
             </div>
           </div>
-          <div className='sidebarCard' onClick={(() => page("profile"))}>
-            <div className='sidebarCardContaint'>
-              <PersonOutlineOutlined style={{ marginRight: "1rem" }} />
-              <p>Profile</p>
-            </div>
-          </div>
           <div className='sidebarCard' onClick={(() => page("voucher"))}>
             <div className='sidebarCardContaint'>
               <PersonOutlineOutlined style={{ marginRight: "1rem" }} />
               <p>voucher & payments</p>
             </div>
           </div>
+          <div className='sidebarCard' onClick={(() => page("profile"))}>
+            <div className='sidebarCardContaint'>
+              <PersonOutlineOutlined style={{ marginRight: "1rem" }} />
+              <p>Profile</p>
+            </div>
+          </div>
+         
           {
             data ?
               <>
@@ -316,7 +318,7 @@ function App() {
           {
             Page === "profile" ?
               <>
-                <Test />
+                <TestTable />
               </>
               : <></>
           }

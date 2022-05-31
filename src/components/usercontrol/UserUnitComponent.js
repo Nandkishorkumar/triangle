@@ -46,9 +46,9 @@ const Userunitcomponent = (props) => {
         const list=[]
         for(let len=0;len<=e.length-1; len++){
             list.push(e[len].value)
-            console.log(e[len].value)
+            // console.log(e[len].value)
         }
-        console.log(list)
+        // console.log(list)
         setLead_list(list)
     }
     function changeAcessType(args){

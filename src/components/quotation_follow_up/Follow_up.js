@@ -24,7 +24,9 @@ const FollowUp = (props) => {
         if (props.auth) {
             // console.log("create quote datahandler")
             let list = []
-            const q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", true), where("Lead_Status", "!=", "Dump"));
+            const q = query(collection(db, "Trip"),
+            //  where("uploaded_by", "==", props.auth.uid),
+              where("quotation_flg", "==", true), where("Lead_Status", "!=", "Dump"));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
             try{
