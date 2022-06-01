@@ -5,8 +5,9 @@
 
 #sample {
     margin-right: 5rem;
-    margin-left: 4rem;
+    margin-left: 3rem;
     background-color: #FFFF;
+    letter-spacing: 0.1px;
     width: 630px;
     overflow-y: scroll;
     padding-left: 10px;
@@ -16,6 +17,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     opacity: 0.5; */
+    clear: both;
 }
 
 .pdf_Header {
@@ -31,32 +33,46 @@
     margin-top: -4px;
     margin-left: 15px;
 }
+.address{
+    width: 9rem;
+    font-size: 6px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgb(30, 30, 29);
+    margin-top: -4px;
+    margin-left: 15px;
+}
 
 .details {
-    width: 99%;
+    width:98%;
     height: 6rem;
     font-size: 8px;
     letter-spacing: 0.2px;
     font-family: monospace;
-     /* background-image: url("/assets/img/topview.jpg");
+    /* background-image: url("'public/assets/img/intro.jpg'");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover; */
     /* opacity: 0.5; */
 }
+.limiter{
+    width: 10rem;
+    height: 4rem;
+}
 
 .details1 {
-    font-size: 12px;
+    width: 98%;
+    font-size: 14px;
     letter-spacing: 0.2px;
     font-family: monospace;
     border-bottom: 1px dashed;
-    color: rgb(131, 161, 215);
-    font-weight: bold;
+    color: blue;
+    font-weight: 700;
 
 }
 
 .index {
-    color: rgb(94, 212, 129);
+    color: rgb(226 13 17);
     font-weight: bold;
 }
 
@@ -68,6 +84,10 @@
 .destination_details {
     display: flex;
     justify-content: space-between;
+    font-size: medium;
+    font-weight: 700;
+    color: blue
+
 }
 
 .Itinerary {
@@ -92,7 +112,7 @@
     font-family: Arial, Helvetica, sans-serif;
     /* font-weight: 600; */
     text-decoration: underline;
-    color: rgb(94, 212, 129);
+    color:black;
     font-weight: bold;
 }
 
@@ -120,8 +140,9 @@
     width: 8rem;
     align-items: center;
     font-weight: 600;
-    color: rgb(94, 212, 129);
+    color: rgb(11, 11, 11);
     font-weight: bold;
+    border-bottom: 1px solid black;
 
 }
 
@@ -151,7 +172,7 @@
 .comments_ {
     margin-bottom: -0.7rem;
     text-decoration: underline;
-    color: rgb(94, 212, 129);
+    color: rgb(9, 123, 43);
     font-weight: bold;
 
     /* border-bottom: 1px  solid black; */
@@ -166,10 +187,10 @@
 }
 
 .comments_details {
-    font-weight: 100;
-    font-size: x-small;
-    color: rgb(131, 161, 215);
-    font-weight: bold;
+    font-weight: 600;
+    font-size: large;
+    color: rgb(6, 44, 114);
+    /* font-weight: bold; */
 
 }
 
@@ -179,4 +200,71 @@
     justify-content: flex-start;
     /* width: 33% */
     /* align-items: flex-start; */
+}
+
+.intro_page {
+    height: 34rem;
+    width: 100%;
+    margin-top: 0.3rem;
+    background-image: url("E:/react-project/travel_with_us/public/assets/img/intro.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.client_details {
+    width: 15rem;
+    height: 13rem;
+    margin: 22rem;
+    background-color: #FFFF;
+    background-image: url("E:/react-project/travel_with_us/public/assets/img/intro.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+
+}
+
+.customer_Details {
+    display: flex;
+    margin-top: 1rem;
+    justify-content: space-between;
+    font-size: medium;
+    font-weight: 700;
+    font-family: monospaces;
+    /* border-bottom: 0.2px dashed; */
+    color: red
+}
+.jraccountdetails{
+    width: 100%;
+}
+.accounts_and_bank{
+    width: 50%;
+    display: flex;
+    justify-content: space-around;
+    font-size: medium;  
+    font-weight: 800;
+    align-items: center;
+    font-family: Arial;
+
+}
+.acc_details{
+    margin-left: 1rem;
+    display: flex;
+    flex-direction: column;
+    color: rgb(114 109 109);
+}
+.answer{
+    font-size: x-small;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(145, 140, 140);
+}
+.cutomerCare{
+    display: flex;
+    justify-content: space-evenly;
+    font-size: x-small;
+    color: rgb(145, 140, 140);
+    font-family: cursive;
+
+
 }

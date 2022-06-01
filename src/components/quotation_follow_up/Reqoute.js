@@ -30,7 +30,7 @@ const Reqoute = (props) => {
     const [selected_date, set_selected_date] = useState(props.selected_date)
     const [opennclusion, setInclusion] = useState(false)
     const [openPDF, setPDF] = useState(false)
-    const [inclusion_data, setinclusion] = useState()
+    const [inclusion_data, setinclusion] = useState([])
     const [flights, setflights] = useState(props.flights)
     const [cabDetailsData, setcabDetails] = useState(props.cabDetailsData)
     const nights = [
