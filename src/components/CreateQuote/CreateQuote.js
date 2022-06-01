@@ -47,7 +47,7 @@ const Createquote = (props) => {
     useEffect(() => {
         if (lead_data.length == 0) {
 
-            datahandle()
+            getnextData()
         }
     }, [lead_data]);
     async function datahandle() {

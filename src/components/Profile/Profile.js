@@ -152,7 +152,7 @@ const Profile = (props) => {
                                         Duration :{props.travel_data.Travel_Duration} Days , {props.travel_data.Travel_Duration - 1} Nights
                                     </p>
                                     <p>
-                                        Journney Date:
+                                        Journney Date:-
 
                                         {
                                             props.selected_date
