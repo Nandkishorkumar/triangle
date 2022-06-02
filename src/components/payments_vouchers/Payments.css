@@ -1,0 +1,19 @@
+.global_search {
+    display: flex;
+    justify-content: space-evenly;
+    width: 71%;
+    margin-top: 1rem;
+    position: absolute;
+    top: 0;
+}
+
+.option_selector {
+    width: 9rem;
+    /* border: 0rem; */
+    color: orangered;
+    font-family: cursive;
+}
+.global_search_button{
+    color: blue;
+    border-radius: 1rem;
+}

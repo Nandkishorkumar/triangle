@@ -1,7 +1,7 @@
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import app from '../required';
-
+import './Payments.css'
 const Vouchers = (props) => {
     const [lead_data, setLead_data] = useState([])
     const [open, setopen] = useState(true)
@@ -10,7 +10,7 @@ const Vouchers = (props) => {
     async function datahandle() {
         if (props.auth) {
             let list = []
-            const q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", true), where("Lead_Status", "==", "converted"));
+            const q = query(collection(db, "Trip"), where("quotation_flg", "==", true), where("Lead_Status", "==", "Converted"));
             const querySnapshot = await getDocs(q);
             console.log(querySnapshot)
             try{
@@ -35,12 +35,26 @@ const Vouchers = (props) => {
         }
 
     }
+    useEffect(() => {
+        datahandle()
+    }, []);
     return (
         <div>
-            <h1>
-                testing query
-            </h1>
-            set feed in firebase
+            <div className='global_search'>
+                <select name='search_type' id='firestore' className='option_selector'>
+                    <option value="Name">Name</option>
+                    <option value="Trip_id">TripId</option>
+                    <option value="Contact">Contact_Number</option>
+                    <option value="Budget">Budget</option>
+                </select>
+                <input placeholder='search your selection'></input>
+                <input
+                className='global_search_button'
+                type="button"
+                value="Search "
+                ></input>
+
+            </div>
         </div>
     );
 }

@@ -15,7 +15,7 @@
     /* background-color: rgb(219, 208, 230); */
     border: 2px solid #56c2c4;
 }
-.client_details{
+.client_details_{
     display: flex;
     justify-content: space-between;
 }
@@ -49,13 +49,12 @@
 }
 .button_save{
     width: 5rem;
+    margin-top: 4rem;
     display: flex;
     justify-content: center;
     border-radius: 1rem;
     font-weight: 600;
     color: green;
-    margin: 1rem;
-    margin-left: 8rem;
 }
 .destination{
     width: 25rem;
@@ -101,12 +100,12 @@
  
 }
 .comments_box{
-    position: sticky;
+    /* position: sticky;
     top: 0;
     width: 20rem;
     display: flex;
     height: 2rem;
-    background: #FFFFFF;
+    background: #FFFFFF; */
     
 }
 .comments_box::-webkit-scrollbar {
@@ -123,7 +122,8 @@
     text-transform: capitalize;  
 }
 .button_save_comments{
-    margin-top: 1rem;
+    margin: 3rem;
+    margin-left: 7rem;
     height: 1rem;
     align-items: center;
     width: 4rem;

@@ -24,7 +24,6 @@ const Row = (props) => {
     const db = getFirestore(app);
     const [Lead_Status, setLead_Status] = useState(row.Lead_Status)
     const [openUpdater, setopenupdater] = useState(false)
-    const [access_type, setAccessType] = useState(row.Lead_Status)
     const [comments, setcomments] = useState([])
     const [latestComment, setLatestComment] = useState([])
     const [pdfHolder, setpdf] = useState([])
@@ -138,12 +137,15 @@ const Row = (props) => {
             allComments.push(comment_holder)
             // console.log('allcoments new', allComments, row.trip_doc)
             setDoc(doc(db, "Trip", row.trip_doc), {
-                comments: allComments
+                comments: allComments,
+                Lead_Status:Lead_Status 
+
             }, { merge: true });
 
             latestComments()
             dochange()
             setcomments()
+            props.datahandle()
         }
         else {
             // console.log("input please")
@@ -163,20 +165,20 @@ const Row = (props) => {
         setopenupdater(true)
 
     }
-    function changeAcessType(args) {
-        setAccessType(args.target.value)
+    function changeLead_Status(args) {
+        setLead_Status(args.target.value)
     }
 
     return (
         <>
-            <Modal open={openUpdater}  style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+            <Modal open={openUpdater} onClose={closeUpdater}  style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <div className='popOver'>
                     {
                         update == 'status' ?
                             <div className='status'>
-                                <FormControl onChange={(e) => changeAcessType(e)}>
+                                <FormControl onChange={(e) => changeLead_Status(e)}>
                                     <FormLabel >Status</FormLabel>
-                                    <RadioGroup value={access_type} >
+                                    <RadioGroup value={Lead_Status} >
                                         <FormControlLabel value="Active" control={<Radio />} label="Active" />
                                         <FormControlLabel value="Cold" control={<Radio />} label="Cold" />
                                         <FormControlLabel value="Hot" control={<Radio />} label="Hot" />
@@ -186,24 +188,23 @@ const Row = (props) => {
                                         <FormControlLabel value="No Response" control={<Radio />} label="No Response" />
                                         <FormControlLabel value="Hidden Lead" control={<Radio />} label="Hidden Lead" />
                                         <FormControlLabel value="Dump" control={<Radio />} label="Dump" />
+                                        <FormControlLabel value="Converted" control={<Radio />} label="Converted" />
+
 
                                     </RadioGroup>
                                 </FormControl>
                                 <div>
 
-                                    <Autocomplete
-                                        freeSolo={true}
-                                        key={change}
-                                        onChange={(e) => handlecomment(e)}
-                                        options={reasons.map((option) =>(
-                                            <>
-                                            <p placeholder='Comments'>{option.title}</p>
-                                            </>
-                                        ))}
-                                        renderInput={(params) => (
-                                            <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
-                                        )}
-                                    />
+                                <Autocomplete
+                                                key={change}
+                                                className='Autocomplete'
+                                                freeSolo={true}
+                                                onChange={(e) => handlecomment(e)}
+                                                options={reasons.map((option) => option.title)}
+                                                renderInput={(params) => (
+                                                    <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
+                                                )}
+                                            />
                                     <button className='button_save' onClick={() => closeOnstatusComments()}>save</button>
                                 </div>
                             </div> : <></>
@@ -246,10 +247,10 @@ const Row = (props) => {
                 </TableRow>
                 <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="auto" unmountOnExit>
+                        <Collapse in={open} timeout="5sec" unmountOnExit>
                             <div className='collaps'>
-                                <div className='client_details'>
-                                    <p className='p' onClick={() => sethint('status')}>{access_type}</p>
+                                <div className='client_details_'>
+                                    <p className='p' onClick={() => sethint('status')}>{Lead_Status}</p>
                                     <p className='p1' >{row.Traveller_name}</p>
                                     <p>{row.Email}</p>
                                     <p>{row.Budget}</p>

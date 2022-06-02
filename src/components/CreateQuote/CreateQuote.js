@@ -56,7 +56,7 @@ const Createquote = (props) => {
             var q;
             if (props.userProfile.access_type == 'User') {
                 console.log(props.userProfile.following_lead)
-                q = query(collection(db, "Trip"), where('Destination', 'in', props.userProfile.following_lead), where("quotation_flg", "==", false), where("Lead_Status", "!=", "Dump"), limit(15));
+                q = query(collection(db, "Trip"), where('Destination', 'in', props.userProfile.following_lead), where("quotation_flg", "==", false), where("Lead_Status", "!=", "Dump"));
 
             }
 
