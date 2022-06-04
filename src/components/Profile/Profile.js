@@ -15,8 +15,9 @@ const Profile = (props) => {
     const Data = props.travel_data
     const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
-
-    // console.log(Data)
+    let comment_inclusion = props.inclusion_data.other_Inclusion.split(".")
+    let Comment_Exclusion = props.inclusion_data.other_Exclusion.split(".")
+    // console.log(comment)
     const currentdate = new Date();
     // console.log(currentdate)
     // var doc = new jsPDF("p", "pt", "a4");
@@ -243,9 +244,25 @@ const Profile = (props) => {
                                     <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
                                     <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
                                     <p className='comments_'>other_Inclusion</p>
-                                    <p className='comments_details'>{props.inclusion_data.other_Inclusion}</p>
+                                    <p className='comments_details'>
+                                        {
+                                            comment_inclusion.map((comment, index) => (
+                                                <p>
+                                                    *{comment}
+                                                </p>
+                                            ))
+                                        }
+                                    </p>
                                     <p className='comments_'>other_Exclusion</p>
-                                    <p className='comments_details'>{props.inclusion_data.other_Exclusion}</p>
+                                    <p className='comments_details'>
+                                        {
+                                            Comment_Exclusion.map((comment, index) => (
+                                                <p>
+                                                    *{comment}
+                                                </p>
+                                            ))
+                                        }
+                                    </p>
                                 </> : <></>
                                 }
                             </div>
@@ -341,16 +358,16 @@ const Profile = (props) => {
                             <p className='underline'></p>
 
                             <div className='cutomerCare'>
-                            
-                            <img src='/assets/img/customercare.png' width='90px' height='80px' />
-                            <div>
-                                <p>
-                                    e-mail: customercare@jouneryrouters.com
-                                </p>
-                                <p>
-                                    contact:9876543210
-                                </p>
-                            </div>
+
+                                <img src='/assets/img/customercare.png' width='90px' height='80px' />
+                                <div>
+                                    <p>
+                                        e-mail: customercare@jouneryrouters.com
+                                    </p>
+                                    <p>
+                                        contact:9876543210
+                                    </p>
+                                </div>
 
                             </div>
                         </div>

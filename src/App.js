@@ -318,7 +318,7 @@ function App() {
           {
             Page === "profile" ?
               <>
-                <TestTable />
+                <Test />
               </>
               : <></>
           }
