@@ -15,10 +15,10 @@ const Profile = (props) => {
     const Data = props.travel_data
     const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
-    let comment_inclusion = props.inclusion_data.other_Inclusion.split(".")
-    comment_inclusion.pop()
-    let Comment_Exclusion = props.inclusion_data.other_Exclusion.split(".")
-    Comment_Exclusion.pop()
+    let comment_inclusion =props.inclusion_data.other_Inclusion?. props.inclusion_data.other_Inclusion.split(".")
+    props.inclusion_data.other_Inclusion?.comment_inclusion.pop()
+    let Comment_Exclusion =props.inclusion_data.other_Exclusion?. props.inclusion_data.other_Exclusion.split(".")
+    props.inclusion_data.other_Exclusion?.Comment_Exclusion.pop()
     // console.log(comment)
     const currentdate = new Date();
     // console.log(currentdate)
@@ -248,6 +248,7 @@ const Profile = (props) => {
                                     <p className='comments_'>other_Inclusion</p>
                                     <p className='comments_details'>
                                         {
+                                            comment_inclusion?.
                                             comment_inclusion.map((comment, index) => (
                                                 <p>
                                                     *{comment}
@@ -258,6 +259,7 @@ const Profile = (props) => {
                                     <p className='comments_'>other_Exclusion</p>
                                     <p className='comments_details'>
                                         {
+                                            Comment_Exclusion?.
                                             Comment_Exclusion.map((comment, index) => (
                                                 <p>
                                                     *{comment}

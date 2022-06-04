@@ -3,9 +3,9 @@ import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from
 import React, { useEffect, useState } from 'react';
 import Inclusion from '../CreateQuote/Inclusion';
 import Profile from '../Profile/Profile';
-import Select from'react-select';
+import Select from 'react-select';
 import '../CreateQuote/TripComponent.css';
-import makeAnimated from'react-select/animated';
+import makeAnimated from 'react-select/animated';
 
 
 const Reqoute = (props) => {
@@ -33,20 +33,12 @@ const Reqoute = (props) => {
     const [inclusion_data, setinclusion] = useState([])
     const [flights, setflights] = useState(props.flights)
     const [cabDetailsData, setcabDetails] = useState(props.cabDetailsData)
-    const nights = [
-        { value:'1st', label:'1st'},
-        { value:'2nd', label:'2nd' },
-        { value:'3rd', label:'3rd'},
-
-    ]
+    const [nights,setnights]=useState([])
     function cabDetails(e) {
         setcabDetails(e.target.value)
     }
     function closePDF() {
-        console.log(days_total)
         setPDF(false)
-        // setOpen(false)
-        // props.closeReqoute_flg()
     }
     function showPDF() {
         setPDF(true)
@@ -57,16 +49,31 @@ const Reqoute = (props) => {
     function closeInclusion() {
         setInclusion(false)
     }
-   
+    function handleOptionOfNights(){
+        console.log('run')
+        var list=[]
+        for(let start=1;start<=days_total.length-1;start++){
+            var tmp={ value: '', label: '' }
+            tmp.value=` Night ${start}`
+            tmp.label=` Night ${start}`
+            console.log(tmp)
+            list.push(tmp)
+            console.log(list)
+        }
+        setnights(list)
+    }
+    useEffect(() => {
+        handleOptionOfNights()
+    }, [countNight]);
     function daysChanges(event) {
-        console.log(event,)
+        // console.log(event,)
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
         setTotalDays(temp)
-        if(len>days_total.length){
+        if (len > days_total.length) {
             itinearyDaysincrease()
         }
-        if(len<days_total.length){
+        if (len < days_total.length) {
             itinearyDaydecrease()
         }
         if (countNight < len) {
@@ -76,6 +83,8 @@ const Reqoute = (props) => {
             setCountnight(countNight + 1)
 
         }
+        handleOptionOfNights()
+
 
     }
     function itinearyDaysincrease() {
@@ -153,10 +162,12 @@ const Reqoute = (props) => {
 
 
     }
-    function advance_controller_nights(e,index){
+   
+    function advance_controller_nights(e, index) {
+        console.log(e)
         let data = [...NightDataFields];
-        let local_list=[]
-        for(var i=0;i<e.length;i++){
+        let local_list = []
+        for (var i = 0; i < e.length; i++) {
             local_list.push(e[i].value)
         }
         data[index]['Night'] = local_list;
@@ -182,9 +193,9 @@ const Reqoute = (props) => {
 
     return (
         <>
-            
+
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile  Allquote={props.Allquote} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={days_total} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile Allquote={props.Allquote} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={days_total} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} onClose={closeHandler} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -253,7 +264,7 @@ const Reqoute = (props) => {
                                         className='input_filed'
                                         placeholder='0'
                                         onChange={(e) => flightcostChange(e)}
-                                        
+
                                     ></input>
                                     <text className='spacer'>+</text>
                                 </div>
@@ -294,7 +305,7 @@ const Reqoute = (props) => {
                                                         components={animatedComponents}
                                                         isMulti
                                                         options={nights}
-                                                        onChange={(e) => advance_controller_nights(e,index)}
+                                                        onChange={(e) => advance_controller_nights(e, index)}
                                                     />
                                                     {/* <select placeholder='select'
                                                         name='Night'
@@ -374,7 +385,7 @@ const Reqoute = (props) => {
                             {
                                 flight ?
                                     <>
-                                        <textarea onChange={(e) => flightDetails(e)}  value={flights} className='flightdetails'>
+                                        <textarea onChange={(e) => flightDetails(e)} value={flights} className='flightdetails'>
                                         </textarea>
                                     </>
                                     :
