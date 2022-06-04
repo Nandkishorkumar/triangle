@@ -16,7 +16,9 @@ const Profile = (props) => {
     const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
     let comment_inclusion = props.inclusion_data.other_Inclusion.split(".")
+    comment_inclusion.pop()
     let Comment_Exclusion = props.inclusion_data.other_Exclusion.split(".")
+    Comment_Exclusion.pop()
     // console.log(comment)
     const currentdate = new Date();
     // console.log(currentdate)
