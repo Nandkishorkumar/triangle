@@ -32,14 +32,14 @@ const Row = (props) => {
     const reverse = latestComment.slice(0).reverse();
     const [viewPDF, setPDF] = useState(false)
     const [data, setdata] = useState()
-    const[Reqoute_flg,setReqoute_flg]=useState(false)
+    const [Reqoute_flg, setReqoute_flg] = useState(false)
     var today = new Date();
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     // var date= today.getDate()+":"+(today.getMonth()+1)+":"+today.getFullYear();
-    function Controller_reqoute(){
+    function Controller_reqoute() {
         setReqoute_flg(true)
     }
-    function closeReqoute_flg(){
+    function closeReqoute_flg() {
         setReqoute_flg(false)
     }
     function closePDF() {
@@ -65,19 +65,19 @@ const Row = (props) => {
     function handlecomment(e) {
         console.log('e')
         if (e.target.outerText) {
-            if(e.target.outerText.length===0){
+            if (e.target.outerText.length === 0) {
                 alert('comments')
             }
-            else{
+            else {
                 setcomments(e.target.outerText)
                 console.log(e.target.outerText)
             }
         }
         else {
-            if(e.target.value.length===0){
+            if (e.target.value.length === 0) {
                 alert('comments')
             }
-            else{                
+            else {
                 setcomments(e.target.value)
                 console.log(e.target.value)
             }
@@ -89,7 +89,7 @@ const Row = (props) => {
         { title: 'Traveler not Reachable' },
         { title: "Won't book with me" },
         { title: 'Talk in progress with traveler' },
-        { title: "Traveler will Finalize and it's my hot"},
+        { title: "Traveler will Finalize and it's my hot" },
     ]
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
@@ -123,22 +123,22 @@ const Row = (props) => {
             list.push(doc.data())
         });
         setpdf(list)
-        console.log('all quote',list)
+        console.log('all quote', list)
 
     }
     async function update_comments() {
         if (comments) {
             let allComments = row.comments
             let comment_holder = {
-                 comments: comments, 
-                 time:moment(today).format('MMMM Do YYYY'),
-                 date:moment(today).format('h:mm:ss')
-                }
+                comments: comments,
+                time: moment(today).format('MMMM Do YYYY'),
+                date: moment(today).format('h:mm:ss')
+            }
             allComments.push(comment_holder)
             // console.log('allcoments new', allComments, row.trip_doc)
             setDoc(doc(db, "Trip", row.trip_doc), {
                 comments: allComments,
-                Lead_Status:Lead_Status 
+                Lead_Status: Lead_Status
 
             }, { merge: true });
 
@@ -171,7 +171,7 @@ const Row = (props) => {
 
     return (
         <>
-            <Modal open={openUpdater} onClose={closeUpdater}  style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+            <Modal open={openUpdater} onClose={closeUpdater} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <div className='popOver'>
                     {
                         update == 'status' ?
@@ -195,16 +195,16 @@ const Row = (props) => {
                                 </FormControl>
                                 <div>
 
-                                <Autocomplete
-                                                key={change}
-                                                className='Autocomplete'
-                                                freeSolo={true}
-                                                onChange={(e) => handlecomment(e)}
-                                                options={reasons.map((option) => option.title)}
-                                                renderInput={(params) => (
-                                                    <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
-                                                )}
-                                            />
+                                    <Autocomplete
+                                        key={change}
+                                        className='Autocomplete'
+                                        freeSolo={true}
+                                        onChange={(e) => handlecomment(e)}
+                                        options={reasons.map((option) => option.title)}
+                                        renderInput={(params) => (
+                                            <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
+                                        )}
+                                    />
                                     <button className='button_save' onClick={() => closeOnstatusComments()}>save</button>
                                 </div>
                             </div> : <></>
@@ -264,7 +264,7 @@ const Row = (props) => {
                                                 <div key={index} className='comments_maping'>
                                                     {/* {console.log("comments data",text)} */}
                                                     <p>
-                                                    {text.comments}
+                                                        {text.comments}
                                                     </p>
                                                     <div className='time_date'>
                                                         <p>{text.time}</p>
@@ -279,22 +279,7 @@ const Row = (props) => {
                                     </div>
 
 
-                                    <div className='remark_set'>
-                                        <div className='comments_box'>
-                                            <Autocomplete
-                                                key={change}
-                                                className='Autocomplete'
-                                                freeSolo={true}
-                                                onChange={(e) => handlecomment(e)}
-                                                options={reasons.map((option) => option.title)}
-                                                renderInput={(params) => (
-                                                    <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
-                                                )}
-                                            />
-                                            <button className='button_save_comments' onClick={() => update_comments()}>save</button>
-                                        </div>
 
-                                    </div >
                                     {
                                         viewPDF ? <>
                                             <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
@@ -313,12 +298,13 @@ const Row = (props) => {
                                                         <p key={index}>{data.pdf_name}</p>
                                                         <button onClick={() => showPDF(data)} className='download_requote'>
                                                             downloadURL</button>
-                                                        <button className='download_requote' onClick={()=>Controller_reqoute()}>Requote</button>
+                                                        <button className='download_requote' onClick={() => Controller_reqoute()}>Requote</button>
+                                                        <button className='download_requote'>Create invoice</button>
                                                         {
-                                                            
-                                                            Reqoute_flg?<>
-                                                            <Reqoute Allquote={Allquote} closeReqoute_flg={closeReqoute_flg} data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={false} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost}/>
-                                                            </>:<></>
+
+                                                            Reqoute_flg ? <>
+                                                                <Reqoute Allquote={Allquote} closeReqoute_flg={closeReqoute_flg} data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={false} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                                            </> : <></>
                                                         }
                                                     </div>
 
@@ -326,9 +312,23 @@ const Row = (props) => {
                                             ))
                                         }
                                     </div>
-
-
                                 </div>
+                                <div className='remark_set'>
+                                    <div className='comments_box'>
+                                        <Autocomplete
+                                            key={change}
+                                            className='Autocomplete'
+                                            freeSolo={true}
+                                            onChange={(e) => handlecomment(e)}
+                                            options={reasons.map((option) => option.title)}
+                                            renderInput={(params) => (
+                                                <TextField {...params} placeholder='Comments' margin="normal" variant="outlined" />
+                                            )}
+                                        />
+                                        <button className='button_save_comments' onClick={() => update_comments()}>save</button>
+                                    </div>
+
+                                </div >
                             </div>
                         </Collapse>
                     </TableCell>

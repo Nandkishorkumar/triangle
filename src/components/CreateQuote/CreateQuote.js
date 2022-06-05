@@ -62,7 +62,7 @@ const Createquote = (props) => {
 
             if (props.userProfile.access_type == 'admin') {
 
-                q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", false), limit(3));
+                q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", false));
             }
 
             const querySnapshot = await getDocs(q);

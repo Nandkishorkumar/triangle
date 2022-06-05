@@ -1,10 +1,10 @@
 import { Modal, Radio } from '@material-ui/core';
-import Select from'react-select';
+import Select from 'react-select';
 import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
 import Profile from '../Profile/Profile';
 import Inclusion from './Inclusion';
-import makeAnimated from'react-select/animated';
+import makeAnimated from 'react-select/animated';
 import './TripComponent.css';
 
 const Box = (props) => {
@@ -35,6 +35,8 @@ const Box = (props) => {
     const [inclusion_data, setinclusion] = useState([])
     const [flights, setflights] = useState()
     const [cabDetailsData, setcabDetails] = useState()
+    const [nights,setnights]=useState([])
+
 
     function cabDetails(e) {
         setcabDetails(e.target.value)
@@ -51,12 +53,33 @@ const Box = (props) => {
     function closeInclusion() {
         setInclusion(false)
     }
-
+    function handleOptionOfNights() {
+        // console.log('run')
+        var list = []
+        for (let start = 1; start <= days_total.length - 1; start++) {
+            var tmp = { value: '', label: '' }
+            tmp.value = ` N${start}`
+            tmp.label = ` N${start}`
+            console.log(tmp)
+            list.push(tmp)
+            console.log(list)
+        }
+        setnights(list)
+    }
+    useEffect(() => {
+        handleOptionOfNights()
+    }, [countNight]);
     function daysChanges(event) {
         let len = parseInt(event.target.value)
         var temp = Array(len).fill('a');
         setTotalDays(temp)
-        console.log('target',temp)
+        console.log('target', temp)
+        if (len > days_total.length) {
+            itinearyDaysincrease()
+        }
+        if (len < days_total.length) {
+            itinearyDaydecrease()
+        }
         if (countNight < len) {
             // console.log(NightDataFields.length)
             setCountnight(countNight - 1)
@@ -67,9 +90,14 @@ const Box = (props) => {
         }
 
     }
-    function itinearyDays() {
+    function itinearyDaysincrease() {
         let data = { Day: '', Description: '' }
         setItineary([...itineary, data])
+    }
+    function itinearyDaydecrease() {
+        let data = [...itineary];
+        data.pop()
+        setItineary(data)
     }
     function setVar() {
         for (let s = 0; s < Travel_Duration - 1; s++) {
@@ -78,11 +106,12 @@ const Box = (props) => {
             temp.push(data)
             setItineary(temp)
         }
-        // console.log(itineary)
+        console.log(itineary)
     }
     useEffect(() => {
         setVar()
     }, []);
+
     const handleFormChangeItineary = (event, index) => {
         let data = [...itineary];
         // console.log(data[index][event.target.name])
@@ -107,10 +136,10 @@ const Box = (props) => {
         setCountnight(countNight - 1)
 
     }
-    function advance_controller_nights(e,index){
+    function advance_controller_nights(e, index) {
         let data = [...NightDataFields];
-        let local_list=[]
-        for(var i=0;i<e.length;i++){
+        let local_list = []
+        for (var i = 0; i < e.length; i++) {
             local_list.push(e[i].value)
         }
         data[index]['Night'] = local_list;
@@ -150,18 +179,12 @@ const Box = (props) => {
         "USD",
         "CLP"
     ]
-    const nights = [
-        { value:'1st', label:'1st'},
-        { value:'2nd', label:'2nd' },
-        { value:'3rd', label:'3rd'},
-
-    ]
-
     function openHandler() {
         setOpen(true)
 
     }
     function closeHandler() {
+        console.log(days_total,itineary)
         setOpen(false)
         props.set_popupopner(false)
     }
@@ -178,7 +201,7 @@ const Box = (props) => {
     function flightDetails(e) {
         setflights(e.target.value)
     }
-    
+
 
     return (
         <>
@@ -240,7 +263,7 @@ const Box = (props) => {
 
             </div> */}
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile userProfile={props.userProfile} indicator={false}inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={days_total} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
+                <Profile userProfile={props.userProfile} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost) + parseInt(marketcorrection) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -349,7 +372,7 @@ const Box = (props) => {
                                                         components={animatedComponents}
                                                         isMulti
                                                         options={nights}
-                                                        onChange={(e) => advance_controller_nights(e,index)}
+                                                        onChange={(e) => advance_controller_nights(e, index)}
                                                     />
                                                     {/* <select placeholder='select'
                                                         name='Night'

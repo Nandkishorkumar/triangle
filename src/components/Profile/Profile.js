@@ -15,11 +15,26 @@ const Profile = (props) => {
     const Data = props.travel_data
     const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
-    let comment_inclusion =props.inclusion_data.other_Inclusion?. props.inclusion_data.other_Inclusion.split(".")
-    props.inclusion_data.other_Inclusion?.comment_inclusion.pop()
-    let Comment_Exclusion =props.inclusion_data.other_Exclusion?. props.inclusion_data.other_Exclusion.split(".")
-    props.inclusion_data.other_Exclusion?.Comment_Exclusion.pop()
+    const[comment_inclusion,set_comment_inclusion]=useState([])
+    const[Comment_Exclusion,set_Comment_Exclusion]=useState([])
     // console.log(comment)
+    useEffect(() => {
+        console.log(props.inclusion_data.other_Inclusion,props.inclusion_data.other_Exclusion)
+        try{
+
+            set_comment_inclusion(props.inclusion_data.other_Inclusion.split("."))
+        }
+        catch{
+            set_comment_inclusion([])
+        }
+        try{
+
+            set_Comment_Exclusion(props.inclusion_data.other_Exclusion.split("."))
+        }
+        catch{
+            set_Comment_Exclusion([])
+        }
+    },[]);
     const currentdate = new Date();
     // console.log(currentdate)
     // var doc = new jsPDF("p", "pt", "a4");
@@ -248,10 +263,9 @@ const Profile = (props) => {
                                     <p className='comments_'>other_Inclusion</p>
                                     <p className='comments_details'>
                                         {
-                                            comment_inclusion?.
                                             comment_inclusion.map((comment, index) => (
                                                 <p>
-                                                    *{comment}
+                                                   * {`${comment.toString()}`}
                                                 </p>
                                             ))
                                         }
@@ -259,7 +273,6 @@ const Profile = (props) => {
                                     <p className='comments_'>other_Exclusion</p>
                                     <p className='comments_details'>
                                         {
-                                            Comment_Exclusion?.
                                             Comment_Exclusion.map((comment, index) => (
                                                 <p>
                                                     *{comment}

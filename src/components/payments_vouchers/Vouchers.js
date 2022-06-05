@@ -2,6 +2,7 @@ import { collection, getDocs, getFirestore, query, where } from 'firebase/firest
 import React, { useEffect, useState } from 'react';
 import app from '../required';
 import './Payments.css'
+import VouchersCompo from './Vouchers_compo';
 const Vouchers = (props) => {
     const [lead_data, setLead_data] = useState([])
     const [open, setopen] = useState(true)
@@ -53,6 +54,16 @@ const Vouchers = (props) => {
                 type="button"
                 value="Search "
                 ></input>
+
+            </div>
+            <div className='details_of_specific_trip_main_container'>
+                {
+                    lead_data.map((data,index)=>(
+                        <>
+                        <VouchersCompo data={data}/>
+                        </>
+                    ))
+                }
 
             </div>
         </div>
