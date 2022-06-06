@@ -15,26 +15,26 @@ const Profile = (props) => {
     const Data = props.travel_data
     const [callback, setcallback] = useState(false)
     const pdfExportComponent = useRef(null);
-    const[comment_inclusion,set_comment_inclusion]=useState([])
-    const[Comment_Exclusion,set_Comment_Exclusion]=useState([])
+    const [comment_inclusion, set_comment_inclusion] = useState([])
+    const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
     // console.log(comment)
     useEffect(() => {
-        console.log(props.inclusion_data.other_Inclusion,props.inclusion_data.other_Exclusion)
-        try{
+        console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
+        try {
 
             set_comment_inclusion(props.inclusion_data.other_Inclusion.split("."))
         }
-        catch{
+        catch {
             set_comment_inclusion([])
         }
-        try{
+        try {
 
             set_Comment_Exclusion(props.inclusion_data.other_Exclusion.split("."))
         }
-        catch{
+        catch {
             set_Comment_Exclusion([])
         }
-    },[]);
+    }, []);
     const currentdate = new Date();
     // console.log(currentdate)
     // var doc = new jsPDF("p", "pt", "a4");
@@ -127,15 +127,17 @@ const Profile = (props) => {
 
                         </div>
                         <div className='pdf_Header'>
-                            <img alt="JR_image" src='/assets/img/jr_.png' width="41px" height="38px" />
-                            <img alt='star_img' src="/assets/img/fiveStar.jpg" width="41px" height="38px" />
+                            {/* <img alt="JR_image" src='/assets/img/jr_.png' width="41px" height="38px" /> */}
+                            <img alt='star_img' src="/assets/img/Journey_Routers_Logo.png" width="208px" height="38px" />
                         </div>
-                        <p className='name'>Journey Routers</p>
-                        <p className='address'>
-                            2nd Floor, 258, Kuldeep
-                            House, Lane 3,, Champagali,
-                            Saket, New Delhi - 110030
-                        </p>
+                        <div className='addressOfJr'>
+                            <p className='name'>Journey Routers</p>
+                            <p className='address'>
+                                2nd Floor, 258, Kuldeep
+                                House, Lane 3,, Champagali,
+                                Saket, New Delhi - 110030
+                            </p>
+                        </div>
 
                         <div >
                             <div className='details'>
@@ -181,11 +183,15 @@ const Profile = (props) => {
                             <p className='underline'></p>
 
                             <div className='details1'>
-                                <p style={{ color: 'black' }}>Flight</p>
-                                <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                                <div className='flightImgAliner'>
+                                    <p >Flight</p>
+                                    <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                                </div>
                                 <p>{props.flights}</p>
-                                <p style={{ color: 'black' }}>Cabs</p>
-                                <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
+                                <div className='flightImgAliner'>
+                                    <p >Cabs</p>
+                                    <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
+                                </div>
                                 <p>{props.cabDetailsData}</p>
                             </div>
                             <div>
@@ -193,14 +199,12 @@ const Profile = (props) => {
                                 {
                                     props.itineary.map((data, index) => (
                                         <div key={index} className='details1'>
-                                            <p className='day_'>Day:{index + 1}</p>
-                                            <p>
-                                                {data.Day}
-                                            </p>
-
+                                            <span className='day_'>Day:{index + 1} {data.Day}</span>
                                             <p>
                                                 {data.Description}
                                             </p>
+                                            <p className='underline'></p>
+
 
                                         </div>
                                     ))
@@ -242,35 +246,35 @@ const Profile = (props) => {
                             <p className='small_line'></p>
                             <div className='details1'>
                                 {props.inclusion_data ? <>
-                                    <p className='comments_'>{props.inclusion_data.breakfast}</p>
-                                    <p className='comments_'>{props.inclusion_data.lunch}</p>
+                                    <span className='comments_'>{props.inclusion_data.breakfast}</span>
+                                    <span className='comments_'>{props.inclusion_data.lunch}</span>
                                     <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.dinner}</p>
+                                    <span className='comments_'>{props.inclusion_data.dinner}</span>
                                     <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.airport_arival}</p>
-                                    <p className='comments_'>{props.inclusion_data.airport_departure}</p>
-                                    <p className='comments_'>{props.inclusion_data.cab_SIC}</p>
-                                    <p className='comments_'>{props.inclusion_data.cab_Private}</p>
+                                    <span className='comments_'>{props.inclusion_data.airport_arival}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.airport_departure}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.cab_Private}</span>
                                     <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Gst}</p>
-                                    <p className='comments_'>{props.inclusion_data.airfair}</p>
-                                    <p className='comments_'> {props.inclusion_data.siteseeing}</p>
+                                    <span className='comments_'>{props.inclusion_data.Gst}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.airfair}</span><br/><br/>
+                                    <span className='comments_'> {props.inclusion_data.siteseeing}</span>
                                     <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Visa}</p>
+                                    <span className='comments_'>{props.inclusion_data.Visa}</span>
                                     <p className='comments_details'>{props.inclusion_data.Visa_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
+                                    <span className='comments_'>{props.inclusion_data.Entrance_fee}</span>
                                     <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
-                                    <p className='comments_'>other_Inclusion</p>
+                                    <span className='comments_'>other_Inclusion</span>
                                     <p className='comments_details'>
                                         {
                                             comment_inclusion.map((comment, index) => (
                                                 <p>
-                                                   * {`${comment.toString()}`}
+                                                    * {`${comment.toString()}`}
                                                 </p>
                                             ))
                                         }
                                     </p>
-                                    <p className='comments_'>other_Exclusion</p>
+                                    <span className='comments_'>other_Exclusion</span>
                                     <p className='comments_details'>
                                         {
                                             Comment_Exclusion.map((comment, index) => (

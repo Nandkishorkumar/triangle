@@ -15,12 +15,14 @@ import Profile from '../Profile/Profile';
 import Redownload from './ReDownload';
 import moment from 'moment';
 import Reqoute from './Reqoute';
+import Invoice from '../invoice/InvoiceForm';
 
 
 
 const Row = (props) => {
     const { row } = props;
     // console.log(row)
+    const [Invoice_flg, setInvoice] = useState(false)
     const db = getFirestore(app);
     const [Lead_Status, setLead_Status] = useState(row.Lead_Status)
     const [openUpdater, setopenupdater] = useState(false)
@@ -50,6 +52,13 @@ const Row = (props) => {
         setdata(args)
         setPDF(true)
 
+    }
+    function invoiceForm() {
+        setInvoice(true)
+        console.log(Invoice_flg)
+    }
+    function closeinvoice() {
+        setInvoice(false)
     }
     const useRowStyles = makeStyles({
         root: {
@@ -299,7 +308,10 @@ const Row = (props) => {
                                                         <button onClick={() => showPDF(data)} className='download_requote'>
                                                             downloadURL</button>
                                                         <button className='download_requote' onClick={() => Controller_reqoute()}>Requote</button>
-                                                        <button className='download_requote'>Create invoice</button>
+                                                        <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
+                                                        {
+                                                            Invoice_flg ? <Invoice inclusion_data={data.inclusion_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} /> : <></>
+                                                        }
                                                         {
 
                                                             Reqoute_flg ? <>

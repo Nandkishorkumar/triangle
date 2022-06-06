@@ -12,6 +12,7 @@
     overflow-y: scroll;
     padding-left: 10px;
     padding-right: 10px;
+    text-transform: capitalize;
     /* background-image: url("https://www.planetware.com/wpimages/2019/10/malaysia-best-beaches-mersing.jpg");
     background-position: center;
     background-repeat: no-repeat;
@@ -21,7 +22,16 @@
 }
 
 .pdf_Header {
+    /* display: flex; */
+    margin-left: -0.8rem;
+}
+.addressOfJr{
+    margin-left: -0.8rem;
+    font-size: medium;
+}
+.flightImgAliner{
     display: flex;
+    align-items: center;
 }
 
 .name {
@@ -65,8 +75,8 @@
     font-size: 14px;
     letter-spacing: 0.2px;
     font-family: monospace;
-    border-bottom: 1px dashed;
-    color: blue;
+    /* border-bottom: 1px dashed; */
+    /* color: blue; */
     font-weight: 700;
 
 }
@@ -86,7 +96,7 @@
     justify-content: space-between;
     font-size: medium;
     font-weight: 700;
-    color: blue
+    /* color: blue */
 
 }
 
@@ -114,6 +124,7 @@
     text-decoration: underline;
     color:black;
     font-weight: bold;
+    background-color: yellow;
 }
 
 .travel_info {
@@ -171,8 +182,8 @@
 
 .comments_ {
     margin-bottom: -0.7rem;
-    text-decoration: underline;
-    color: rgb(9, 123, 43);
+    /* text-decoration: underline; */
+    color: rgb(45, 45, 211);
     font-weight: bold;
 
     /* border-bottom: 1px  solid black; */
@@ -189,7 +200,7 @@
 .comments_details {
     font-weight: 600;
     font-size: large;
-    color: rgb(6, 44, 114);
+    /* color: rgb(6, 44, 114); */
     /* font-weight: bold; */
 
 }
