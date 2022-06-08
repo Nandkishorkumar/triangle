@@ -1,34 +1,48 @@
 import { Modal } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './invoice.css'
 import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp';
+import InvoicePdf from './invoicePdf';
+import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+import app from '../required';
 
-const Invoice = (props) => {
+
+const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDataFields, userData, Allquote, followUpDate, cost, auth }) => {
+    console.log(userData)
     const [installment, setinstallment] = useState([
         { Date: '', amount: 0 },])
     const [BillingAddress, setBillingAddress] = useState('')
+    const [profile, setprofile] = useState({})
     const [flight_cost, setFlight_cost] = useState(0)
     const [visa_cost, set_visa_cost] = useState(0)
     const [land_package, setlandpackage] = useState(0)
-    const[deliverable_item,setdeliverableItem]=useState([])
-    const[documents,setdocuments]=useState([])
-    function handleDeliverable(e){
-        let tempList=[...deliverable_item]
-        if(e.target.checked){
+    const [deliverable_item, setdeliverableItem] = useState([])
+    const [documents, setdocuments] = useState([])
+    const [invoice, setInvoice] = useState(false)
+    const db = getFirestore(app);
+    function showinvoice() {
+        setInvoice(true)
+    }
+    function closeinvoice_() {
+        setInvoice(false)
+    }
+    function handleDeliverable(e) {
+        let tempList = [...deliverable_item]
+        if (e.target.checked) {
             tempList.push(e.target.name)
         }
-        else{
-            tempList=tempList.filter(element => element !== e.target.name);
+        else {
+            tempList = tempList.filter(element => element !== e.target.name);
         }
         setdeliverableItem(tempList)
     }
-    function handleDocuments(e){
-        let tempList=[...documents]
-        if(e.target.checked){
+    function handleDocuments(e) {
+        let tempList = [...documents]
+        if (e.target.checked) {
             tempList.push(e.target.name)
         }
-        else{
-            tempList=tempList.filter(element => element !== e.target.name);
+        else {
+            tempList = tempList.filter(element => element !== e.target.name);
         }
         setdocuments(tempList)
     }
@@ -60,6 +74,15 @@ const Invoice = (props) => {
         setinstallment(data)
 
     }
+    async function getProfile() {
+        const q = query(collection(db, "Profile"), where("email", "==", auth.email));
+
+        const querySnapshot = await getDocs(q);
+        querySnapshot.forEach((doc) => {
+            setprofile(doc.data())
+            // console.log(doc.data())
+        });
+    }
     function getTotalamount() {
 
         if (isNaN(flight_cost)) {
@@ -74,9 +97,12 @@ const Invoice = (props) => {
         }
         return parseFloat(flight_cost) + parseFloat(visa_cost) + parseFloat(land_package)
     }
+    useEffect(() => {
+        getProfile()
+    }, []);
     return (
         <div>
-            <Modal open={props.Invoice_flg} onClose={props.closeinvoice} style={{ display: "flex", justifyContent: "center", marginTop: "4rem" }} >
+            <Modal open={Invoice_flg} onClose={closeinvoice} style={{ display: "flex", justifyContent: "center", marginTop: "4rem" }} >
                 <div className='mainModalDivSetter'>
                     <div >
                         <span>
@@ -166,13 +192,13 @@ const Invoice = (props) => {
                                 </span>
                             </label>
                             <lable>
-                            <input type='checkbox' name='Others' ></input>
+                                <input type='checkbox' name='Others' ></input>
                                 <span>Others</span><br />
                                 <input className='txtArea'></input>
                             </lable>
 
                         </div>
-                        <div className='deliverable' onChange={(event)=>handleDocuments(event)}>
+                        <div className='deliverable' onChange={(event) => handleDocuments(event)}>
                             <h5>Travel Document(if any)</h5>
                             <label>
                                 <input type='checkbox' name='Scanned Copy Of Passport' ></input>
@@ -209,6 +235,28 @@ const Invoice = (props) => {
                             </lable>
 
                         </div>
+                        <button onClick={() => showinvoice()}>Invoice</button>
+                        <button style={{ marginLeft: '16px' }} onClick={closeinvoice}>Cancel</button>
+
+
+
+                        <Modal open={invoice} onClose={closeinvoice_} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+                            <InvoicePdf
+                                profile={profile}
+                                auth={auth}
+                                followUpDate={followUpDate}
+                                cost={cost}
+                                itineary={itineary}
+                                Allquote={Allquote}
+                                documents={documents}
+                                deliverable_item={deliverable_item}
+                                userData={userData}
+                                inclusion_data={inclusion_data}
+                                installment={installment}
+                                NightDataFields={NightDataFields} />
+                        </Modal>
+
+
                     </div>
                 </div>
             </Modal>

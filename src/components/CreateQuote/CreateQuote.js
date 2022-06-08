@@ -195,7 +195,7 @@ const Createquote = (props) => {
                         </> : <>
                             {
                                 popupopener ?
-                                    <Box data={user_uni_data} datahandle={datahandle} set_popupopner={set_popupopner} userProfile={props.userProfile} /> :
+                                    <Box email={props.auth.email} data={user_uni_data} datahandle={datahandle} set_popupopner={set_popupopner} userProfile={props.userProfile} /> :
                                     <SortableTbl
                                         tblData={lead_data}
                                         tHead={tHead}

@@ -140,7 +140,7 @@ const Row = (props) => {
             let allComments = row.comments
             let comment_holder = {
                 comments: comments,
-                time: moment(today).format('MMMM Do YYYY'),
+                time: moment(today).format('MMMM DD YYYY'),
                 date: moment(today).format('h:mm:ss')
             }
             allComments.push(comment_holder)
@@ -310,7 +310,7 @@ const Row = (props) => {
                                                         <button className='download_requote' onClick={() => Controller_reqoute()}>Requote</button>
                                                         <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
                                                         {
-                                                            Invoice_flg ? <Invoice inclusion_data={data.inclusion_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} /> : <></>
+                                                            Invoice_flg ? <Invoice auth={props.auth}  inclusion_data={data.inclusion_data}Allquote={Allquote} userData={data.travel_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} followUpDate={data.followUpDate} cost={data.cost} /> : <></>
                                                         }
                                                         {
 

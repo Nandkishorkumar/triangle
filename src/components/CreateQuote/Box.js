@@ -202,65 +202,8 @@ const Box = (props) => {
 
     return (
         <>
-            {/* <div className='fullContainer'>
-                <div className='compo_header'>
-
-                    <p className='text'>Trip Id: {Data.TripId}</p>
-                    <button className='compo_button' onClick={() => openHandler()}>give Quote</button>
-                </div>
-                <div className='compo_details'>
-                    <div className='leftDiv'>
-                        <div className='line1'>
-                            <div >
-                                <p className='item1'>Starting Date</p>
-                                {Data.Date_of_lead}
-                            </div>
-                            <div >
-                                <p className='item1'>Duration</p>
-                                {Travel_Duration}
-                            </div>
-                            <div >
-                                <p className='item1'>Budget</p>
-                                {Data.Budget}
-                            </div>
-                            <div >
-                                <p className='item1'>No. of Travelers</p>
-                                {Data.Pax} Adult ,Child{Data.Child}
-                            </div>
-                        </div>
-                        <div className='line'></div>
-                        <div className='line2'>
-                            <div>
-                                <p className='item1'>Desination</p>
-                                {Data.Destination}
-                            </div>
-                            <div>
-                                <p className='item1'>Origin</p>
-                                {Data.Departure_City}
-                            </div>
-                            <div>
-                                <p className='item1'>Trip Stage</p>
-                                {Data.Lead_Status}
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div className='right'>
-                        <div className='line1_right'>
-                            <div className='traveller_details'>
-                                <PermIdentityTwoTone />
-                                <p>{Data.Traveller_name}</p>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> */}
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile userProfile={props.userProfile} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost)+ parseInt(landPackage)} />
+                <Profile email={props.email} userProfile={props.userProfile} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost)+ parseInt(landPackage)} />
             </Modal>
             <Modal open={open} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>

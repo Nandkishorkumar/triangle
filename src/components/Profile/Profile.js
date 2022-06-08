@@ -19,7 +19,7 @@ const Profile = (props) => {
     const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
     // console.log(comment)
     useEffect(() => {
-        console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
+        // console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
         try {
 
             set_comment_inclusion(props.inclusion_data.other_Inclusion.split("."))
@@ -67,7 +67,8 @@ const Profile = (props) => {
             quotation: quotation_new,
             quotation_flg: true,
             month: month,
-
+            Follow_Up_date: String(props.selected_date),
+            Quoted_by:props.email
         });
     }
 

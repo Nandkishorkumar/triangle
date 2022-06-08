@@ -43,9 +43,9 @@ function App() {
   }
   async function UploadFile() {
     if (auth) {
+      console.log(auth)
       const handles = await window.showOpenFilePicker({ multiple: false });
       const files = await fromEvent(handles);
-      // const [inProgress, setInProgress] = React.useState(false)
       const path = files[0].path
       // setInProgress(true)
       readXlsxFile(files[0]).then((rows) => {
@@ -72,7 +72,8 @@ function App() {
             Email: Row[14],
             Remark: Row[15],
             Follow_Up_date: Row[16],
-            uploaded_by: auth.uid,
+            uploaded_by: auth.email,
+            Quoted_by:null,
             uploaded_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
             uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
             quotation: 0,

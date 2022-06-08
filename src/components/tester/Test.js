@@ -41,7 +41,7 @@
 //       <div className="box wide hidden-on-narrow">
 //         <div className="box-col">
 //           <h4>Select a Page Size</h4>
-
+          
 //         </div>
 //         <div className="box-col">
 //           <h4>Export PDF</h4>
@@ -157,73 +157,48 @@
 //   );
 // }
 
-// export default Test;
+// // export default Test;
 // import "./styles.css";
-import { collection, getDocs, getFirestore, where,query } from "firebase/firestore";
 import { useState, useEffect, useMemo } from "react";
-import app from "../required";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Test() {
-  const db = getFirestore(app);
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState({ key: "", value: 0 });
-  const [query_, setQuery] = useState("");
+  const [query, setQuery] = useState("");
 
   const sortedData = useMemo(() => {
     // if (!filter.value) return data;
-    let dataCloned;
-    try{
-     dataCloned = [...data];
-    }
-    catch{
-      dataCloned=[data]
-    }
-    if (query_) {
+    let dataCloned = [...data];
+    if (query) {
       dataCloned = dataCloned.filter((item) =>
-        Object.values(item).join(" ").includes(query_)
+        Object.values(item).join(" ").includes(query)
       );
     }
     return dataCloned.sort(
       (a, b) =>
         a?.[filter?.key]?.localeCompare(b?.[filter?.key]) * filter?.value || 0
     );
-  }, [filter, data, query_]);
-  async function firebaseDAtaFetcher() {
-    let list = []
-    try {
-      var q = query(collection(db, "Trip"), where("Lead_Status", "==", "Converted"));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        list.push(doc.data())
-        // doc.data() is never undefined for query doc snapshots
-        // console.log(doc.id, " => ", doc.data());
-      });
-      console.log(list)
-      return list
-    }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  }, [filter, data, query]);
+
   useEffect(() => {
     const fetchData = async () => {
-      setData(firebaseDAtaFetcher())
-      // try {
-      //   const raw = await fetch("https://randomuser.me/api/?results=29");
-      //   const jsonData = await raw.json();
-      //   setData(
-      //     jsonData.results.map((item) => ({
-      //       name: `${item.name.first} ${item.name.last}`,
-      //       gender: item.gender,
-      //       email: item.email,
-      //       phone: item.phone,
-      //       city: item.location.city,
-      //       state: item.location.state
-      //     }))
-      //   );
-      // } catch (e) {
-      //   console.log(e);
-      // }
+      try {
+        const raw = await fetch("https://randomuser.me/api/?results=29");
+        const jsonData = await raw.json();
+        setData(
+          jsonData.results.map((item) => ({
+            name: `${item.name.first} ${item.name.last}`,
+            gender: item.gender,
+            email: item.email,
+            phone: item.phone,
+            city: item.location.city,
+            state: item.location.state
+          }))
+        );
+      } catch (e) {
+        console.log(e);
+      }
     };
     fetchData();
   }, []);
@@ -273,7 +248,7 @@ export default function Test() {
         title: "State"
       }
     ];
-    const sortIcon = filter.value === 1 ? "1" : "2";
+    const sortIcon = filter.value === 1 ? 1 : 0;
     return (
       <thead>
         <tr >
@@ -285,12 +260,9 @@ export default function Test() {
             >
               <div className="tbl__header__title">
                 {title}
-                {/* {filter.key === key && !!filter.value && (
-                  <FontAwesomeIcon
-                    icon={sortIcon}
-                    className="tbl__header__icon"
-                  />
-                )} */}
+                {filter.key === key && !!filter.value && (
+                 <>hihihi</>
+                )}
               </div>
             </th>
           ))}
@@ -306,6 +278,7 @@ export default function Test() {
 
   return (
     <div className="App">
+      <h1>Hello CodeSandbox</h1>
       <div className="query">
         <label for="query-input" className="query__label">
           Search
@@ -315,7 +288,7 @@ export default function Test() {
           className="query__input"
           type="text"
           onChange={onSearch}
-          value={query_}
+          value={query}
         />
       </div>
       <table>
@@ -323,18 +296,17 @@ export default function Test() {
         <tbody className="test">
           {sortedData.map((item, index) => (
             <>
-         {   console.log(item)}
-              <div className="test2"> {item.name}</div>
+            <div className="test2"> {item.name}</div>
 
-              <tr key={`${item.name}_${index}`}>
-                <td>{item.Traveller_name}</td>
-                <td>{item.gender}</td>
-                <td>{item.email}</td>
-                <td>{item.phone}</td>
-                <td>{item.city}</td>
-                <td>{item.state}</td>
-              </tr>
-            </>))}
+            <tr  key={`${item.name}_${index}`}>
+              <td>{item.name}</td>
+              <td>{item.gender}</td>
+              <td>{item.email}</td>
+              <td>{item.phone}</td>
+              <td>{item.city}</td>
+              <td>{item.state}</td>
+            </tr>
+         </> ))}
         </tbody>
       </table>
     </div>

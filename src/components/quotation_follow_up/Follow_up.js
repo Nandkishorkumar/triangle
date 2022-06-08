@@ -26,7 +26,7 @@ const FollowUp = (props) => {
             let list = []
             const q = query(collection(db, "Trip"),
             //  where("uploaded_by", "==", props.auth.uid),
-              where("quotation_flg", "==", true), where("Lead_Status", "not-in", ["Dump","Converted"]));
+              where("quotation_flg", "==", true), where("Lead_Status", "not-in", ["Dump","Converted"]),where("Quoted_by","==",props.auth.email));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
             try{
@@ -391,7 +391,9 @@ const FollowUp = (props) => {
                                         {
 
                                             lead_data.map((row, index) => (
-                                                <Row key={index} row={row} datahandle={datahandle} />
+                                                <Row 
+                                                auth={props.auth}
+                                                key={index} row={row} datahandle={datahandle} />
                                             ))}
                                     </TableBody>
                                 </Table>
