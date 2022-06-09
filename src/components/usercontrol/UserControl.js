@@ -6,10 +6,6 @@ import Userunitcomponent from './UserUnitComponent';
 const Usercontrol = (props) => {
     const [user, setUser] = useState([])
     const db = getFirestore(app);
-
-    function refreshPage() {
-        window.location.reload(false);
-    }
     async function datahandle() {
         if (props.auth) {
             let list = []
@@ -28,8 +24,7 @@ const Usercontrol = (props) => {
     }
     useEffect(() => {
         datahandle()
-        console.log("user controll")
-    }, [props.auth])
+    })
     return (
         <div>
             {

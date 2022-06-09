@@ -1,21 +1,18 @@
 import { FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, TextField } from '@material-ui/core';
 import Collapse from '@material-ui/core/Collapse';
-import { makeStyles } from '@material-ui/core/styles';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
-import React, { useEffect, useState } from 'react';
-import './quote.css';
+import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
-import download_button from '@material-ui/icons/CloudDownloadTwoTone';
-
-import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
-import app from '../required';
-import Profile from '../Profile/Profile';
-import Redownload from './ReDownload';
 import moment from 'moment';
-import Reqoute from './Reqoute';
+import React, { useEffect, useState } from 'react';
 import Invoice from '../invoice/InvoiceForm';
+import app from '../required';
+import './quote.css';
+import Redownload from './ReDownload';
+import Reqoute from './Reqoute';
+
 
 
 
@@ -60,13 +57,13 @@ const Row = (props) => {
     function closeinvoice() {
         setInvoice(false)
     }
-    const useRowStyles = makeStyles({
-        root: {
-            '& > *': {
-                borderBottom: 'unset',
-            },
-        },
-    });
+    // const useRowStyles = makeStyles({
+    //     root: {
+    //         '& > *': {
+    //             borderBottom: 'unset',
+    //         },
+    //     },
+    // });
     function dochange() {
         setChange(!change)
     }
@@ -101,10 +98,9 @@ const Row = (props) => {
         { title: "Traveler will Finalize and it's my hot" },
     ]
     const [open, setOpen] = React.useState(false);
-    const classes = useRowStyles();
-    function changeStatus(Status) {
-        setLead_Status(Status)
-    }
+    // function changeStatus(Status) {
+    //     setLead_Status(Status)
+    // }
     function closeUpdater() {
         setopenupdater(false)
     }
@@ -165,10 +161,10 @@ const Row = (props) => {
     useEffect(() => {
         latestComments()
         Allquote()
-    }, []);
-    function OpenUpdater() {
-        setopenupdater(true)
-    }
+    },[]);
+    // function OpenUpdater() {
+    //     setopenupdater(true)
+    // }
     function sethint(hint) {
         setUpdate(hint)
         setopenupdater(true)
@@ -183,7 +179,7 @@ const Row = (props) => {
             <Modal open={openUpdater} onClose={closeUpdater} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <div className='popOver'>
                     {
-                        update == 'status' ?
+                        update ==='status' ?
                             <div className='status'>
                                 <FormControl onChange={(e) => changeLead_Status(e)}>
                                     <FormLabel >Status</FormLabel>
@@ -220,7 +216,7 @@ const Row = (props) => {
 
                     }
                     {
-                        update == 'destination' ? <div className='destination'>
+                        update === 'destination' ? <div className='destination'>
                             <div className='contains_destination'>
                                 <p>current Destination:- {row.Destination}</p>
                                 <input placeholder='New Destination'></input>
@@ -230,7 +226,7 @@ const Row = (props) => {
                         </div> : <></>
                     }
                     {
-                        update == 'number' ? <div className='destination'>
+                        update === 'number' ? <div className='destination'>
                             <div className='contains_destination'>
                                 <p>current contact_number:- {row.Contact_Number}</p>
                                 <input placeholder='New contact'></input>
@@ -302,7 +298,7 @@ const Row = (props) => {
 
                                             pdfHolder.map((data, index) => (
                                                 <>
-                                                    <div className='pdf_setter'>
+                                                    <div key={index} className='pdf_setter'>
                                                         <PictureAsPdfTwoToneIcon style={{ margin: '15px' }} />
                                                         <p key={index}>{data.pdf_name}</p>
                                                         <button onClick={() => showPDF(data)} className='download_requote'>
@@ -310,12 +306,25 @@ const Row = (props) => {
                                                         <button className='download_requote' onClick={() => Controller_reqoute()}>Requote</button>
                                                         <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
                                                         {
-                                                            Invoice_flg ? <Invoice auth={props.auth}  inclusion_data={data.inclusion_data}Allquote={Allquote} userData={data.travel_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} followUpDate={data.followUpDate} cost={data.cost} /> : <></>
+                                                            Invoice_flg ? <Invoice auth={props.auth} inclusion_data={data.inclusion_data} Allquote={Allquote} userData={data.travel_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} followUpDate={data.followUpDate} cost={data.cost} /> : <></>
                                                         }
                                                         {
 
                                                             Reqoute_flg ? <>
-                                                                <Reqoute Allquote={Allquote} closeReqoute_flg={closeReqoute_flg} data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={false} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                                                <Reqoute
+                                                                    Allquote={Allquote}
+                                                                    closeReqoute_flg={closeReqoute_flg}
+                                                                    data={data.travel_data}
+                                                                    inclusion_data={data.inclusion_data}
+                                                                    cabDetailsData={data.cabDetailsData}
+                                                                    flights={data.flights}
+                                                                    indicator={false}
+                                                                    closePDF={closePDF}
+                                                                    closeHandler={closePDF}
+                                                                    itineary={data.itineary}
+                                                                    NightDataFields={data.NightDataFields}
+                                                                    selected_date={data.followUpDate}
+                                                                    cost={data.cost} />
                                                             </> : <></>
                                                         }
                                                     </div>

@@ -1,11 +1,11 @@
 import { Modal, Radio } from '@material-ui/core';
-import { EmojiTransportation, ExtensionSharp, Flight, PermIdentityTwoTone } from '@material-ui/icons';
+import { EmojiTransportation, ExtensionSharp, Flight } from '@material-ui/icons';
 import React, { useEffect, useState } from 'react';
-import Inclusion from '../CreateQuote/Inclusion';
-import Profile from '../Profile/Profile';
 import Select from 'react-select';
-import '../CreateQuote/TripComponent.css';
 import makeAnimated from 'react-select/animated';
+import Inclusion from '../CreateQuote/Inclusion';
+import '../CreateQuote/TripComponent.css';
+import Profile from '../Profile/Profile';
 
 
 const Reqoute = (props) => {
@@ -24,7 +24,6 @@ const Reqoute = (props) => {
     const [itineary, setItineary] = useState(props.itineary)
     const days = Array(Data.Travel_Duration).fill('a');
     const [days_total, setTotalDays] = useState(props.itineary);
-    const [cont_days, setDayscounter] = useState(parseInt(Data.Travel_Duration))
     const [NightDataFields, setNightDataFields] = useState([
         { Night: [], HotelName: '', City: '', Category: '', HotelType: '', comments: '' },])
     const [selected_date, set_selected_date] = useState(props.selected_date)

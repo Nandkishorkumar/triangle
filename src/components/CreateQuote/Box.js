@@ -34,7 +34,7 @@ const Box = (props) => {
     const [inclusion_data, setinclusion] = useState([])
     const [flights, setflights] = useState()
     const [cabDetailsData, setcabDetails] = useState()
-    const [nights,setnights]=useState([])
+    const [nights, setnights] = useState([])
 
 
     function cabDetails(e) {
@@ -160,7 +160,7 @@ const Box = (props) => {
     function landPackagechange(e) {
         setlandpackage(e.target.value)
     }
-    
+
     const currency = [
         "INR",
         "ILS",
@@ -181,7 +181,7 @@ const Box = (props) => {
 
     }
     function closeHandler() {
-        console.log(days_total,itineary)
+        console.log(days_total, itineary)
         setOpen(false)
         props.set_popupopner(false)
     }
@@ -203,7 +203,21 @@ const Box = (props) => {
     return (
         <>
             <Modal open={openPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                <Profile email={props.email} userProfile={props.userProfile} indicator={false} inclusion_data={inclusion_data} travel_data={Data} cabDetailsData={cabDetailsData} flights={flights} closePDF={closePDF} datahandle={props.datahandle} closeHandler={closeHandler} itineary={itineary} NightDataFields={NightDataFields} selected_date={selected_date} cost={parseInt(flightcost) + parseInt(visacost)+ parseInt(landPackage)} />
+                <Profile
+                    email={props.email}
+                    userProfile={props.userProfile}
+                    indicator={false}
+                    inclusion_data={inclusion_data}
+                    travel_data={Data}
+                    cabDetailsData={cabDetailsData}
+                    flights={flights}
+                    closePDF={closePDF}
+                    datahandle={props.datahandle}
+                    closeHandler={closeHandler}
+                    itineary={itineary}
+                    NightDataFields={NightDataFields}
+                    selected_date={selected_date}
+                    cost={parseInt(flightcost) + parseInt(visacost) + parseInt(landPackage)} />
             </Modal>
             <Modal open={open} style={{ display: "flex", justifyContent: "right", marginTop: "4rem" }} >
                 <div className='popUp_body'>
@@ -285,10 +299,10 @@ const Box = (props) => {
                                     <input type="number" className='input_filed' placeholder='0' onChange={(e) => landPackagechange(e)}></input>
                                     <text className='spacer'>=</text>
                                 </div>
-                                
+
                                 <div className='totalSeprator'>
                                     <label>Quotation price</label><br />
-                                    <input type="number" className='input_filed' value={parseInt(flightcost) + parseInt(visacost)  + parseInt(landPackage)} placeholder='0' readOnly={true}></input>
+                                    <input type="number" className='input_filed' value={parseInt(flightcost) + parseInt(visacost) + parseInt(landPackage)} placeholder='0' readOnly={true}></input>
                                 </div>
 
                             </div>

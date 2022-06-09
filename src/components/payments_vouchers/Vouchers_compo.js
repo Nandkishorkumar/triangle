@@ -56,7 +56,7 @@ const VouchersCompo = ({ data }) => {
                         <div className='allComments'>
                             {
                                 data.comments.slice(0).reverse().map((U_data, index) => (<>
-                                    <p className='comment_'>
+                                    <p key={index} className='comment_'>
                                         <p>
                                             {U_data.comments}
                                         </p>

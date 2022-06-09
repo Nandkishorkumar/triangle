@@ -1,30 +1,45 @@
-import React, { useRef, useState } from 'react';
+import { PDFExport } from "@progress/kendo-react-pdf";
+import React, { useEffect, useRef, useState } from 'react';
 import '../Profile/profile.css';
-import jsPDF from 'jspdf';
-import { PDFExport, savePDF } from "@progress/kendo-react-pdf";
-
 const Redownload = (props) => {
     const pdfExportComponent = useRef(null);
     const Data = props.travel_data
-
+    const [comment_inclusion, set_comment_inclusion] = useState([])
+    const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
     const [layoutSelection, setLayoutSelection] = useState({
         text: "A4",
         value: "size-a4"
     });
-    const path = '/assets/img/logoPlane.jpg'
-    function handleExportWithComponent () {
+    function handleExportWithComponent() {
         pdfExportComponent.current.save();
         // props.closePDF()
     };
+    useEffect(() => {
+        // console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
+        try {
+
+            set_comment_inclusion(props.inclusion_data.other_Inclusion.split("."))
+        }
+        catch {
+            set_comment_inclusion([])
+        }
+        try {
+
+            set_Comment_Exclusion(props.inclusion_data.other_Exclusion.split("."))
+        }
+        catch {
+            set_Comment_Exclusion([])
+        }
+    },[]);
 
     return (
         <>
             <PDFExport ref={pdfExportComponent}
                 fileName={`${Data.Traveller_name}`}
-            
+
             >
                 <div className={`pre ${layoutSelection.value}`}>
-                <div id='sample'>
+                    <div id='sample'>
                         <div className='intro_page'>
                             <div className='client_details'>
 
@@ -33,8 +48,9 @@ const Redownload = (props) => {
 
                         </div>
                         <div className='pdf_Header'>
-                            <img alt="JR_image" src='/assets/img/jr_.png' width="41px" height="38px" />
-                            <img alt='star_img' src="/assets/img/fiveStar.jpg" width="41px" height="38px" />
+                            {/* <img alt="JR_image" src='/assets/img/jr_.png' width="41px" height="38px" /> */}
+                            <img alt='star_img' src="/assets/img/Journey_Routers_Logo.png" width="208px" height="38px" />
+
                         </div>
                         <p className='name'>Journey Routers</p>
                         <p className='address'>
@@ -87,11 +103,15 @@ const Redownload = (props) => {
                             <p className='underline'></p>
 
                             <div className='details1'>
-                                <p style={{ color: 'black' }}>Flight</p>
-                                <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                                <div>
+                                    <p >Flight</p>
+                                    <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
+                                </div>
                                 <p>{props.flights}</p>
-                                <p style={{ color: 'black' }}>Cabs</p>
-                                <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
+                                <div>
+                                    <p >Cabs</p>
+                                    <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
+                                </div>
                                 <p>{props.cabDetailsData}</p>
                             </div>
                             <div>
@@ -99,15 +119,11 @@ const Redownload = (props) => {
                                 {
                                     props.itineary.map((data, index) => (
                                         <div key={index} className='details1'>
-                                            <p className='day_'>Day:{index + 1}</p>
-                                            <p>
-                                                {data.Day}
-                                            </p>
-
+                                            <span className='day_'>Day:{index + 1} {data.Day}</span>
                                             <p>
                                                 {data.Description}
                                             </p>
-
+                                            <p className='underline'></p>
                                         </div>
                                     ))
                                 }
@@ -115,7 +131,7 @@ const Redownload = (props) => {
                             </div>
                             <div>
                                 <h1 className='travel_info1'>
-                                    <img alt='' src='/assets/img/hotel.png' width='55px' height='55px' />
+                                    <img alt='hotel' src='/assets/img/hotel.png' width='55px' height='55px' />
                                     <p>
                                         Hotel
                                     </p>
@@ -148,28 +164,44 @@ const Redownload = (props) => {
                             <p className='small_line'></p>
                             <div className='details1'>
                                 {props.inclusion_data ? <>
-                                    <p className='comments_'>{props.inclusion_data.breakfast}</p>
-                                    <p className='comments_'>{props.inclusion_data.lunch}</p>
+                                    <span className='comments_'>{props.inclusion_data.breakfast}</span><br/>
+                                    <span className='comments_'>{props.inclusion_data.lunch}</span>
                                     <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.dinner}</p>
+                                    <span className='comments_'>{props.inclusion_data.dinner}</span>
                                     <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.airport_arival}</p>
-                                    <p className='comments_'>{props.inclusion_data.airport_departure}</p>
-                                    <p className='comments_'>{props.inclusion_data.cab_SIC}</p>
-                                    <p className='comments_'>{props.inclusion_data.cab_Private}</p>
+                                    <span className='comments_'>{props.inclusion_data.airport_arival}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.airport_departure}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.cab_Private}</span>
                                     <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Gst}</p>
-                                    <p className='comments_'>{props.inclusion_data.airfair}</p>
-                                    <p className='comments_'> {props.inclusion_data.siteseeing}</p>
+                                    <span className='comments_'>{props.inclusion_data.Gst}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.airfair}</span><br/><br/>
+                                    <span className='comments_'> {props.inclusion_data.siteseeing}</span>
                                     <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Visa}</p>
+                                    <span className='comments_'>{props.inclusion_data.Visa}</span>
                                     <p className='comments_details'>{props.inclusion_data.Visa_comments}</p>
-                                    <p className='comments_'>{props.inclusion_data.Entrance_fee}</p>
+                                    <span className='comments_'>{props.inclusion_data.Entrance_fee}</span>
                                     <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
-                                    <p className='comments_'>other_Inclusion</p>
-                                    <p className='comments_details'>{props.inclusion_data.other_Inclusion}</p>
-                                    <p className='comments_'>other_Exclusion</p>
-                                    <p className='comments_details'>{props.inclusion_data.other_Exclusion}</p>
+                                    <span className='comments_'>other_Inclusion</span>
+                                    <p className='comments_details'>
+                                        {
+                                            comment_inclusion.map((comment, index) => (
+                                                <p>
+                                                    * {`${comment.toString()}`}
+                                                </p>
+                                            ))
+                                        }
+                                    </p>
+                                    <span className='comments_'>other_Exclusion</span>
+                                    <p className='comments_details'>
+                                        {
+                                            Comment_Exclusion.map((comment, index) => (
+                                                <p>
+                                                    *{comment}
+                                                </p>
+                                            ))
+                                        }
+                                    </p>
                                 </> : <></>
                                 }
                             </div>
@@ -190,18 +222,18 @@ const Redownload = (props) => {
                                 <p className='underline'></p>
                                 <div className='imgCollection'>
                                     <div className='upper'>
-                                        <img src='/assets/img/review1.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review2.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review3.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review8.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review1.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review2.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review3.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review8.jpg' width='150px' height='100px' />
 
 
                                     </div>
                                     <div className='lower'>
-                                        <img src='/assets/img/review4.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review6.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review7.jpg' width='150px' height='100px' />
-                                        <img src='/assets/img/review9.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review4.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review6.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review7.jpg' width='150px' height='100px' />
+                                        <img alt="review" src='/assets/img/review9.jpg' width='150px' height='100px' />
 
                                     </div>
 
@@ -265,16 +297,16 @@ const Redownload = (props) => {
                             <p className='underline'></p>
 
                             <div className='cutomerCare'>
-                            
-                            <img src='/assets/img/customercare.png' width='90px' height='80px' />
-                            <div>
-                                <p>
-                                    e-mail: customercare@jouneryrouters.com
-                                </p>
-                                <p>
-                                    contact:9876543210
-                                </p>
-                            </div>
+
+                                <img src='/assets/img/customercare.png' width='90px' height='80px' />
+                                <div>
+                                    <p>
+                                        e-mail: customercare@jouneryrouters.com
+                                    </p>
+                                    <p>
+                                        contact:9876543210
+                                    </p>
+                                </div>
 
                             </div>
                         </div>
