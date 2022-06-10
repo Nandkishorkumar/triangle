@@ -1,27 +1,39 @@
-import { Modal } from '@material-ui/core';
+import { Modal, } from '@material-ui/core';
+import Select from 'react-select';
 import React, { useEffect, useState } from 'react';
 import './invoice.css'
 import DeleteForeverSharpIcon from '@material-ui/icons/DeleteForeverSharp';
 import InvoicePdf from './invoicePdf';
 import { collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import app from '../required';
+import makeAnimated from 'react-select/animated';
 
 
-const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDataFields, userData, Allquote, followUpDate, cost, auth }) => {
-    console.log(userData)
+
+const Invoice = ({ Invoice_flg, closeinvoice, auth, pdfHolder, profile }) => {
+    // console.log(pdfHolder)
+    const animatedComponents = makeAnimated();
     const [installment, setinstallment] = useState([
         { Date: '', amount: 0 },])
     const [BillingAddress, setBillingAddress] = useState('')
-    const [profile, setprofile] = useState({})
     const [flight_cost, setFlight_cost] = useState(0)
     const [visa_cost, set_visa_cost] = useState(0)
     const [land_package, setlandpackage] = useState(0)
     const [deliverable_item, setdeliverableItem] = useState([])
     const [documents, setdocuments] = useState([])
     const [invoice, setInvoice] = useState(false)
+    const [selected_pdf_data, setpdf] = useState([])
+    const[pdfseletcted_flg,setpdf_flg]=useState(false)
     const db = getFirestore(app);
     function showinvoice() {
-        setInvoice(true)
+        if(selected_pdf_data.length!=0){
+            setpdf_flg(false)
+            setInvoice(true)
+        }
+        else{
+            setpdf_flg(true)
+            setInvoice(false)
+        }
     }
     function closeinvoice_() {
         setInvoice(false)
@@ -34,9 +46,12 @@ const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDat
         else {
             tempList = tempList.filter(element => element !== e.target.name);
         }
+        console.log(tempList)
+
         setdeliverableItem(tempList)
     }
     function handleDocuments(e) {
+        console.log(e)
         let tempList = [...documents]
         if (e.target.checked) {
             tempList.push(e.target.name)
@@ -74,14 +89,10 @@ const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDat
         setinstallment(data)
 
     }
-    async function getProfile() {
-        const q = query(collection(db, "Profile"), where("email", "==", auth.email));
-
-        const querySnapshot = await getDocs(q);
-        querySnapshot.forEach((doc) => {
-            setprofile(doc.data())
-            // console.log(doc.data())
-        });
+    function handleselectedPdf(data) {
+        setpdf_flg(false)
+        // console.log(data)
+        setpdf(data)
     }
     function getTotalamount() {
 
@@ -97,22 +108,31 @@ const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDat
         }
         return parseFloat(flight_cost) + parseFloat(visa_cost) + parseFloat(land_package)
     }
-    useEffect(() => {
-        getProfile()
-    }, []);
+
     return (
         <div>
             <Modal open={Invoice_flg} onClose={closeinvoice} style={{ display: "flex", justifyContent: "center", marginTop: "4rem" }} >
                 <div className='mainModalDivSetter'>
                     <div >
-                        <span>
+                        <div>
                             <label>CURRENCY</label>
                             <select className='selectOptions'>
                                 <option value="INR">INR</option>
                                 <option value="CND">CND</option>
 
                             </select>
-                        </span>
+                            <div>
+                                <label> select qoute to gen invoice</label>
+                                <Select
+                                className={pdfseletcted_flg?'slectingpdf_':'slectingpdf'}
+                                    // closeMenuOnSelect={false}
+                                    components={animatedComponents}
+                                    // isMulti
+                                    options={pdfHolder}
+                                    onChange={(e) => handleselectedPdf(e.value)}
+                                />
+                            </div>
+                        </div>
                         {
                             installment.map((data, index) => (
                                 <>
@@ -235,25 +255,19 @@ const Invoice = ({ inclusion_data, Invoice_flg, closeinvoice, itineary, NightDat
                             </lable>
 
                         </div>
-                        <button onClick={() => showinvoice()}>Invoice</button>
+                        <button onClick={() => showinvoice()} disabled={pdfseletcted_flg}>Invoice</button>
                         <button style={{ marginLeft: '16px' }} onClick={closeinvoice}>Cancel</button>
-
-
-
                         <Modal open={invoice} onClose={closeinvoice_} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
-                            <InvoicePdf
-                                profile={profile}
-                                auth={auth}
-                                followUpDate={followUpDate}
-                                cost={cost}
-                                itineary={itineary}
-                                Allquote={Allquote}
-                                documents={documents}
-                                deliverable_item={deliverable_item}
-                                userData={userData}
-                                inclusion_data={inclusion_data}
+                            <div>
+                                <InvoicePdf
                                 installment={installment}
-                                NightDataFields={NightDataFields} />
+                                    deliverable_item={deliverable_item}
+                                    selected_pdf_data={selected_pdf_data}
+                                    documents={documents}
+                                    auth={auth}
+                                    profile={profile}
+                                />
+                            </div>
                         </Modal>
 
 

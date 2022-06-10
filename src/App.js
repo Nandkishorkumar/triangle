@@ -2,7 +2,7 @@ import { BackupOutlined, FileCopyOutlined, Fingerprint, Speed, PersonOutlineOutl
 import { fromEvent } from "file-selector";
 import { getAuth, signOut } from 'firebase/auth';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
-import { getStorage, ref } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable, uploadString } from "firebase/storage";
 import React, { useEffect, useState } from 'react';
 import readXlsxFile from 'read-excel-file';
 import './App.css';
@@ -20,7 +20,7 @@ import TestTable from './components/tester/TestTable';
 function App() {
   const storage = getStorage();
   const currentdate = new Date();
-  const [data, setData] = React.useState()
+  const [profile, setData] = React.useState()
   const [open, setopen] = React.useState(false)
   const db = getFirestore(app);
   const [auth, setauth] = useState()
@@ -73,7 +73,7 @@ function App() {
             Remark: Row[15],
             Follow_Up_date: Row[16],
             uploaded_by: auth.email,
-            Quoted_by:null,
+            Quoted_by: null,
             uploaded_date: `${currentdate.getDate()}/${currentdate.getMonth() + 1}/${currentdate.getFullYear()}`,
             uploaded_time: `${currentdate.getHours()}:${currentdate.getMinutes()}:${currentdate.getSeconds()}:${currentdate.getMilliseconds()}`,
             quotation: 0,
@@ -84,45 +84,48 @@ function App() {
           });
         }
         // console.log(rows[1][0])
+        uploadFileOnStorage(path,'dingdong')
       })
-      // setInProgress(false)
-      // console.log(path);
-      const mountainsRef = ref(storage, path);
-      const storageRef = ref(storage, `nandu/${path}`);
-      // const uploadTask = uploadBytesResumable(storageRef, files[0]);
-      // uploadTask.on('state_changed',
-      //     (snapshot) => {
-      //         console.log(snapshot)
-      //         switch (snapshot.state) {
-      //             case 'paused':
-      //                 console.log('Upload is paused');
-      //                 break;
-      //             case 'running':
-      //                 console.log('Upload is running');
-      //                 break;
-      //         }
-      //     },
-      //     (error) => {
-      //         switch (error.code) {
-      //             case 'storage/unauthorized':
-      //                 break;
-      //             case 'storage/canceled':
-      //                 break;
-      //             case 'storage/unknown':
-      //                 break;
-      //         }
-      //     },
-      //     () => {
-      //         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-      //             console.log('File available at', downloadURL);
-      //         });
-      //     }
-      // );
     }
     else {
       setopen(true)
     }
   }
+  function uploadFileOnStorage(Filepath, folderName) {
+    var storageFolderName = folderName ? folderName : 'Vouchers'
+    const storageRef = ref(storage, `${storageFolderName}/${Filepath}`);
+    const uploadTask = uploadBytes(storageRef, Filepath[0]);
+    uploadTask.on('state_changed',
+      (snapshot) => {
+        console.log(snapshot)
+        switch (snapshot.state) {
+          case 'paused':
+            console.log('Upload is paused');
+            break;
+          case 'running':
+            console.log('Upload is running');
+            break;
+        }
+      },
+      (error) => {
+        switch (error.code) {
+          case 'storage/unauthorized':
+            break;
+          case 'storage/canceled':
+            break;
+          case 'storage/unknown':
+            break;
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          console.log('File available at', downloadURL);
+        });
+      }
+    );
+
+  }
+
   async function fetch_profile(args) {
     console.log(args)
     try {
@@ -130,7 +133,7 @@ function App() {
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setData(docSnap.data())
-        // console.log("Document data:", docSnap.data());
+        console.log("Document data:", docSnap.data());
       } else {
         console.log("No such document!");
       }
@@ -183,7 +186,7 @@ function App() {
   }, [auth])
 
   useEffect(() => {
-    if (data) {
+    if (profile) {
     }
     else {
       fetch_profile(auth)
@@ -252,12 +255,12 @@ function App() {
               <p>Profile</p>
             </div>
           </div>
-         
+
           {
-            data ?
+            profile ?
               <>
                 {
-                  data.access_type === "admin" ?
+                  profile.access_type === "admin" ?
                     <>
                       <div className='sidebarCard' onClick={() => page("User_Controller")}>
                         <div className='sidebarCardContaint'>
@@ -283,7 +286,7 @@ function App() {
             Page === "create_quote" ?
               <>{
                 auth &&
-                <Createquote auth={auth} userProfile={data} />
+                <Createquote auth={auth} userProfile={profile} />
               }
               </> : <></>
           }
@@ -294,7 +297,7 @@ function App() {
           }
           {
             Page === "User_Controller" ?
-              <Usercontrol auth={auth} data={data} />
+              <Usercontrol auth={auth} data={profile} />
               : <></>
           }
           {
@@ -302,19 +305,19 @@ function App() {
               <>
                 {
                   auth &&
-                  <FollowUp auth={auth} />
+                  <FollowUp auth={auth} profile={profile} />
                 }
               </>
               : <></>
           }
           {Page === "voucher" ?
-              <>
-                {
-                  auth &&
-                  <Vouchers auth={auth} />
-                }
-              </>
-              : <></>
+            <>
+              {
+                auth &&
+                <Vouchers auth={auth} />
+              }
+            </>
+            : <></>
           }
           {
             Page === "profile" ?

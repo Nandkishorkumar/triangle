@@ -62,19 +62,39 @@ const Createquote = (props) => {
 
             if (props.userProfile.access_type == 'admin') {
 
-                q = query(collection(db, "Trip"), where("uploaded_by", "==", props.auth.uid), where("quotation_flg", "==", false));
+                q = query(collection(db, "Trip"), where("quotation_flg", "==", false));
             }
+            var querySnapshot;
+            try {
+                if(props.userProfile.following_lead!==0){
 
-            const querySnapshot = await getDocs(q);
-            if (querySnapshot.docs.length == 0) {
+                     querySnapshot = await getDocs(q);
+                }
+                else{
+                    setLead_data([])
+                }
+            }
+            catch {
                 setopen(false)
             }
-            querySnapshot.forEach((doc) => {
-                list.push(doc.data())
-            });
-            setlastVisible(querySnapshot.docs[querySnapshot.docs.length - 1])
-            setLead_data(list)
-            setopen(false)
+            try {
+
+                if (querySnapshot.docs.length == 0) {
+                    setopen(false)
+                }
+
+                querySnapshot.forEach((doc) => {
+                    list.push(doc.data())
+                    // doc.data() is never undefined for query doc snapshots
+                });
+                setLead_data(list)
+                console.log(list);
+                setopen(false)
+            }
+            catch (error) {
+                console.log(error)
+            }
+            // console.log(lead_data)
         }
         else {
             setopen(false)

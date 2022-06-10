@@ -85,14 +85,11 @@ const Loginform = (props) => {
         else if (password.length === 0) {
             setpassword_flg(true)
         }
-        else if (email.slice(-10) === '@gmail.com') {
+        else {
             login()
 
         }
-        else {
-            setEmail_flg(true)
-            // setpassword_flg(true)
-        }
+       
 
     }
     function signUp() {
@@ -114,14 +111,11 @@ const Loginform = (props) => {
         else if (contact.length === 0) {
             setContact_flg(true)
         }
-        else if (email.slice(-10) === '@gmail.com') {
+        else  {
             create_id()
 
         }
-        else {
-            setEmail_flg(true)
-            // setpassword_flg(true)
-        }
+       
 
     }
 

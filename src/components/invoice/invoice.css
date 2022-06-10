@@ -65,14 +65,14 @@
     background-color: #fafdfe;
 }
 
-.addressOfJr {
+.addressOfJr_{
     width: 9rem;
     font-size: 6px;
     font-weight: 700;
     letter-spacing: 2px;
     color: rgb(30, 30, 29);
     /* margin-top: -4px; */
-    margin-left: 15px;
+    /* margin-left: 15px; */
 }
 
 .header_jr_invoice {
@@ -194,4 +194,10 @@
     justify-content: space-around;
     width: 23rem;
     align-items: center;
+}
+.slectingpdf{
+    border: 1px solid;
+}
+.slectingpdf_{
+    border: 1px solid red;
 }

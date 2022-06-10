@@ -122,7 +122,7 @@ const Row = (props) => {
     }
     async function Allquote() {
         let list = []
-        const q = query(collection(db, "Quote"), where("travel_data.TripId", "==", row.TripId));
+        const q = query(collection(db, "Quote"), where("value.travel_data.TripId", "==", row.TripId));
         const querySnapshot = await getDocs(q);
         querySnapshot.forEach((doc) => {
             list.push(doc.data())
@@ -161,7 +161,7 @@ const Row = (props) => {
     useEffect(() => {
         latestComments()
         Allquote()
-    },[]);
+    }, []);
     // function OpenUpdater() {
     //     setopenupdater(true)
     // }
@@ -179,7 +179,7 @@ const Row = (props) => {
             <Modal open={openUpdater} onClose={closeUpdater} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
                 <div className='popOver'>
                     {
-                        update ==='status' ?
+                        update === 'status' ?
                             <div className='status'>
                                 <FormControl onChange={(e) => changeLead_Status(e)}>
                                     <FormLabel >Status</FormLabel>
@@ -239,11 +239,6 @@ const Row = (props) => {
             </Modal>
             <React.Fragment >
                 <TableRow className='compo' onClick={() => setOpen(!open)}>
-                    {/* <TableCell>
-                    <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                    </IconButton>
-                </TableCell> */}
                     <TableCell component="th" scope="row">{row.TripId}</TableCell>
                     <TableCell align="right">{row.Traveller_name}</TableCell>
                     <TableCell align="right">{row.Lead_Status}</TableCell>
@@ -252,9 +247,15 @@ const Row = (props) => {
                 </TableRow>
                 <TableRow>
                     <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
-                        <Collapse in={open} timeout="5sec" unmountOnExit>
+                        <Collapse in={open} >
                             <div className='collaps'>
                                 <div className='client_details_'>
+                                    <p >contact:
+                                        <a onClick={(e => console.log(e))} href='tel:919304247331' >
+                                            9304247331
+
+                                        </a>
+                                    </p>
                                     <p className='p' onClick={() => sethint('status')}>{Lead_Status}</p>
                                     <p className='p1' >{row.Traveller_name}</p>
                                     <p>{row.Email}</p>
@@ -300,31 +301,26 @@ const Row = (props) => {
                                                 <>
                                                     <div key={index} className='pdf_setter'>
                                                         <PictureAsPdfTwoToneIcon style={{ margin: '15px' }} />
-                                                        <p key={index}>{data.pdf_name}</p>
-                                                        <button onClick={() => showPDF(data)} className='download_requote'>
+                                                        <p key={index}>{data.value.pdf_name}</p>
+                                                        <button onClick={() => showPDF(data.value)} className='download_requote'>
                                                             downloadURL</button>
                                                         <button className='download_requote' onClick={() => Controller_reqoute()}>Requote</button>
-                                                        <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
                                                         {
-                                                            Invoice_flg ? <Invoice auth={props.auth} inclusion_data={data.inclusion_data} Allquote={Allquote} userData={data.travel_data} itineary={data.itineary} NightDataFields={data.NightDataFields} closeinvoice={closeinvoice} Invoice_flg={Invoice_flg} followUpDate={data.followUpDate} cost={data.cost} /> : <></>
-                                                        }
-                                                        {
-
                                                             Reqoute_flg ? <>
                                                                 <Reqoute
                                                                     Allquote={Allquote}
                                                                     closeReqoute_flg={closeReqoute_flg}
-                                                                    data={data.travel_data}
-                                                                    inclusion_data={data.inclusion_data}
-                                                                    cabDetailsData={data.cabDetailsData}
-                                                                    flights={data.flights}
+                                                                    data={data.value.travel_data}
+                                                                    inclusion_data={data.value.inclusion_data}
+                                                                    cabDetailsData={data.value.cabDetailsData}
+                                                                    flights={data.value.flights}
                                                                     indicator={false}
                                                                     closePDF={closePDF}
                                                                     closeHandler={closePDF}
-                                                                    itineary={data.itineary}
-                                                                    NightDataFields={data.NightDataFields}
-                                                                    selected_date={data.followUpDate}
-                                                                    cost={data.cost} />
+                                                                    itineary={data.value.itineary}
+                                                                    NightDataFields={data.value.NightDataFields}
+                                                                    selected_date={data.value.followUpDate}
+                                                                    cost={data.value.cost} />
                                                             </> : <></>
                                                         }
                                                     </div>
@@ -333,6 +329,7 @@ const Row = (props) => {
                                             ))
                                         }
                                     </div>
+
                                 </div>
                                 <div className='remark_set'>
                                     <div className='comments_box'>
@@ -347,6 +344,12 @@ const Row = (props) => {
                                             )}
                                         />
                                         <button className='button_save_comments' onClick={() => update_comments()}>save</button>
+                                    </div>
+                                    <div >
+                                        <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
+                                        {
+                                            Invoice_flg ? <Invoice auth={props.auth} Invoice_flg={Invoice_flg } profile={props.profile} closeinvoice={closeinvoice} pdfHolder={pdfHolder}/> : <></>
+                                        }
                                     </div>
 
                                 </div >

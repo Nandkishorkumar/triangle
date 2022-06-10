@@ -22,19 +22,25 @@ const Usercontrol = (props) => {
         }
 
     }
+    function refreshPage(){
+        window.location.reload(false);
+    }
     useEffect(() => {
         datahandle()
-    })
+        // refreshPage()
+    },[])
     return (
         <div>
-            {
+            {props.data?
                 props.data.access_type === "admin" ? <>
                     {
                         user.map((d, index) => (
                             <Userunitcomponent key={index} data={d} datahandle={datahandle} />
                         ))
                     }
-                </> : <></>
+                </> : <>
+                
+                </>:refreshPage()
 
 
             }

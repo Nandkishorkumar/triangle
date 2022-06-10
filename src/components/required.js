@@ -12,6 +12,14 @@ const firebaseConfig = {
   messagingSenderId: "633565967198",
   appId: "1:633565967198:web:7827bcd0c71e3a977cd5cf"
 };
+// const firebaseConfig = {
+//   apiKey: "AIzaSyBzx1MygYcIiGpylWN0va1nKyoHvUPHnNQ",
+//   authDomain: "jrtestweb-12e4f.firebaseapp.com",
+//   projectId: "jrtestweb-12e4f",
+//   storageBucket: "jrtestweb-12e4f.appspot.com",
+//   messagingSenderId: "559142218034",
+//   appId: "1:559142218034:web:4fad5637299b71a1424f2b"
+// };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

@@ -47,16 +47,18 @@ const Profile = (props) => {
         }
         else {
             await addDoc(collection(db, "Quote"), {
-                travel_data: props.travel_data,
-                cost: props.cost,
-                itineary: props.itineary,
-                followUpDate: String(props.selected_date),
-                NightDataFields: props.NightDataFields,
-                pdf_name: `${currentdate.getDate()}:${currentdate.getMonth() + 1}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
-                cabDetailsData: props.cabDetailsData,
-                flights: props.flights,
-                inclusion_data: props.inclusion_data,
-
+                label: `${currentdate.getDate()}:${currentdate.getMonth() + 1}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
+                value: {
+                    travel_data: props.travel_data,
+                    cost: props.cost,
+                    itineary: props.itineary,
+                    followUpDate: String(props.selected_date),
+                    NightDataFields: props.NightDataFields,
+                    pdf_name: `${currentdate.getDate()}:${currentdate.getMonth() + 1}:${(currentdate.getFullYear())}:${currentdate.getHours()}:${currentdate.getMinutes()}`,
+                    cabDetailsData: props.cabDetailsData,
+                    flights: props.flights,
+                    inclusion_data: props.inclusion_data,
+                }
             });
         }
     }
@@ -68,7 +70,7 @@ const Profile = (props) => {
             quotation_flg: true,
             month: month,
             Follow_Up_date: String(props.selected_date),
-            Quoted_by:props.email
+            Quoted_by: props.email
         });
     }
 
@@ -252,13 +254,13 @@ const Profile = (props) => {
                                     <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
                                     <span className='comments_'>{props.inclusion_data.dinner}</span>
                                     <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.airport_arival}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.airport_departure}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.airport_arival}</span><br /><br />
+                                    <span className='comments_'>{props.inclusion_data.airport_departure}</span><br /><br />
+                                    <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br /><br />
                                     <span className='comments_'>{props.inclusion_data.cab_Private}</span>
                                     <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.Gst}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.airfair}</span><br/><br/>
+                                    <span className='comments_'>{props.inclusion_data.Gst}</span><br /><br />
+                                    <span className='comments_'>{props.inclusion_data.airfair}</span><br /><br />
                                     <span className='comments_'> {props.inclusion_data.siteseeing}</span>
                                     <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
                                     <span className='comments_'>{props.inclusion_data.Visa}</span>

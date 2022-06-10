@@ -1,8 +1,9 @@
 import { PDFExport } from "@progress/kendo-react-pdf";
 import React, { useEffect, useRef, useState } from 'react';
 
-const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion_data, auth, deliverable_item, documents, followUpDate, cost }) => {
+const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, documents, profile }) => {
     const pdfExportComponent = useRef(null);
+    console.log(deliverable_item)
     const [layoutSelection, setLayoutSelection] = useState({
         text: "A4",
         value: "size-a4"
@@ -13,19 +14,20 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
         pdfExportComponent.current.save();
         // pdfgenrator
     };
+    const inclusion_data = selected_pdf_data.inclusion_data
 
     useEffect(() => {
         // console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
         try {
 
-            set_comment_inclusion(inclusion_data.other_Inclusion.split("."))
+            set_comment_inclusion(selected_pdf_data.inclusion_data.other_Inclusion.split("."))
         }
         catch {
             set_comment_inclusion([])
         }
         try {
 
-            set_Comment_Exclusion(inclusion_data.other_Exclusion.split("."))
+            set_Comment_Exclusion(selected_pdf_data.inclusion_data.other_Exclusion.split("."))
         }
         catch {
             set_Comment_Exclusion([])
@@ -42,7 +44,7 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
                 <div className={`invoic_main_div ${layoutSelection.value}`}>
                     <div className='header_jr_invoice'>
                         <img alt='star_img' src="/assets/img/Journey_Routers_Logo.png" width="208px" height="38px" />
-                        <div className='addressOfJr'>
+                        <div className='addressOfJr_'>
                             <p >
                                 2nd Floor, 258, Kuldeep
                                 House, Lane 3,, Champagali,
@@ -52,8 +54,8 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
                     </div>
                     <div className='invoice_jr_explanation_body'>
                         <p className='Booking_details_invoice'>
-                            <span>Booking Date <br />{userData.Travel_Date}</span>
-                            <span>Booking ID<br />{userData.TripId}</span>
+                            <span>Booking Date <br /></span>
+                            <span>Booking ID<br /></span>
                         </p>
                         <div className='agent_details_jr_invoice'>
                             <h4>Travel Agent Details
@@ -70,20 +72,25 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
                             </div>
 
                             {
-                                installment.map((installment, index) => (
-                                    <p className='dataMapper_jr_invoice'>
-                                        <span>{installment.Date}</span>
-                                        <span>Pending</span>
-                                        <span>{installment.amount}</span>
-                                    </p>
-                                ))
+                                installment.length!=0 ? <>
+                                    {
+                                        installment.map((installment, index) => (
+                                            <p className='dataMapper_jr_invoice'>
+                                                <span>{installment.Date}</span>
+                                                <span>Pending</span>
+                                                <span>{installment.amount}</span>
+                                            </p>
+                                        ))
+                                    }
+                                </> : <></>
+
                             }
 
                         </div>
                         <div className='Grand_total_installments_jr_invoice'>
                             <span className='total_amount_jr_invoice'>
                                 <h5>Grand Total</h5>
-                                <h3>{cost}</h3>
+                                <h3>total</h3>
                             </span>
                             <div className='batches_controller_jr_invoice'>
                                 <img className='batches' alt='batches' src='/assets/img/batches.svg' />
@@ -105,30 +112,30 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
                             <div className='client_details_jr_invoice'>
                                 <div>
                                     <h5>Name</h5>
-                                    <p className='font_jr_invoice'>{userData.Traveller_name}</p>
+                                    <p className='font_jr_invoice'></p>
                                 </div>
                                 <div>
                                     <h5>Destination</h5>
-                                    <p className='font_jr_invoice'>{userData.Destination}</p>
+                                    <p className='font_jr_invoice'></p>
                                 </div>
                                 <div>
                                     <h5>Travel Date</h5>
-                                    <p className='font_jr_invoice'>{followUpDate}</p>
+                                    <p className='font_jr_invoice'></p>
                                 </div>
                                 <div>
                                     <h5>Traveler</h5>
-                                    <p className='font_jr_invoice'>{userData.Pax}Adults</p>
+                                    <p className='font_jr_invoice'>Adults</p>
                                 </div>
                                 <div>
                                     <h5>Duration</h5>
-                                    <p className='font_jr_invoice'>{userData.Travel_Duration} days, {userData.Travel_Duration - 1} Nights</p>
+                                    <p className='font_jr_invoice'> days, Nights</p>
                                 </div>
                             </div>
                         </div>
                         <div>
                             <h5>Hotel Details</h5>
                             {
-                                NightDataFields.map((data, index) => (
+                                selected_pdf_data.NightDataFields.map((data, index) => (
                                     <div className='hotel_desc_jr_invoice'>
                                         <span>*{data.City}({data.Night})</span><br />
                                         <span>{data.HotelName}</span><br />
@@ -242,8 +249,8 @@ const InvoicePdf = ({ profile, userData, installment, NightDataFields, inclusion
                                         {profile.contact_number}
                                     </a>
                                 </p>
-                                <a href={"https://wa.me/91"+profile.WhatsApp_number} target="_blank">
-                                    <img alt="what's app" src="/assets/img/whatsapp-social-media-svgrepo-com.svg"  width='32px'/>
+                                <a href={"https://wa.me/91" + profile.whatsapp_number + "?text= Hi " + profile.name + " i want to plan a vaction, can you help me"} target="_blank">
+                                    <img alt="what's app" src="/assets/img/whatsapp-social-media-svgrepo-com.svg" width='32px' />
                                 </a>
                             </div>
 

@@ -25,16 +25,16 @@ const FollowUp = (props) => {
             // console.log("create quote datahandler")
             let list = []
             const q = query(collection(db, "Trip"),
-            //  where("uploaded_by", "==", props.auth.uid),
-              where("quotation_flg", "==", true), where("Lead_Status", "not-in", ["Dump","Converted"]),where("Quoted_by","==",props.auth.email));
+                //  where("uploaded_by", "==", props.auth.uid),
+                where("quotation_flg", "==", true), where("Lead_Status", "not-in", ["Dump", "Converted"]), where("Quoted_by", "==", props.auth.email));
             const querySnapshot = await getDocs(q);
             // console.log(querySnapshot)
-            try{
+            try {
 
                 if (querySnapshot.docs.length == 0) {
                     setopen(false)
                 }
-                
+
                 querySnapshot.forEach((doc) => {
                     list.push(doc.data())
                     // doc.data() is never undefined for query doc snapshots
@@ -43,7 +43,7 @@ const FollowUp = (props) => {
                 console.log(list);
                 setopen(false)
             }
-            catch (error){
+            catch (error) {
                 console.log(error)
             }
             // console.log(lead_data)
@@ -389,11 +389,11 @@ const FollowUp = (props) => {
                                     </TableHead>
                                     <TableBody>
                                         {
-
                                             lead_data.map((row, index) => (
-                                                <Row 
-                                                auth={props.auth}
-                                                key={index} row={row} datahandle={datahandle} />
+                                                <Row
+                                                    auth={props.auth}
+                                                    profile={props.profile}
+                                                    key={index} row={row} datahandle={datahandle} />
                                             ))}
                                     </TableBody>
                                 </Table>

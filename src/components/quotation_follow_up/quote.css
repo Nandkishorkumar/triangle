@@ -14,6 +14,7 @@
     height: 9rem;
     /* background-color: rgb(219, 208, 230); */
     border: 2px solid #56c2c4;
+    margin-bottom: 1rem !important;
 }
 .client_details_{
     display: flex;
@@ -77,14 +78,14 @@
     
 }
 .collaps{
-    width: 100%;
-    overflow-y: scroll;
-    /* height: 18rem; */
+    /* width: 100%;
+    height: 25rem;
+    overflow-y: scroll; */
     /* background-color: #b4e7e8; */
 }
 .remark{
     /* margin-top: 2.1rem; */
-    width: 36rem;
+    width: 29rem;
     height: 12rem;
     /* outline: #111211 dashed 0.1rem; */
     /* border: 2px; */
@@ -98,6 +99,9 @@
 }
 .remark_set{
     /* margin-top: 2.1rem; */
+    display: flex;
+    justify-content: space-between;
+    height: 10rem;
  
 }
 .comments_box{

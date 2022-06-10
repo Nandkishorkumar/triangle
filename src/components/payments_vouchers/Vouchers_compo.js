@@ -1,6 +1,7 @@
 import { Details } from '@material-ui/icons';
 import React, { useState } from 'react';
 import './Payments.css'
+import handleSubmit from '../UploadDataFileToFirebasestorage/uploader'
 
 
 const VouchersCompo = ({ data }) => {
@@ -44,7 +45,9 @@ const VouchersCompo = ({ data }) => {
                         onClick={() => detailsFlgactive()}
                     >Show More
                     </button>
-
+                    <button
+                        onClick={() => handleSubmit()}
+                    >uploaded</button>
 
 
                 </div>
@@ -72,6 +75,8 @@ const VouchersCompo = ({ data }) => {
                         </div>
 
                     </div>
+                    <img src='https://firebasestorage.googleapis.com/v0/b/jrtestweb-12e4f.appspot.com/o/files%2Freview5.jpg?alt=media&token=452f05e8-6019-4677-9749-b8cc3d8b3378' width='100px'/>
+
                 </> : <>
                 </>
             }
