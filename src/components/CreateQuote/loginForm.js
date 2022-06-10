@@ -175,7 +175,7 @@ const Loginform = (props) => {
 
     }
     return (
-        <Modal style={{ display: "flex", justifyContent: "center", marginTop: "8rem" }} open={props.open} onClose={handelClose} >
+        <Modal style={{ display: "flex", justifyContent: "center", marginTop: "2rem" }} open={props.open} onClose={handelClose} >
             <>
                 <div className={hasaccount ? 'popUp' : 'popUp_'}>
                     {
