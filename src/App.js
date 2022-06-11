@@ -322,7 +322,7 @@ function App() {
           {
             Page === "profile" ?
               <>
-                <Test />
+                {/* <Test /> */}
               </>
               : <></>
           }

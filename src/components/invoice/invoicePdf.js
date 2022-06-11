@@ -1,13 +1,17 @@
 import { PDFExport } from "@progress/kendo-react-pdf";
+import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestore";
 import React, { useEffect, useRef, useState } from 'react';
+import app from "../required";
 
 const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, documents, profile }) => {
     const pdfExportComponent = useRef(null);
     console.log(deliverable_item)
+    const db = getFirestore(app);
     const [layoutSelection, setLayoutSelection] = useState({
         text: "A4",
         value: "size-a4"
     });
+    var today=new Date();
     const [comment_inclusion, set_comment_inclusion] = useState([])
     const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
     function handleExportWithComponent() {
@@ -15,7 +19,21 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
         // pdfgenrator
     };
     const inclusion_data = selected_pdf_data.inclusion_data
+    
+    async function setInvoice() {
+        await setDoc(doc(db, "invoice", `${selected_pdf_data.TripId}`), {
+            installment:installment,
+            NightDataFields:selected_pdf_data.NightDataFields,
+            documents:documents,
+            deliverable_item:deliverable_item,
+            created_at:today,
+            updated_at:today,
+            updated_by:profile.email
 
+
+            
+        });
+    }
     useEffect(() => {
         // console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
         try {
@@ -54,8 +72,8 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
                     </div>
                     <div className='invoice_jr_explanation_body'>
                         <p className='Booking_details_invoice'>
-                            <span>Booking Date <br /></span>
-                            <span>Booking ID<br /></span>
+                            <span>Booking Date <br />{selected_pdf_data.selected_date}</span>
+                            <span>Booking ID<br />{selected_pdf_data.TripId}</span>
                         </p>
                         <div className='agent_details_jr_invoice'>
                             <h4>Travel Agent Details
@@ -72,7 +90,7 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
                             </div>
 
                             {
-                                installment.length!=0 ? <>
+                                installment.length != 0 ? <>
                                     {
                                         installment.map((installment, index) => (
                                             <p className='dataMapper_jr_invoice'>

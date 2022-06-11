@@ -85,6 +85,7 @@
 }
 .remark{
     /* margin-top: 2.1rem; */
+    border: 2px solid;
     width: 29rem;
     height: 12rem;
     /* outline: #111211 dashed 0.1rem; */
