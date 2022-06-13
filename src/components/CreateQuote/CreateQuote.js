@@ -189,6 +189,7 @@ const Createquote = (props) => {
     }
 
     useEffect(() => {
+        // window.location.reload(false);
         datahandle()
     }, [props.auth])
 

@@ -17,7 +17,7 @@ const Profile = (props) => {
     const pdfExportComponent = useRef(null);
     const [comment_inclusion, set_comment_inclusion] = useState([])
     const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
-    // console.log(comment)
+    console.log(props.userProfile)
     useEffect(() => {
         // console.log(props.inclusion_data.other_Inclusion, props.inclusion_data.other_Exclusion)
         try {
@@ -135,7 +135,7 @@ const Profile = (props) => {
                         </div>
                         <div className='addressOfJr'>
                             <p className='name'>Journey Routers</p>
-                            <p className='address'>
+                            <p>
                                 2nd Floor, 258, Kuldeep
                                 House, Lane 3,, Champagali,
                                 Saket, New Delhi - 110030
@@ -146,7 +146,7 @@ const Profile = (props) => {
                             <div className='details'>
 
                                 <p>Dear {props.travel_data.Traveller_name},</p>
-                                <p >
+                                <p style={{ fontSize: '11px' }} >
                                     Greeting from Journey Routers.com! We have listed below the holiday package details by one of our trusted
                                     agents which match your needs. On the webpage, you can review this quotation & comment for
                                     modifications. When it is ready as per your requirements, you can book it online.
@@ -157,7 +157,7 @@ const Profile = (props) => {
                                     <p>{Data.Destination} : {props.travel_data.Pax} Adult ,Child{props.travel_data.Child}</p>
                                     <p>{props.cost} <text>total</text></p>
                                 </div>
-                                <p className='underline'></p>
+                                {/* <p className='underline'></p> */}
 
                             </div>
                             <div className='customer_Details'>
@@ -386,11 +386,18 @@ const Profile = (props) => {
                                 <img src='/assets/img/customercare.png' width='90px' height='80px' />
                                 <div>
                                     <p>
-                                        e-mail: customercare@jouneryrouters.com
+                                        e-mail:
+                                        <a href={'mailto:' + props.userProfile.email} target="_blank"> {props.userProfile.email}</a>
+
                                     </p>
                                     <p>
-                                        contact:9876543210
+                                        contact:
+                                        <a href={'tel:' + props.userProfile.contact_number} target="_blank"> {props.userProfile.contact_number}</a>
+
                                     </p>
+                                    <a href={"https://wa.me/91" + props.userProfile.WhatsApp_number + "?text= Hi " + props.userProfile.name + " i want to plan a vaction, can you help me"} target="_blank">
+                                        <img alt="what's app" src="/assets/img/whatsapp-social-media-svgrepo-com.svg" width='32px' />
+                                    </a>
                                 </div>
 
                             </div>

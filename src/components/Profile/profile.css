@@ -27,7 +27,10 @@
 }
 .addressOfJr{
     margin-left: -0.8rem;
-    font-size: medium;
+    font-size: 11px;
+    width: 8rem;
+    /* height: 3rem; */
+    margin-left: 0rem;
 }
 .flightImgAliner{
     display: flex;
@@ -45,18 +48,17 @@
 }
 .address{
     width: 9rem;
-    font-size: 6px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: rgb(30, 30, 29);
-    margin-top: -4px;
-    margin-left: 15px;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;    
 }
 
 .details {
+    font-size: 12px;
+    font-weight: 700;
     width:98%;
     height: 6rem;
-    font-size: 8px;
+    /* font-size: 8px; */
     letter-spacing: 0.2px;
     font-family: monospace;
     /* background-image: url("'public/assets/img/intro.jpg'");

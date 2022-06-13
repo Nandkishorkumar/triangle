@@ -266,6 +266,7 @@ const Invoice = ({ Invoice_flg, closeinvoice, auth, pdfHolder, profile }) => {
                                     documents={documents}
                                     auth={auth}
                                     profile={profile}
+                                    hint={true}
                                 />
                             </div>
                         </Modal>

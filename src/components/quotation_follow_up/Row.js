@@ -2,6 +2,8 @@ import { FormControl, FormControlLabel, FormLabel, Modal, Radio, RadioGroup, Tex
 import Collapse from '@material-ui/core/Collapse';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
+import GetAppIcon from '@material-ui/icons/GetApp';
+import EditIcon from '@material-ui/icons/Edit';
 import PictureAsPdfTwoToneIcon from '@material-ui/icons/PictureAsPdfTwoTone';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import { collection, doc, getDoc, getDocs, getFirestore, query, setDoc, where } from 'firebase/firestore';
@@ -12,13 +14,14 @@ import app from '../required';
 import './quote.css';
 import Redownload from './ReDownload';
 import Reqoute from './Reqoute';
-
+import InvoicePdf from '../invoice/invoicePdf';
 
 
 
 const Row = (props) => {
     const { row } = props;
     // console.log(row)
+    const [invoice, setinvocice] = useState()
     const [Invoice_flg, setInvoice] = useState(false)
     const db = getFirestore(app);
     const [Lead_Status, setLead_Status] = useState(row.Lead_Status)
@@ -32,7 +35,18 @@ const Row = (props) => {
     const [viewPDF, setPDF] = useState(false)
     const [data, setdata] = useState()
     const [Reqoute_flg, setReqoute_flg] = useState(false)
+    const [download, setdownload] = useState(false)
     var today = new Date();
+    const [edit_flg, set_edit] = useState(false)
+    function setEdit_flg() {
+        set_edit(true)
+    }
+    function closeEdit() {
+        set_edit(false)
+    }
+    function closeDownload() {
+        setdownload(false)
+    }
     // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
     // var date= today.getDate()+":"+(today.getMonth()+1)+":"+today.getFullYear();
     function Controller_reqoute() {
@@ -131,6 +145,25 @@ const Row = (props) => {
         console.log('all quote', list)
 
     }
+    async function getinvoice() {
+        try {
+            const docRef = doc(db, "invoice", row.TripId);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                setinvocice(docSnap.data())
+                console.log(moment(docSnap.data().created_at.toDate()).format('DD MM YYYY'))
+            } else {
+                console.log("No such document!");
+                // setinvocice({})
+
+            }
+        }
+        catch (error) {
+
+        }
+
+    }
     async function update_comments() {
         if (comments) {
             let allComments = row.comments
@@ -161,6 +194,8 @@ const Row = (props) => {
     useEffect(() => {
         latestComments()
         Allquote()
+        getinvoice()
+
     }, []);
     // function OpenUpdater() {
     //     setopenupdater(true)
@@ -250,18 +285,14 @@ const Row = (props) => {
                         <Collapse in={open} >
                             <div className='collaps'>
                                 <div className='client_details_'>
-                                    <p >contact:
-                                        <a onClick={(e => console.log(e))} href='tel:919304247331' >
-                                            9304247331
-
-                                        </a>
-                                    </p>
                                     <p className='p' onClick={() => sethint('status')}>{Lead_Status}</p>
                                     <p className='p1' >{row.Traveller_name}</p>
                                     <p>{row.Email}</p>
                                     <p>{row.Budget}</p>
-                                    <p className='p' onClick={() => sethint('destination')}> {row.Destination}</p>
-                                    <p className='p' onClick={() => sethint('number')}>{row.Contact_Number}</p>
+                                    <p className='p'> {row.Destination}</p>
+                                    <p className='p'>
+                                        <a href={'tel:91' + row.Contact_Number}>{row.Contact_Number}</a>
+                                    </p>
                                 </div>
                                 <div className='follow_up'>
                                     <div className='remark' >
@@ -290,7 +321,7 @@ const Row = (props) => {
                                         viewPDF ? <>
                                             <Modal open={viewPDF} onClose={closePDF} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
 
-                                                <Redownload travel_data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
+                                                <Redownload profile={props.profile} travel_data={data.travel_data} inclusion_data={data.inclusion_data} cabDetailsData={data.cabDetailsData} flights={data.flights} indicator={true} closePDF={closePDF} closeHandler={closePDF} itineary={data.itineary} NightDataFields={data.NightDataFields} selected_date={data.followUpDate} cost={data.cost} />
                                             </Modal>
                                         </> : <></>
                                     }
@@ -345,12 +376,63 @@ const Row = (props) => {
                                         />
                                         <button className='button_save_comments' onClick={() => update_comments()}>save</button>
                                     </div>
-                                    <div >
+                                    <div className='invoicing' >
+                                        {
+                                            invoice ?
+                                                <>
+                                                    <p className='invoice_id'>{moment(invoice.created_at.toDate()).format('DD MM YYYY')}</p>
+                                                    <GetAppIcon onClick={() => setdownload(!download)} />
+                                                    <EditIcon onClick={() => setEdit_flg()} />
+                                                </> :
+                                                <>
+                                                </>
+                                        }
+                                        {
+                                            edit_flg ? <>
+                                                <Invoice
+                                                    auth={props.auth}
+                                                    Invoice_flg={edit_flg}
+                                                    profile={props.profile}
+                                                    closeinvoice={closeEdit}
+                                                    pdfHolder={pdfHolder}
+                                                    installment={invoice.installment}
+                                                    deliverable_item={invoice.deliverable_item}
+                                                    selected_pdf_data={invoice.selected_pdf_data}
+
+                                                />
+                                            </> : <></>
+                                        }
+                                        {
+                                            download ? <>
+                                                <Modal open={download} onClose={closeDownload} style={{ display: "grid", justifyContent: "center", marginTop: "4rem", with: '100%', overflowY: 'scroll' }} >
+                                                    <div>
+                                                        <InvoicePdf
+                                                            installment={invoice.installment}
+                                                            deliverable_item={invoice.deliverable_item}
+                                                            selected_pdf_data={invoice.selected_pdf_data}
+                                                            documents={invoice.documents}
+                                                            auth={props.auth}
+                                                            profile={props.profile}
+                                                            hint={false}
+                                                        />
+                                                    </div>
+                                                </Modal>
+                                            </> : <></>
+                                        }
+
                                         <button className='download_requote' onClick={() => invoiceForm()}>Create invoice</button>
                                         {
-                                            Invoice_flg ? <Invoice auth={props.auth} Invoice_flg={Invoice_flg } profile={props.profile} closeinvoice={closeinvoice} pdfHolder={pdfHolder}/> : <></>
+                                            Invoice_flg ?
+                                                <Invoice
+                                                    auth={props.auth}
+                                                    Invoice_flg={Invoice_flg}
+                                                    profile={props.profile}
+                                                    closeinvoice={closeinvoice}
+                                                    pdfHolder={pdfHolder}
+                                                /> : <></>
                                         }
                                     </div>
+
 
                                 </div >
                             </div>

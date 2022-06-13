@@ -366,19 +366,13 @@ const Box = (props) => {
                                                         onChange={(event) => handleFormChange(event, index)}
                                                     />
                                                     <datalist id="programmingLanguages">
-                                                        <option value="Objective C">Objective C</option>
-                                                        <option value="C++">C++</option>
-                                                        <option value="C#">C#</option>
-                                                        <option value="Cobol">Cobol</option>
-                                                        <option value="Go">Go</option>
-                                                        <option value="Java">Java</option>
-                                                        <option value="JavaScript">JavaScript</option>
-                                                        <option value="Python">Python</option>
-                                                        <option value="PHP">PHP</option>
-                                                        <option value="Pascal">Pascal</option>
-                                                        <option value="Perl">Perl</option>
-                                                        <option value="R">R</option>
-                                                        <option value="Swift">Swift</option>
+                                                        <option value="1 star">1 star</option>
+                                                        <option value="2 star">2 star</option>
+                                                        <option value="3 Star">3 star</option>
+                                                        <option value="4 star">4 star</option>
+                                                        <option value="5 star">5 star</option>
+                                                        <option value="7 star">Java</option>
+                                                        
                                                     </datalist>
                                                 </div>
                                                 <div className='unitComponent'>
@@ -448,9 +442,9 @@ const Box = (props) => {
                                 <ExtensionSharp />
                                 <button onClick={() => openInclusion()}>Inclusion/Exclusion</button>
                             </div>
-                            <Modal open={opennclusion} onClose={closeInclusion} style={{ justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
+                            <Modal open={opennclusion}  style={{ justifyContent: "center", with: '100%', overflowY: 'scroll' }} >
                                 <>
-                                    <Inclusion onClose={closeInclusion} setinclusion={setinclusion}></Inclusion>
+                                    <Inclusion onClose={closeInclusion} setinclusion={setinclusion} inclusion_data={inclusion_data}></Inclusion>
                                 </>
                             </Modal>
 

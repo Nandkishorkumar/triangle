@@ -170,3 +170,17 @@
     font-size: small;
 
 }
+.invoicing{
+    margin-top: 1rem;
+    border: 1px solid;
+    display: flex;
+    justify-content: space-between;
+    width: 29rem;
+    height: 2rem;
+    align-items: center;
+}
+.invoice_id{
+    height: 1rem;
+    width: 5rem;
+    /* background-color: #1939cb; */
+}

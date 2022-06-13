@@ -3,9 +3,9 @@ import { addDoc, collection, doc, getFirestore, setDoc } from "firebase/firestor
 import React, { useEffect, useRef, useState } from 'react';
 import app from "../required";
 
-const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, documents, profile }) => {
+const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, documents, profile ,hint}) => {
     const pdfExportComponent = useRef(null);
-    console.log(deliverable_item)
+    console.log(selected_pdf_data)
     const db = getFirestore(app);
     const [layoutSelection, setLayoutSelection] = useState({
         text: "A4",
@@ -16,22 +16,23 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
     const [Comment_Exclusion, set_Comment_Exclusion] = useState([])
     function handleExportWithComponent() {
         pdfExportComponent.current.save();
+        if(hint){
+            setInvoice()
+        }
         // pdfgenrator
     };
     const inclusion_data = selected_pdf_data.inclusion_data
     
     async function setInvoice() {
-        await setDoc(doc(db, "invoice", `${selected_pdf_data.TripId}`), {
+        await setDoc(doc(db, "invoice", `${selected_pdf_data.travel_data.TripId}`), {
             installment:installment,
             NightDataFields:selected_pdf_data.NightDataFields,
             documents:documents,
             deliverable_item:deliverable_item,
             created_at:today,
             updated_at:today,
-            updated_by:profile.email
-
-
-            
+            updated_by:profile.email,
+            selected_pdf_data:selected_pdf_data
         });
     }
     useEffect(() => {
@@ -57,12 +58,12 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
         <>
             <PDFExport
                 ref={pdfExportComponent}
-                fileName={`${'Traveller_name'}`}
+                fileName={`${selected_pdf_data.travel_data.Traveller_name}`}
             >
                 <div className={`invoic_main_div ${layoutSelection.value}`}>
                     <div className='header_jr_invoice'>
                         <img alt='star_img' src="/assets/img/Journey_Routers_Logo.png" width="208px" height="38px" />
-                        <div className='addressOfJr_'>
+                        <div className='addressOfJr'>
                             <p >
                                 2nd Floor, 258, Kuldeep
                                 House, Lane 3,, Champagali,
@@ -72,8 +73,8 @@ const InvoicePdf = ({ selected_pdf_data, installment, auth, deliverable_item, do
                     </div>
                     <div className='invoice_jr_explanation_body'>
                         <p className='Booking_details_invoice'>
-                            <span>Booking Date <br />{selected_pdf_data.selected_date}</span>
-                            <span>Booking ID<br />{selected_pdf_data.TripId}</span>
+                            <span>Booking Date <br />{selected_pdf_data.followUpDate}</span>
+                            <span>Booking ID<br />{selected_pdf_data.travel_data.TripId}</span>
                         </p>
                         <div className='agent_details_jr_invoice'>
                             <h4>Travel Agent Details

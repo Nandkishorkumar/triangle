@@ -30,7 +30,7 @@ const Redownload = (props) => {
         catch {
             set_Comment_Exclusion([])
         }
-    },[]);
+    }, []);
 
     return (
         <>
@@ -63,7 +63,7 @@ const Redownload = (props) => {
                             <div className='details'>
 
                                 <p>Dear {props.travel_data.Traveller_name},</p>
-                                <p >
+                                <p style={{ fontSize: '11px' }} >
                                     Greeting from Journey Routers.com! We have listed below the holiday package details by one of our trusted
                                     agents which match your needs. On the webpage, you can review this quotation & comment for
                                     modifications. When it is ready as per your requirements, you can book it online.
@@ -74,7 +74,7 @@ const Redownload = (props) => {
                                     <p>{Data.Destination} : {props.travel_data.Pax} Adult ,Child{props.travel_data.Child}</p>
                                     <p>{props.cost} <text>total</text></p>
                                 </div>
-                                <p className='underline'></p>
+                                {/* <p className='underline'></p> */}
 
                             </div>
                             <div className='customer_Details'>
@@ -103,12 +103,12 @@ const Redownload = (props) => {
                             <p className='underline'></p>
 
                             <div className='details1'>
-                                <div>
+                                <div className='flightImgAliner'>
                                     <p >Flight</p>
                                     <img alt='plane' src='/assets/img/airplane.png' width='45px' height='35px' style={{ margin: "1rem", marginTop: "-0.4rem", marginBottom: "-0.7rem" }} />
                                 </div>
                                 <p>{props.flights}</p>
-                                <div>
+                                <div className='flightImgAliner'>
                                     <p >Cabs</p>
                                     <img alt='plane' src='/assets/img/taxi.png' width='50px' height='50px' style={{ margin: "1rem", marginTop: "-0.7rem", marginBottom: "-1rem" }} />
                                 </div>
@@ -163,46 +163,47 @@ const Redownload = (props) => {
                             <p className='index'>inclusions/Exclusion</p>
                             <p className='small_line'></p>
                             <div className='details1'>
-                                {props.inclusion_data ? <>
-                                    <span className='comments_'>{props.inclusion_data.breakfast}</span><br/>
-                                    <span className='comments_'>{props.inclusion_data.lunch}</span>
-                                    <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.dinner}</span>
-                                    <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.airport_arival}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.airport_departure}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.cab_Private}</span>
-                                    <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.Gst}</span><br/><br/>
-                                    <span className='comments_'>{props.inclusion_data.airfair}</span><br/><br/>
-                                    <span className='comments_'> {props.inclusion_data.siteseeing}</span>
-                                    <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.Visa}</span>
-                                    <p className='comments_details'>{props.inclusion_data.Visa_comments}</p>
-                                    <span className='comments_'>{props.inclusion_data.Entrance_fee}</span>
-                                    <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
-                                    <span className='comments_'>other_Inclusion</span>
-                                    <p className='comments_details'>
-                                        {
-                                            comment_inclusion.map((comment, index) => (
-                                                <p>
-                                                    * {`${comment.toString()}`}
-                                                </p>
-                                            ))
-                                        }
-                                    </p>
-                                    <span className='comments_'>other_Exclusion</span>
-                                    <p className='comments_details'>
-                                        {
-                                            Comment_Exclusion.map((comment, index) => (
-                                                <p>
-                                                    *{comment}
-                                                </p>
-                                            ))
-                                        }
-                                    </p>
-                                </> : <></>
+                                {props.inclusion_data ?
+                                    <>
+                                        <span className='comments_'>{props.inclusion_data.breakfast}</span><br />
+                                        <span className='comments_'>{props.inclusion_data.lunch}</span>
+                                        <p className='comments_details'>{props.inclusion_data.lunch_comments}</p>
+                                        <span className='comments_'>{props.inclusion_data.dinner}</span>
+                                        <p className='comments_details'>{props.inclusion_data.dinner_comments}</p>
+                                        <span className='comments_'>{props.inclusion_data.airport_arival}</span><br /><br />
+                                        <span className='comments_'>{props.inclusion_data.airport_departure}</span><br /><br />
+                                        <span className='comments_'>{props.inclusion_data.cab_SIC}</span><br /><br />
+                                        <span className='comments_'>{props.inclusion_data.cab_Private}</span>
+                                        <p className='comments_details'>{props.inclusion_data.cab_Private_comments}</p>
+                                        <span className='comments_'>{props.inclusion_data.Gst}</span><br /><br />
+                                        <span className='comments_'>{props.inclusion_data.airfair}</span><br /><br />
+                                        <span className='comments_'> {props.inclusion_data.siteseeing}</span>
+                                        <p className='comments_details'>{props.inclusion_data.siteseeing_comments}</p>
+                                        <span className='comments_'>{props.inclusion_data.Visa}</span>
+                                        <p className='comments_details'>{props.inclusion_data.Visa_comments}</p>
+                                        <span className='comments_'>{props.inclusion_data.Entrance_fee}</span>
+                                        <p className='comments_details'>{props.inclusion_data.Entrance_comments}</p>
+                                        <span className='comments_'>other_Inclusion</span>
+                                        <p className='comments_details'>
+                                            {
+                                                comment_inclusion.map((comment, index) => (
+                                                    <p>
+                                                        * {`${comment.toString()}`}
+                                                    </p>
+                                                ))
+                                            }
+                                        </p>
+                                        <span className='comments_'>other_Exclusion</span>
+                                        <p className='comments_details'>
+                                            {
+                                                Comment_Exclusion.map((comment, index) => (
+                                                    <p>
+                                                        *{comment}
+                                                    </p>
+                                                ))
+                                            }
+                                        </p>
+                                    </> : <></>
                                 }
                             </div>
                             {/* <p className='underline'></p> */}
@@ -267,7 +268,7 @@ const Redownload = (props) => {
 
                                     </p>
                                     <h5>
-                                        What kind of Visa Assistance would be provided by Pickyourtrail ?
+                                        What kind of Visa Assistance would be provided by Journey Routers ?
 
                                     </h5>
                                     <p className='answer'>
@@ -301,11 +302,18 @@ const Redownload = (props) => {
                                 <img src='/assets/img/customercare.png' width='90px' height='80px' />
                                 <div>
                                     <p>
-                                        e-mail: customercare@jouneryrouters.com
+                                        e-mail:
+                                        <a href={'mailto:' + props.profile.email} target="_blank"> {props.profile.email}</a>
+
                                     </p>
                                     <p>
-                                        contact:9876543210
+                                        contact:
+                                        <a href={'tel:' + props.profile.contact_number} target="_blank"> {props.profile.contact_number}</a>
+
                                     </p>
+                                    <a href={"https://wa.me/91" + props.profile.WhatsApp_number + "?text= Hi " + props.profile.name + " i want to plan a vaction, can you help me"} target="_blank">
+                                        <img alt="what's app" src="/assets/img/whatsapp-social-media-svgrepo-com.svg" width='32px' />
+                                    </a>
                                 </div>
 
                             </div>
